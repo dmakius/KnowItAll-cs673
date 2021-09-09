@@ -10,3 +10,5 @@ My name is Gunnar Nichols. I work as a cost estimator and am pursuing a graduate
 
 Hi! My name is Heli Kolambekar. I am currently enrolled in the Masters in Computer Science at Boston University. My background is in Electronics and Communications Engineering. I am interested in building computer vision appications using python. I am looking forward to learning software engineering.
 
+Hi! My name is Haoyi Zhu. I am a full-time student in the Computer Science Master program. My background is Information Technology sub in Business Intelligence. In my free time I like hiking and photography.
+********
