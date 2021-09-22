@@ -39,7 +39,8 @@ b.	Desirable Features
 
 3.	Multiplayer Options- Two users are pitted against each other for a trivia showdown. 
                        
-     c)   Optional Features
+c)   Optional Features
+
 1.	Posting to social media platforms- Users can post about player badges and send social media invites to friends to play multiplayer games. 
 
 Nonfunctional Requirements
@@ -59,8 +60,10 @@ Application should be resilient in the face of malicious malware and attacks
 
 Technology and Frameworks
 
-Backend Framework-  Flask
-Frontend Framework- Javascript
-Version Control- Git (Github)
-Project Planning Tool- Pivotal Tracker
+
+•	Backend Framework-  Flask
+•	Frontend Framework- Javascript
+•	Version Control- Git (Github)
+•	Project Planning Tool- Pivotal Tracker
+
 
