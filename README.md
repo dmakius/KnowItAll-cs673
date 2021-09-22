@@ -6,11 +6,11 @@ KnowItAll is an innovative and interactive trivia web application which allows p
 The motivation for the proposed project derives from the desire to create a unique trivia web application with real world utility and impact. Our motivation includes the desire to learn software development skills, agile methodologies, software architecture, design principles. The purpose of the proposed software project is to develop software using secure software development practices while utilizing the latest software development tools and technologies.
 Online gaming industry has a very high number of active users. It has an ever increasing market share of advertisement revenue and corporate investment. The potential users for the project include seasoned trivia players, beginners and players motivated by lucrative rewards. 
 
-Functions
 
 
+Features
 
-           Functional Requirements 
+         
 
 a.	Essential Features
 
@@ -21,7 +21,7 @@ a.	Essential Features
 2.	Categories- Users can choose to answer trivia from topics such as geography, music,     entertainment and sports.
 
 
-3.	Quiz - For every question, the player must select the correct answer from four different    options within the stipulated time frame. Players score points for every correct answer. The difficulty level of the questions increases with the points scored by the player.  Three incorrect answers cause the player to lose the match. Final player scores are recorded and compared against top scores on the leaderboard. A player can seek hints during the match depending on their players. 
+3.	Quiz - For every question, the player must select the correct answer from four different    options within the stipulated time frame. Players score points for every                     correct answer. The difficulty level of the questions increases with the points scored by the player.  Three incorrect answers cause the player to lose the                       match. Final player scores are recorded and compared against top scores on the leaderboard. A player can seek hints during the match depending on their players. 
 
 
 4.	The Leaderboard- The top 10 players with the best scores in every category are featured on the leaderboard.
@@ -34,7 +34,7 @@ b.	Desirable Features
 1.	Special Player Badges - Upon achieving a certain high score in the match, the player can unlock special badges which reflect on the player’s profile.
 
 
-2.	Rewards- The player can win rewards and perks upon completing 1000, 2000 and       5000 questions in a specific trivia category.
+2.	Rewards- The player can win rewards and perks upon completing 1000, 2000 and 5000 questions in a specific trivia category.
 
 
 3.	Multiplayer Options- Two users are pitted against each other for a trivia showdown. 
