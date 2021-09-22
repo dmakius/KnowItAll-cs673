@@ -1,5 +1,7 @@
 # BUMETCS673A1F21P1
+
 Project Description
+
 KnowItAll is an innovative and interactive trivia web application which allows players to test their knowledge across thousands of questions from a variety of topics. Users can participate in single-player or multiplayer games to unlock special player badges. KnowItAll’s global leaderboards reflect the top scores in every category. Prolific players can win lucrative rewards. 
 The motivation for the proposed project derives from the desire to create a unique trivia web application with real world utility and impact. Our motivation includes the desire to learn software development skills, agile methodologies, software architecture, design principles. The purpose of the proposed software project is to develop software using secure software development practices while utilizing the latest software development tools and technologies.
 Online gaming industry has a very high number of active users. It has an ever increasing market share of advertisement revenue and corporate investment. The potential users for the project include seasoned trivia players, beginners and players motivated by lucrative rewards. 
@@ -53,6 +55,7 @@ Application should provide reliable results consistently
 Application should provide a seamless user experience with high performance even with large traffic volumes
 •	Security
 Application should be resilient in the face of malicious malware and attacks
+
 
 Technology and Frameworks
 
