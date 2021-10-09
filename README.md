@@ -6,7 +6,61 @@ KnowItAll is an innovative and interactive trivia web application which allows p
 The motivation for the proposed project derives from the desire to create a unique trivia web application with real world utility and impact. Our motivation includes the desire to learn software development skills, agile methodologies, software architecture, design principles. The purpose of the proposed software project is to develop software using secure software development practices while utilizing the latest software development tools and technologies.
 Online gaming industry has a very high number of active users. It has an ever increasing market share of advertisement revenue and corporate investment. The potential users for the project include seasoned trivia players, beginners and players motivated by lucrative rewards. 
 
+## HOW TO RUN
 
+1- Clone Repository: 
+```bash
+	$git clone [respository]
+``
+2- Set up a Virtual Environment
+
+```bash
+	$virtualenv venv
+	$source venv/bin/activate
+```
+You should now see "(env)" before your username in the command line. This keeps all of your dependencies in one location. To check where your python modules of being imported run the command:
+```bash
+	$which pip
+```
+
+to deactivate your vertual environement run the command:
+```bash
+	(venv)$ deactivate
+```
+	
+3-Download Dependecies
+
+```bash
+pip install -r requirements.txt
+```
+
+4-Set Up Data Base
+Navigate to the /app directory, open a python shell and run the follpwing commands:
+```bash
+	$python
+```
+
+```python
+from app import db
+
+db.return_all()
+exit()
+```
+
+5-import the Questions. Run the import function:
+
+```bash
+	$python import_questions.py
+```
+
+6- Run the flask application
+```bash
+	$export FLASK_APP=app.py
+	$export FLASK_ENV=development
+	$flask run
+```
+
+7- Navigate your browser to: http://localhost:5000/
 
 ## Features
 
