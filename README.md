@@ -8,7 +8,7 @@ Online gaming industry has a very high number of active users. It has an ever in
 
 
 
-##Features
+## Features
 
          
 
@@ -43,7 +43,7 @@ c)   Optional Features
 
 1.	Posting to social media platforms- Users can post about player badges and send social media invites to friends to play multiplayer games. 
 
-##Nonfunctional Requirements
+## Nonfunctional Requirements
 Security Requirements 
 1.	User Authentication using email
 2.	Password Strength Settings
@@ -58,7 +58,7 @@ Application should provide a seamless user experience with high performance even
 Application should be resilient in the face of malicious malware and attacks
 
 
-##Technology and Frameworks
+## Technology and Frameworks
 
 
 •	Backend Framework-  Flask
