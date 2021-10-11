@@ -1,52 +1,46 @@
 <html>
 	<head>
 		<title>Game Page</title>
+		<!-- https://web.dev/viewport/  -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- INSERTING BOOTSTRAP LIBRARY -->
 		<!-- BOOTSTRAP:CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 		<!-- BOOTSTRAP:JS -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-
-		<link href="/static/app.css" rel="stylesheet">
-		<script src="/static/game.js"></script
+		
+		<link rel="icon" type="image/png" href="./../image/favicon-16x16.png">
+		<link rel="stylesheet" href="./../css/game.css"/>
+		<script src="./../js/game.js"></script>
 	</head>
 
 	<body>
-	<div class='container'>
-		<div class='container'>
-			<div class = "row text-center"> 
-					<h1>KNOWIT ALL</h1>
-			</div>
-		</div>
-		<div class='container'>
-			<div class="row">
-				<div id="app" class="mx-auto" style="width: 300px;"></div>
-			</div>
-		</div>
-		<hr>
-		<div class='container'>
-			<div class= "row">
-				<div class="jumbotron">
-					<h1 class="text-center">TEST QUSTION</h1>
-				</div>
-			</div>
-		</div>
-		<div class='container'>
-			<div class= "row answers">
-				<div class='col-md-6 text-center'>ANSWER A</div>
-				<div class='col-md-6 text-center'>ANSWER B</div>
-			</div>
-			
-			<div class= "row answers">
-				<div class='col-md-6 text-center'>ANSWER C</div>
-				<div class='col-md-6 text-center'>ANSWER D</div>
-			</div>
-		</div>
-	</div>
+		<header>
+			<h2>KnowItAll</h1>
+		</header>
+		<!-- read about the main element:  https://bit.ly/2Z3b6JW   -->
+		<div class="container-category">
+			<div class="category">SELECT CATEGORY</div>
+			<select class="selectCate">
+			<option value="category1">category1</option>
+			<option value="category2">category2</option>
+			<option value="category3">category3</option>
+			</select>
 
-	<a href = '/'>GO TO: Main Page</a>
-	<br>
-	<a href = '/leaderboard'>GO TO: Leader Board Page</a>
+			<button class="selectButton">PLAY</button>
+		</div>
+
+		<div class="container-game">
+			<div type="button" class="question"><h3>Question</h3></div>
+			<div class="option1">A. option1</div>
+			<div class="option2">B. option2</div>
+			<div class="option3">C. option3</div>
+			<div class="option4">D. option4</div>
+		</div>
+
+		<footer>
+			<button class="endgame">END GAME</button>
+		</footer>
 
 	</body>
 
