@@ -9,7 +9,7 @@ cur.execute("DROP TABLE question")
 cur.execute("CREATE TABLE question (ID, Category, Question, Answer, Option_1, Option_2, Option_3);") # use your column names here
 
 #OPEN csv file and 
-with open('Quiz_Questions.csv','r') as fin: # `with` statement available in 2.5+
+with open('Quiz_Questions.csv',encoding = 'cp850') as fin: # `with` statement available in 2.5+
     # csv.DictReader uses first line in file for column headings by default
     dr = csv.DictReader(fin) # comma is default delimiter
     to_db = [(i['ID'], i['Category'],i['Question'],i['Answer'], i['Option_1'],i['Option_2'],i['Option_3']) for i in dr]
