@@ -94,3 +94,10 @@ header {
     left: 43px;
     top: 947px;
 }
+
+.option{
+outline: 1px solid black;
+}
+.option:hover{
+  background-color: grey;
+    }

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,redirect
+from flask import Flask, render_template, request,redirect,jsonify
 from flask_sqlalchemy import SQLAlchemy
 import random
 
@@ -36,8 +36,14 @@ def game():
 def getSingleQuestion(id):  
     str_id = str(id)                      
     q = Question.query.get(str_id)
-    print(q.question)
-    return (str(q.question))
+    
+    #convert data into JSON object
+    return_data = [{"Category": q.category}, {"Question":q.question}, {"Answer":q.answer}, {"Option_1":q.option_1}, {"Option_2":q.option_2},  {"Option_3":q.option_3}]
+    #print data to be retuned on back end
+    print(return_data)
+    
+    #return data as json
+    return jsonify(return_data)
     	
 @app.route('/leaderboard')
 def leaderBoard():
