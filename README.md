@@ -42,7 +42,7 @@ $python
 
 ```
 >>>from app import db
-db.return_all()
+db.create_all()
 exit()
 ```
 
