@@ -22,29 +22,42 @@
 		<header>
 			<h2>KnowItAll</h1>
 		</header>
-		<!-- read about the main element:  https://bit.ly/2Z3b6JW   -->
-		<div class="container-category">
-			<div class="category">SELECT CATEGORY</div>
-			<select class="selectCate">
-			<option value="category1">category1</option>
-			<option value="category2">category2</option>
-			<option value="category3">category3</option>
-			</select>
-
-			<button class="selectButton">PLAY</button>
-		</div>
-
-		<div class="container-game">
-			<div type="button" class="question"><h3>Question</h3></div>
-			<div class="option1">A. option1</div>
-			<div class="option2">B. option2</div>
-			<div class="option3">C. option3</div>
-			<div class="option4">D. option4</div>
-		</div>
-
-		<footer>
-			<button class="endgame">END GAME</button>
-		</footer>
+		<body>
+			<div class='container'>
+				<div class='container'>
+					<div class = "row text-center"> 
+							<h1>KNOWIT ALL</h1>
+					</div>
+				</div>
+				<div class='container'>
+					<div class="row">
+						<div id="app" class="mx-auto" style="width: 300px;"></div>
+					</div>
+				</div>
+				<hr>
+				<div class='container'>
+					<div class= "row">
+						<div class="jumbotron well">
+							<h1 class="text-center">{{q.question}}</h1>
+						</div>
+					</div>
+				</div>
+				<div class='container'>
+					<div class= "row answers">
+						<div class='col-md-6 text-center'>A. {{q.answer}}</div>
+						<div class='col-md-6 text-center'>B. {{q.option_1}} </div>
+					</div>
+					
+					<div class= "row answers">
+						<div class='col-md-6 text-center'>C {{q.option_2}}</div>
+						<div class='col-md-6 text-center'>D {{q.option_3}}</div>
+					</div>
+				</div>
+			</div>
+			<div class='container'>
+				​<a href='/'>QUIT GAME</a>
+			</div>
+		
 
 	</body>
 
