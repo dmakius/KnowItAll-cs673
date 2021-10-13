@@ -39,9 +39,20 @@ def getSingleQuestion(id):
     str_id = str(id)
     q = Question.query.get(str_id)
 
+    #Shuffle the 4 potential answers
+    answer_location = 0
+    input = [q.answer, q.option_1, q.option_2, q.option_3]
+    answers = random.sample(input, len(input))
+
+    #Determine the location of the answer
+    for x in range(4):
+        if answers[x] == q.answer:
+            answer_location = x + 1
+
     # convert data into JSON object
-    return_data = [{"Category": q.category}, {"Question": q.question}, {"Answer": q.answer}, {"Option_1": q.option_1},
-                   {"Option_2": q.option_2}, {"Option_3": q.option_3}]
+    # TODO: fix labels as the 'Answer' corresponds to a random answer, not the answer
+    return_data = [{"Category": q.category}, {"Question": q.question}, {"Answer": answers[0]}, {"Option_1": answers[1]},
+                   {"Option_2": answers[2]}, {"Option_3": answers[3]}, {"Answer_Location": answer_location}]
     # print data to be retuned on back end
     print(return_data)
 
