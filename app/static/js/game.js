@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    //Make Add score to Leader board form appear
+
+    $('#submitScore').click(function(){
+        console.log('clicked!');
+        $('#cover-caption').slideToggle("slow");
+    });
 
     // clicking on any of the options
     $('.option').click(function () {

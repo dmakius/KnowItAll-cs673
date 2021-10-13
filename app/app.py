@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 import random
 
@@ -12,7 +12,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # create DB Object
 db = SQLAlchemy(app)
 
-from models import Question
+from models import Question, LeaderboardScore
 
 
 # ROUTES
@@ -49,6 +49,18 @@ def getSingleQuestion(id):
     return jsonify(return_data)
 
 
+@app.route('/leaderboard/create', methods=['POST'])
+def leaderBoard_create():
+    username = request.form['username']
+    score = request.form['score']
+    new_score = LeaderboardScore(category = 'TEST', username=username, score=score)
+    
+    db.session.add(new_score)
+    db.session.commit()
+    return redirect(url_for('leaderBoard'))
+
+
 @app.route('/leaderboard')
 def leaderBoard():
-    return render_template('leaderboard.html')
+    scores = LeaderboardScore.query.all()
+    return render_template('leaderboard.html' , scores = scores) 
