@@ -1,6 +1,5 @@
 from app import db
 
-
 # Define question table Schema
 class Question(db.Model):
     __tablename__ = "question"
@@ -11,3 +10,11 @@ class Question(db.Model):
     option_1 = db.Column(db.String(129), unique=True, nullable=False)
     option_2 = db.Column(db.String(129), unique=True, nullable=False)
     option_3 = db.Column(db.String(129), unique=True, nullable=False)
+
+# Define LeaderboardScore table Schema
+class LeaderboardScore(db.Model):
+    __tablename__ = "LeaderboardScore"
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(129), unique=False, nullable=False)
+    username = db.Column(db.String(129), unique=True, nullable=False)
+    score = db.Column(db.Integer)
