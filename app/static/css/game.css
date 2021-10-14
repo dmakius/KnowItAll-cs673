@@ -1,103 +1,14 @@
-body {
-
-    width: 95%;
-    height: 70%;
-    min-width: 720px;
-    min-height: 512px;
-    background-color: bisque;
+.jumbotron.well {
+    display: none;
 }
 
-header {
-    position: absolute;
-    width: 100%;
-    min-width: 720px;
-    height: 6%;
-    min-height: 45px;
-    left: 0px;
-    top: 18px;
-    background-color: #ca3535;
-    text-align: center;
+.row.answers {
+    display: none;
 }
 
-.category {
-    position: absolute;
-    width: 319px;
-    height: 48px;
-    left: 22px;
-    top: 126px;
-    font-size: 24px;
-    line-height: 24px;
-    text-align: center;
-}
-
-.selectCate {
-    position: absolute;
-    width: 250px;
-    height: 20px;
-    left: 22px;
-    top: 152px;
-}
-
-.selectButton {
-    position: absolute;
-    width: 172px;
-    height: 41px;
-    left: 410px;
-    top: 303px;
-    background-color: rgb(241, 127, 127);
-}
-
-.question {
-    position: relative;
-    width: 605px;
-    height: 60px;
-    left: 341px;
-    top: 456px;
-}
-
-.option1 {
-    position: relative;
-    width: 605px;
-    height: 60px;
-    left: 341px;
-    top: 456px;
-}
-.option2 {
-    position: relative;
-    width: 605px;
-    height: 60px;
-    left: 341px;
-    top: 456px;
-}
-
-.option3 {
-    position: relative;
-    width: 605px;
-    height: 60px;
-    left: 341px;
-    top: 456px;
-}
-
-.option4 {
-    position: relative;
-    width: 605px;
-    height: 60px;
-    left: 341px;
-    top: 456px;
-}
-
-
-.endgame {
-    position: absolute;
-    width: 194px;
-    height: 38px;
-    left: 43px;
-    top: 947px;
-}
-
-.option{
+/* .option{
 outline: 1px solid black;
 }
 .option:hover{
   background-color: grey;
-    }
+} */
