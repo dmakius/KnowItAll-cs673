@@ -37,3 +37,20 @@ $(document).ready(function () {
 
     });
 });
+
+window.addEventListener("DOMContentLoaded", event => {
+    document.getElementById("startgame").addEventListener("click", event => {
+        document.getElementById("startgame").style.display = "none";
+        document.querySelector(".jumbotron.well").style.display = "block";
+        display_all_options();
+    });
+});
+
+function display_all_options() {
+    var selector, i;
+    selector = document.querySelectorAll(".row.answers");
+    for (i = 0; i < selector.length; i++) {
+        selector[i].style.display = "flex";
+    }
+}
+

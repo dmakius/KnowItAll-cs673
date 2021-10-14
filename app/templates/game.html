@@ -16,11 +16,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	<script src='/static/js/game.js'></script>
+
+	<script src="./../static/js/game.js"></script>
+	<style>
+		.jumbotron.well {
+			display: none;
+		}
+
+		.row.answers {
+			display: none;
+		}
+	</style>
+
 	<body>
 		<header>
 			<h2>KnowItAll</h1>
 		</header>
-		<body>
+
 			<div class = 'container' stlye="z-index:0;">
 				<div class='container'>
 					<div class='container'>
@@ -36,6 +48,7 @@
 						</div>
 					</div>
 					<hr>
+					<button id="startgame" style="background: rgb(252, 95, 95);">Play</button>
 					<div class='container'>
 						<div class= "row">
 							<div class="jumbotron well">
