@@ -10,7 +10,7 @@ $(document).ready(function () {
     //keep user selection
     var user_selection = [];
     // count how many attempt used
-    var attempt_counter = 0;
+    var attempt_counter = 3;
     //Make Add score to Leader board form appear
 
     $('#submitScore').click(function () {
@@ -28,10 +28,12 @@ $(document).ready(function () {
     }
 
     //TODO: subtract lives if neccesary
+    $(".stats").show();
     //TODO: Assign points
 
     //Display new question
-    $('#next').on('click', DisplayNewQuestion);
+    var next = $('#next');
+    next.off('click', DisplayNewQuestion);
     //Check if selection is correct
     var sub = $('#submit');
     sub.on('click', Submit);
@@ -39,7 +41,10 @@ $(document).ready(function () {
     //SELECT A NEW RANDOM QUESTION
     //TODO: Replace max number with number of questions come backend
     function DisplayNewQuestion() {
+        // turn on submit button, new question, user can do submit
         sub.on('click', Submit);
+        // turn off next button, user cannot go next before submit
+        next.off('click', DisplayNewQuestion);
         // replace the changed color back.
         $('.option').css('color', 'black')
         var max_number = 50;
@@ -70,9 +75,11 @@ $(document).ready(function () {
 
     // return answer, count attempts
     function Submit() {
-
+        // turn off Submit button, user already submitted once
         sub.off('click', Submit);
-
+        // turn on next button
+        next.on('click', DisplayNewQuestion);
+        console.log(answer_location);
         //console.log(user_selection);
         //console.log(Answer());
         if (user_selection[0] == Answer()) {
@@ -88,15 +95,15 @@ $(document).ready(function () {
             $(Answer()).css('color', 'green');
 
             // attempt counter count one chance
-            attempt_counter++;
+            attempt_counter--;
 
 
             // score function can be added score-- in here.
 
         }
-
+        DisplayStats();
         // when 3 attempts, game over, only allow to submit score.
-        if (attempt_counter >= 3) {
+        if (attempt_counter <= 0) {
             alert("GameOver!" + "Score shows up here");
             $('#next').detach();
             $('#submit').detach();
@@ -111,10 +118,17 @@ $(document).ready(function () {
             q_answer = option_2;
         } else if (answer_location == 3) {
             q_answer = option_3;
-        } else {
+        } else {//if (answer_location == 4){
             q_answer = option_4;
-        }
-        console.log(q_answer);
+        } //else {
+            //DisplayNewQuestion
+        //}
+        //console.log(q_answer);
         return q_answer;
     }
+
+    function DisplayStats(){
+    $(".stats").html('<h4>' + 'remaining lives: ' + attempt_counter +'/3' +'</h4>');
+}
+
 });
