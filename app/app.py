@@ -51,8 +51,8 @@ def getSingleQuestion(id):
 
     # convert data into JSON object
     # TODO: fix labels as the 'Answer' corresponds to a random answer, not the answer
-    return_data = [{"Category": q.category}, {"Question": q.question}, {"Answer": answers[0]}, {"Option_1": answers[1]},
-                   {"Option_2": answers[2]}, {"Option_3": answers[3]}, {"Answer_Location": answer_location}]
+    return_data = [{"Category": q.category}, {"Question": q.question}, {"Option_1": answers[0]}, {"Option_2": answers[1]},
+                   {"Option_3": answers[2]}, {"Option_4": answers[3]}, {"Answer_Location": answer_location}]
     # print data to be retuned on back end
     print(return_data)
 

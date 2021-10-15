@@ -1,13 +1,13 @@
 $(document).ready(function () {
 
-    //keep options
+    // read and keep options here
     var option1;
     var option2;
     var option3;
     var option4;
-    //keep answer location
+    //read and keep answer location
     var answer_location;
-    //keep user selection
+    //read and keep user selection
     var user_selection = [];
     // count how many attempt used
     var attempt_counter = 3;
@@ -34,8 +34,6 @@ $(document).ready(function () {
     next.on('click', DisplayNewQuestion);
     //Hide next button before click submit
     next.hide();
-
-    //sub.on('click', Submit);
     //------------------------------------------------
 
 
@@ -50,7 +48,7 @@ $(document).ready(function () {
     DisplayStats();
     //TODO: Assign points
 
-    //get user selection
+    //get user selection when player click the option
     function Selection() {
         user_selection = $(this);
         console.log(user_selection[0] + 'clicked!');
@@ -84,10 +82,10 @@ $(document).ready(function () {
 
                 //replace front end ui with NEW data from server
                 $('#question').text(data[1]['Question']);
-                option1 = $('#option_1').text("A: " + data[2]['Answer']);
-                option2 = $('#option_2').text("B: " + data[3]['Option_1']);
-                option3 = $('#option_3').text("C: " + data[4]['Option_2']);
-                option4 = $('#option_4').text("D: " + data[5]['Option_3']);
+                option1 = $('#option_1').text("A: " + data[2]['Option_1']);
+                option2 = $('#option_2').text("B: " + data[3]['Option_2']);
+                option3 = $('#option_3').text("C: " + data[4]['Option_3']);
+                option4 = $('#option_4').text("D: " + data[5]['Option_4']);
                 answer_location = data[6]['Answer_Location'];
             }
         });
@@ -101,11 +99,15 @@ $(document).ready(function () {
 
         // show next button
         next.show();
-
         // if else function for check if player answer right or wrong
-        if (user_selection[0] == Answer()) {
+        // user_selection is getting from function Selection(),
+        // and user_selection is a list, value locate at [0] is a HTML<div>...</div>
+        // something like this: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_2" style="color: green;">B: Baker Street</div>
+        // So that we can use user_selection[0] compare with the result from function CheckAnswer()
+        // to check if player selection is right or wrong
+        if (user_selection[0] == CheckAnswer()) {
             // change answer color to green
-            $(Answer()).css('color', 'green');
+            $(CheckAnswer()).css('color', 'green');
 
 
             // score function can be added score++ in this if function
@@ -113,7 +115,7 @@ $(document).ready(function () {
         } else {
             // change user_selection color to red, and answer to green
             $(user_selection).css('color', 'red');
-            $(Answer()).css('color', 'green');
+            $(CheckAnswer()).css('color', 'green');
 
             // attempt counter count one chance
             attempt_counter--;
@@ -132,19 +134,26 @@ $(document).ready(function () {
     }
 
     // function for checking which option is the answer
-    function Answer() {
+    function CheckAnswer() {
+        //answer_location is getting from DisplayNewQuestion(), and the value is a int
         if (answer_location == 1) {
+            //option_1 is getting from DisplayNewQuestion() option_1
             q_answer = option_1;
         } else if (answer_location == 2) {
+            //option_2 is getting from DisplayNewQuestion() option_2
             q_answer = option_2;
         } else if (answer_location == 3) {
+            //option_3 is getting from DisplayNewQuestion() option_3
             q_answer = option_3;
         } else {
+            //option_4 is getting from DisplayNewQuestion() option_4
             q_answer = option_4;
         }
+        // the return value is a HTML <div>...</div>,
+        // something like: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_1" style="color: green;">B: Baker Street</div>
         return q_answer;
     }
-
+    // Display remaining lives
     function DisplayStats() {
         $(".stats").html('<h4>' + 'remaining lives: ' + attempt_counter + '/3' + '</h4>');
     }
