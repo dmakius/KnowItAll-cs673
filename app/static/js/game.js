@@ -13,29 +13,17 @@ $(document).ready(function () {
     var attempt_counter = 3;
 
 
-
+    //---------------------------------
+    //CLICK/BUTTON
     //Make Add score to Leader board form appear
     $('#submitScore').click(function () {
         console.log('clicked!');
         $('#cover-caption').slideToggle("slow");
     });
 
-
     // clicking on any of the options and buttons
     var opt = $('.option');
     opt.on('click', Selection);
-
-    function Selection() {
-        //get user selection
-        user_selection = $(this);
-        console.log(user_selection[0] + 'clicked!');
-    }
-
-    //TODO: subtract lives if neccesary
-    //Display remaining lives
-    $(".stats").show();
-    DisplayStats();
-    //TODO: Assign points
 
     //Next button, for new question
     var next = $('#next');
@@ -46,9 +34,27 @@ $(document).ready(function () {
     //Submit button, Check if selection is correct
     var sub = $('#submit');
     sub.on('click', Submit);
-    
+    //------------------------------------------------
+
+
+    //------------------------------------------------
+    //FUNCTION
+
+    //Display remaining lives
+    $(".stats").show();
+    DisplayStats();
+    //TODO: Assign points
+
+    //get user selection
+    function Selection() {
+        user_selection = $(this);
+        console.log(user_selection[0] + 'clicked!');
+    }
+
     // Load random question when load the page
     DisplayNewQuestion();
+
+    //TODO: subtract lives if neccesary
 
     //------------------------------------
     //SELECT A NEW RANDOM QUESTION
@@ -56,11 +62,15 @@ $(document).ready(function () {
     function DisplayNewQuestion() {
         // turn on submit button, new question, user can do submit
         sub.on('click', Submit);
+        sub.show();
+
         // turn off and hide next button, user cannot go next before submit
         next.hide()
         next.off('click', DisplayNewQuestion);
+
         // replace the changed color back.
         $('.option').css('color', 'black')
+
         var max_number = 50;
         var test_int = Math.floor(Math.random() * max_number);
         $.ajax({
@@ -87,14 +97,11 @@ $(document).ready(function () {
     function Submit() {
         // turn off Submit button, user already submitted once
         sub.off('click', Submit);
-        // turn on next button
-        next.show();
-        next.on('click', DisplayNewQuestion);
+        sub.hide();
 
-        // just for checking
-        console.log(answer_location);
-        //console.log(user_selection);
-        //console.log(Answer());
+        // turn on next button
+        next.on('click', DisplayNewQuestion);
+        next.show();
 
         // if else function for check if player answer right or wrong
         if (user_selection[0] == Answer()) {
@@ -133,12 +140,9 @@ $(document).ready(function () {
             q_answer = option_2;
         } else if (answer_location == 3) {
             q_answer = option_3;
-        } else {//if (answer_location == 4){
+        } else {
             q_answer = option_4;
-        } //else {
-        //DisplayNewQuestion
-        //}
-        //console.log(q_answer);
+        }
         return q_answer;
     }
 
