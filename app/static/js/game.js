@@ -1,3 +1,7 @@
+// variables
+var arr = Array.from({length: 50}, (_, i) => i+1);
+var result = [];
+
 $(document).ready(function () {
     //Make Add score to Leader board form appear
 
@@ -15,8 +19,21 @@ $(document).ready(function () {
         //------------------------------------
         //SELECT A NEW RANDOM QUESTION
         //TODO: Replace max number with number of questions come backend
-        var max_number = 50;
-        var test_int = Math.floor(Math.random() * max_number);
+
+        // no duplicated questions, every question will be show once
+        if (arr.length > 0) {
+            var ran = Math.floor(Math.random() * arr.length);
+            // delete id number of question from arr
+            index = arr.splice(ran,1)[0];
+            // push the id number of question to the result array list
+            result.push(index);
+        } else {
+            alert("Congratulation! You finished all the questions! ");
+        }
+        var test_int = index;
+
+        // var max_number = 50;
+        // var test_int = Math.floor(Math.random() * max_number);
         $.ajax({
             dataType: 'json',
             type: 'GET',
