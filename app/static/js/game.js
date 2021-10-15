@@ -1,6 +1,8 @@
 // variables
+// to automatically generate a new array [1,2,3, ... ,50]
 var arr = Array.from({length: 50}, (_, i) => i+1);
-var result = [];
+// showed_id arry is to store the question id which was already showed
+var showed_id = [];
 
 $(document).ready(function () {
     //Make Add score to Leader board form appear
@@ -22,14 +24,17 @@ $(document).ready(function () {
 
         // no duplicated questions, every question will be show once
         if (arr.length > 0) {
-            var ran = Math.floor(Math.random() * arr.length);
-            // delete id number of question from arr
-            index = arr.splice(ran,1)[0];
-            // push the id number of question to the result array list
-            result.push(index);
+            // create a random id number by the lenght of arr
+            var q_id = Math.floor(Math.random() * arr.length);
+            // delete the same id number of question from arr, and pass the number to index variable
+            index = arr.splice(q_id,1)[0];
+            // push the id number of question that has been deleted, to the showed_id array list
+            showed_id.push(index);
         } else {
+            // when arr.length = 0, means all questions has been showed once
             alert("Congratulation! You finished all the questions! ");
         }
+        // pass the values of index to the test_int as the next question id
         var test_int = index;
 
         // var max_number = 50;
@@ -55,18 +60,24 @@ $(document).ready(function () {
     });
 });
 
+// to add some events when the play button is being clicked
 window.addEventListener("DOMContentLoaded", event => {
     document.getElementById("startgame").addEventListener("click", event => {
+        // disapper the play button
         document.getElementById("startgame").style.display = "none";
+        // display the question
         document.querySelector(".jumbotron.well").style.display = "block";
+        // display all options
         display_all_options();
     });
 });
 
+// go over all contents that meets the condictions with queryselector
 function display_all_options() {
     var selector, i;
     selector = document.querySelectorAll(".row.answers");
     for (i = 0; i < selector.length; i++) {
+        // display all the contents that meets the condictions
         selector[i].style.display = "flex";
     }
 }
