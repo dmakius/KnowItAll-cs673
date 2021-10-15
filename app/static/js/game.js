@@ -11,7 +11,9 @@ $(document).ready(function () {
     var user_selection = [];
     // count how many attempt used
     var attempt_counter = 3;
-
+    // for skip question function
+    const MaxSkip = 3
+    var skipnum = 0
     //---------------------------------
     //CLICK/BUTTON
     //Make Add score to Leader board form appear
@@ -49,6 +51,21 @@ $(document).ready(function () {
     //Display remaining lives
     $(".stats").show();
     DisplayStats();
+
+    // Skip question function from Yuwei
+    $('#SkipQuestion').click(function(){
+        if (skipnum >= 3){
+            console.log('No more skips!');
+            return false;
+        }
+        skipnum += 1
+        console.log('Skipped!');
+        DisplayNewQuestion();
+        if (skipnum >= MaxSkip){
+            document.getElementById('SkipQuestion').disabled = true;
+        };
+    });
+
 
     //TODO: Assign points
 
@@ -161,6 +178,7 @@ $(document).ready(function () {
                 $('#cover-caption').slideToggle("slow");
                 $('#optionboard').hide()
                 $('#quit').hide()
+                $('#SkipQuestion').hide()
             }
         }
     }

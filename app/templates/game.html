@@ -21,7 +21,7 @@
 			<h2>KnowItAll</h2>
 			<div id = "div1" class = "stats"></div>
 		</header>
-		<body>
+
 			<div class = 'container' stlye="z-index:0;">
 				<div class='container'>
 					<div class='container'>
@@ -62,9 +62,17 @@
 				<br>
 				<hr>
 				<div class="text-center">
+					<script type="text/javascript">
+                            var clicks = 0;
+                            function onClick()
+                            {clicks += 1;
+                            document.getElementById("clicks").innerHTML = clicks;
+                            };</script>
 					<button id="submit" class="btn btn-outline-primary">Submit</button>
-					<button id="next" class="btn btn-outline-primary">Next Question</button>
+					<button id="next" onClick="onClick()" class="btn btn-outline-primary">Next Question</button>
+					<em><p>Complete Questions: <a id="clicks">0</a></p></em>
 					<button id = 'submitScore' class="btn btn-outline-primary" >Submit Score</button>
+                    <button id = 'SkipQuestion' class="btn btn-outline-primary" >Skip Question</button>
 				</div>
 
 				<div class='container' id="quit">
@@ -72,6 +80,7 @@
 				</div>
 				<br>
 			</div>
+
 
 			<div  id="cover-caption" class="container" style='display: none;background-color: black;margin-top:-200px;'>
 				<div class="row text-white">
