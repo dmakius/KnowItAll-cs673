@@ -18,15 +18,16 @@
 	<script src='/static/js/game.js'></script>
 	<body>
 		<header>
-			<h2>KnowItAll</h1>
+			<h2>KnowItAll</h2>
+			<div id = "div1" class = "stats"></div>
 		</header>
 		<body>
 			<div class = 'container' stlye="z-index:0;">
 				<div class='container'>
 					<div class='container'>
-						<div class = "row text-center"> 
-					<div class = "row text-center"> 
-						<div class = "row text-center"> 
+						<div class = "row text-center">
+					<div class = "row text-center">
+						<div class = "row text-center">
 								<h1>KNOWIT ALL</h1>
 						</div>
 					</div>
@@ -44,7 +45,7 @@
 						</div>
 					</div>
 					<br>
-					<div class='container'>
+					<div class='container' id="optionboard">
 						<div class= "row answers">
 							<div class='col-md-5 text-center option btn btn-outline-secondary' id="option_1">A. {{q.answer}}</div>
 							<div class = "col-md-1"></div>
@@ -61,16 +62,18 @@
 				<br>
 				<hr>
 				<div class="text-center">
+					<button id="submit" class="btn btn-outline-primary">Submit</button>
+					<button id="next" class="btn btn-outline-primary">Next Question</button>
 					<button id = 'submitScore' class="btn btn-outline-primary" >Submit Score</button>
 				</div>
-				
-				<div class='container'>
+
+				<div class='container' id="quit">
 					​<a href='/'>QUIT GAME</a>
 				</div>
 				<br>
 			</div>
-			
-			<div  id="cover-caption" class="container" style='display: none;background-color: black;margin-top:-350px;'>
+
+			<div  id="cover-caption" class="container" style='display: none;background-color: black;margin-top:-200px;'>
 				<div class="row text-white">
 					<div class="mx-auto text-center  p-4">
 						<h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
@@ -86,15 +89,18 @@
 								</div>
 								<br>
 								<button type="submit" class="btn btn-primary btn-lg">POST!</button>
+								<div class='container'>
+									​<a href='/'>QUIT GAME</a>
+								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-			
+
+
 	</body>
 
 
-	
+
 </html>
