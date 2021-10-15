@@ -39,20 +39,12 @@ def getSingleQuestion(id):
     str_id = str(id)
     q = Question.query.get(str_id)
 
-<<<<<<< Updated upstream
-    #Shuffle the 4 potential answers
-=======
     # Shuffle the 4 potential answers
->>>>>>> Stashed changes
     answer_location = 0
     input = [q.answer, q.option_1, q.option_2, q.option_3]
     answers = random.sample(input, len(input))
 
-<<<<<<< Updated upstream
-    #Determine the location of the answer
-=======
     # Determine the location of the answer
->>>>>>> Stashed changes
     for x in range(4):
         if answers[x] == q.answer:
             answer_location = x + 1
@@ -72,8 +64,8 @@ def getSingleQuestion(id):
 def leaderBoard_create():
     username = request.form['username']
     score = request.form['score']
-    new_score = LeaderboardScore(category = 'TEST', username=username, score=score)
-    
+    new_score = LeaderboardScore(category='TEST', username=username, score=score)
+
     db.session.add(new_score)
     db.session.commit()
     return redirect(url_for('leaderBoard'))
@@ -82,4 +74,4 @@ def leaderBoard_create():
 @app.route('/leaderboard')
 def leaderBoard():
     scores = LeaderboardScore.query.all()
-    return render_template('leaderboard.html' , scores = scores) 
+    return render_template('leaderboard.html', scores=scores)
