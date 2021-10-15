@@ -25,6 +25,7 @@ $(document).ready(function () {
     var opt = $('.option');
     opt.on('click', Selection);
 
+<<<<<<< Updated upstream
     //Next button, for new question
     var next = $('#next');
     next.off('click', DisplayNewQuestion);
@@ -34,12 +35,31 @@ $(document).ready(function () {
     //Submit button, Check if selection is correct
     var sub = $('#submit');
     sub.on('click', Submit);
+=======
+    //Submit button, Check if selection is correct
+    var sub = $('#submit');
+    sub.on('click', Submit);
+
+    //Next button, for new question
+    var next = $('#next');
+    next.on('click', DisplayNewQuestion);
+    //Hide next button before click submit
+    next.hide();
+
+    //sub.on('click', Submit);
+>>>>>>> Stashed changes
     //------------------------------------------------
 
 
     //------------------------------------------------
     //FUNCTION
 
+<<<<<<< Updated upstream
+=======
+    // Load random question when load the page
+    DisplayNewQuestion();
+
+>>>>>>> Stashed changes
     //Display remaining lives
     $(".stats").show();
     DisplayStats();
@@ -51,22 +71,32 @@ $(document).ready(function () {
         console.log(user_selection[0] + 'clicked!');
     }
 
+<<<<<<< Updated upstream
     // Load random question when load the page
     DisplayNewQuestion();
 
+=======
+>>>>>>> Stashed changes
     //TODO: subtract lives if neccesary
 
     //------------------------------------
     //SELECT A NEW RANDOM QUESTION
     //TODO: Replace max number with number of questions come backend
     function DisplayNewQuestion() {
+<<<<<<< Updated upstream
         // turn on submit button, new question, user can do submit
         sub.on('click', Submit);
+=======
+        // show submit button, new question, user can do submit
+>>>>>>> Stashed changes
         sub.show();
 
         // turn off and hide next button, user cannot go next before submit
         next.hide()
+<<<<<<< Updated upstream
         next.off('click', DisplayNewQuestion);
+=======
+>>>>>>> Stashed changes
 
         // replace the changed color back.
         $('.option').css('color', 'black')
@@ -95,12 +125,20 @@ $(document).ready(function () {
 
     // return answer, count attempts
     function Submit() {
+<<<<<<< Updated upstream
         // turn off Submit button, user already submitted once
         sub.off('click', Submit);
         sub.hide();
 
         // turn on next button
         next.on('click', DisplayNewQuestion);
+=======
+        // hide Submit button, user already submitted once
+        //sub.off('click', Submit);
+        sub.hide();
+
+        // show next button
+>>>>>>> Stashed changes
         next.show();
 
         // if else function for check if player answer right or wrong

@@ -39,12 +39,20 @@ def getSingleQuestion(id):
     str_id = str(id)
     q = Question.query.get(str_id)
 
+<<<<<<< Updated upstream
     #Shuffle the 4 potential answers
+=======
+    # Shuffle the 4 potential answers
+>>>>>>> Stashed changes
     answer_location = 0
     input = [q.answer, q.option_1, q.option_2, q.option_3]
     answers = random.sample(input, len(input))
 
+<<<<<<< Updated upstream
     #Determine the location of the answer
+=======
+    # Determine the location of the answer
+>>>>>>> Stashed changes
     for x in range(4):
         if answers[x] == q.answer:
             answer_location = x + 1
