@@ -54,6 +54,7 @@ $(document).ready(function () {
     next.on('click', DisplayNewQuestion);
     //Hide next button before click submit
     next.hide();
+    $('#SkipQuestion').hide();
     //------------------------------------------------
 
 
@@ -272,6 +273,7 @@ window.addEventListener("DOMContentLoaded", event => {
         document.querySelector(".jumbotron.well").style.display = "block";
         // display all options
         display_all_options();
+        $('#SkipQuestion').show();
     });
 });
 
