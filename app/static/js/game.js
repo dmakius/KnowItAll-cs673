@@ -1,3 +1,4 @@
+
 // variables
 // to automatically generate a new array [1,2,3, ... ,50]
 var arr = Array.from({length: 50}, (_, i) => i+1);
@@ -18,9 +19,16 @@ $(document).ready(function () {
     var user_selection = [];
     // count how many attempt used
     var attempt_counter = 3;
+
     // for skip question function
     const MaxSkip = 3
     var skipnum = 0
+
+    // for timer function and score function
+    var correctCount = 0;
+    var timer = 30; // Timer (Seconds)
+    var timeleft = timer;
+
     //---------------------------------
     //CLICK/BUTTON
     //Make Add score to Leader board form appear
@@ -59,7 +67,7 @@ $(document).ready(function () {
     $(".stats").show();
     DisplayStats();
 
-    // Skip question function from Yuwei
+    // Skip question function
     $('#SkipQuestion').click(function(){
         if (skipnum >= 3){
             console.log('No more skips!');
@@ -74,20 +82,11 @@ $(document).ready(function () {
     });
 
 
-    //----------------------------------------------------Weiye
-    var correctCount = 0;
-
-    var timer = 30; // Timer (Seconds)
-    var timeleft = timer;
-
-    //TODO: Bugfix: sometime test_int will return a specific number, which occur a error that not forward to the next question.
-
-
-
     // Initialize the firstQuestion
     //  Comment: Each Time the First question would put the answer in the first option, it does not follow the rule, because the function only available after you click. (You need to initialize the first question as well)
 
     // Timer
+    /*
     var Timer = setInterval(function () {
         if (timeleft < 0) {
 
@@ -103,7 +102,8 @@ $(document).ready(function () {
 
     }, 1000);
 
-//-----------------------------------------------------------
+     */
+
 
     //get user selection when player click the option
     function Selection() {
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
     function DisplayNewQuestion() {
         $('#Counter').html(correctCount);
-
+        //timeleft = timer;
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
 
@@ -202,7 +202,7 @@ $(document).ready(function () {
 
                 // score function can be added score++ in this if function
                 correctCount ++;
-                timeleft = timer;
+                //timeleft = timer;
 
             } else {
                 // change user_selection color to red, and answer to green
@@ -214,7 +214,7 @@ $(document).ready(function () {
 
 
                 // score function can be added score-- in here.
-                timeleft = timer;
+                //timeleft = timer;
 
             }
             DisplayStats();
