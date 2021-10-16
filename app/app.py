@@ -58,9 +58,9 @@ def getSingleQuestion(id):
 
     return_data = [{"Category": q.category}, {"Question": q.question}, {"Option_1": answers[0]}, {"Option_2": answers[1]},
                    {"Option_3": answers[2]}, {"Option_4": answers[3]}, {"Answer_Location": answer_location}]
+
     # print data to be retuned on back end
     print(return_data)
-
     # return data as json
     return jsonify(return_data)
 

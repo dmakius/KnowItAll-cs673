@@ -6,6 +6,7 @@ var showed_id = [];
 
 $(document).ready(function () {
 
+
     // read and keep options here
     var option1;
     var option2;
@@ -73,7 +74,36 @@ $(document).ready(function () {
     });
 
 
-    //TODO: Assign points
+    //----------------------------------------------------Weiye
+    var correctCount = 0;
+
+    var timer = 30; // Timer (Seconds)
+    var timeleft = timer;
+
+    //TODO: Bugfix: sometime test_int will return a specific number, which occur a error that not forward to the next question.
+
+
+
+    // Initialize the firstQuestion
+    //  Comment: Each Time the First question would put the answer in the first option, it does not follow the rule, because the function only available after you click. (You need to initialize the first question as well)
+
+    // Timer
+    var Timer = setInterval(function () {
+        if (timeleft < 0) {
+
+            document.getElementById("Timer").innerHTML = "Finished";
+            alert("Timeout!");
+            DisplayNewQuestion();
+            timeleft = timer;
+
+        } else {
+            document.getElementById("Timer").innerHTML = timeleft + " seconds remaining";
+        }
+        timeleft -= 1;
+
+    }, 1000);
+
+//-----------------------------------------------------------
 
     //get user selection when player click the option
     function Selection() {
@@ -87,12 +117,9 @@ $(document).ready(function () {
         $(user_selection).css('background-color', 'grey').css('color', 'white');
     }
 
-    //TODO: subtract lives if neccesary
-
-    //------------------------------------
-    //SELECT A NEW RANDOM QUESTION
-    //TODO: Replace max number with number of questions come backend
     function DisplayNewQuestion() {
+        $('#Counter').html(correctCount);
+
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
 
@@ -108,10 +135,6 @@ $(document).ready(function () {
 
         // refresh user selection to an empty list
         user_selection = [];
-
-        //------------------------------------
-        //SELECT A NEW RANDOM QUESTION
-        //TODO: Replace max number with number of questions come backend
 
         // no duplicated questions, every question will be show once
         if (arr.length > 0) {
@@ -178,6 +201,8 @@ $(document).ready(function () {
 
 
                 // score function can be added score++ in this if function
+                correctCount ++;
+                timeleft = timer;
 
             } else {
                 // change user_selection color to red, and answer to green
@@ -189,6 +214,7 @@ $(document).ready(function () {
 
 
                 // score function can be added score-- in here.
+                timeleft = timer;
 
             }
             DisplayStats();
@@ -249,6 +275,7 @@ window.addEventListener("DOMContentLoaded", event => {
     });
 });
 
+
 // go over all contents that meets the condictions with queryselector
 function display_all_options() {
     var selector, i;
@@ -258,4 +285,3 @@ function display_all_options() {
         selector[i].style.display = "flex";
     }
 }
-
