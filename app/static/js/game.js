@@ -54,7 +54,7 @@ $(document).ready(function () {
     next.on('click', DisplayNewQuestion);
     //Hide next button before click submit
     next.hide();
-    $('#SkipQuestion').hide();
+    // $('#SkipQuestion').hide();
     //------------------------------------------------
 
 
@@ -265,25 +265,25 @@ $(document).ready(function () {
 });
 
 // to add some events when the play button is being clicked
-window.addEventListener("DOMContentLoaded", event => {
-    document.getElementById("startgame").addEventListener("click", event => {
-        // disapper the play button
-        document.getElementById("startgame").style.display = "none";
-        // display the question
-        document.querySelector(".jumbotron.well").style.display = "block";
-        // display all options
-        display_all_options();
-        $('#SkipQuestion').show();
-    });
-});
+// window.addEventListener("DOMContentLoaded", event => {
+//     document.getElementById("startgame").addEventListener("click", event => {
+//         // disapper the play button
+//         document.getElementById("startgame").style.display = "none";
+//         // display the question
+//         document.querySelector(".jumbotron.well").style.display = "block";
+//         // display all options
+//         display_all_options();
+//         $('#SkipQuestion').show();
+//     });
+// });
 
 
-// go over all contents that meets the condictions with queryselector
-function display_all_options() {
-    var selector, i;
-    selector = document.querySelectorAll(".row.answers");
-    for (i = 0; i < selector.length; i++) {
-        // display all the contents that meets the condictions
-        selector[i].style.display = "flex";
-    }
-}
+// // go over all contents that meets the condictions with queryselector
+// function display_all_options() {
+//     var selector, i;
+//     selector = document.querySelectorAll(".row.answers");
+//     for (i = 0; i < selector.length; i++) {
+//         // display all the contents that meets the condictions
+//         selector[i].style.display = "flex";
+//     }
+// }
