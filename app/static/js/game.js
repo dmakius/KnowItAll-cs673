@@ -225,7 +225,9 @@ $(document).ready(function () {
                 alert("GameOver!");
                 $('#next').detach();
                 $('#submit').detach();
+                
                 $('#cover-caption').slideToggle("slow");
+                $('#main-container').hide();
                 $('#optionboard').hide()
                 $('#quit').hide()
                 $('#SkipQuestion').hide()
@@ -259,7 +261,7 @@ $(document).ready(function () {
     }
     // Display remaining lives
     function DisplayStats() {
-        $(".stats").html('<h4>' + 'remaining lives: ' + attempt_counter + '/3' + '</h4>');
+        $(".stats").html('<h4>' + 'LIVES: <span style="color:red"> ' + attempt_counter + '/3' + '</span></h4>');
     }
 
 });

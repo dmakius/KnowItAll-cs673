@@ -19,112 +19,114 @@
     <script src='/static/js/game.js'></script>
     <link rel="stylesheet" href="/static/css/game.css"/>
 <body>
-<header>
-    <h2>KnowItAll</h2>
-    <div id="div1" class="stats"></div>
-    <div>
-        <h4 id="Counter">0<h4/>
-    </div>
-    <div>
-        <h4 id="Timer">x seconds remaining</h4>
-    </div>
-</header>
-
-<div class='container' stlye="z-index:0;">
-    <div class='container'>
+    <div class='container' stlye="z-index:0;">
         <div class='container'>
-            <div class="row text-center">
+            <div id = 'main-container'  class='container'>
+                <!-- title -->
                 <div class="row text-center">
                     <div class="row text-center">
                         <h1>KNOWIT ALL</h1>
                     </div>
                 </div>
-                <div class='container'>
-                    <div class="row">
-                        <div id="app" class="mx-auto" style="width: 300px;"></div>
-                    </div>
-                </div>
                 <hr>
-                <div class='container'>
-                    <div class="row">
-                        <div class="jumbotron well">
-                            <h1 class="text-center" id='question'></h1>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class='container' id="optionboard">
-                    <div class="row answers">
-                        <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_1">A.
-                           
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_2">B.
-                           
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row answers">
-                        <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_3">C
-                            
-                        </div>
-                        <div class="col-md-1"></div>
-                        <div class='col-md-5 text-center option  btn btn-outline-secondary' id="option_4">D
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <hr>
-            <div class="text-center">
-                <script type="text/javascript">
-                    var clicks = 0;
-
-                    function onClick() {
-                        clicks += 1;
-                        document.getElementById("clicks").innerHTML = clicks;
-                    };</script>
-                <button id="submit" class="btn btn-outline-primary">Submit</button>
-                <button id="next" onClick="onClick()" class="btn btn-outline-primary">Next Question</button>
-                <button id='submitScore' class="btn btn-outline-primary">Submit Score</button>
-                <button id='SkipQuestion' class="btn btn-outline-primary">Skip Question</button>
-                <em><p>Complete Questions: <a id="clicks">0</a></p></em>
-            </div>
-            <div class='container' id="quit">
-                ​<a href='/'>QUIT GAME</a>
-            </div>
-            <br>
-        </div>
-
-
-        <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:-200px;'>
-            <div class="row text-white">
-                <div class="mx-auto text-center  p-4">
-                    <h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
-                    <div class="px-2">
-                        <form id='leaderboardForm' method="POST" action="/leaderboard/create"
-                              class="justify-content-center">
-                            <div class="form-group">
-                                <label class="sr-only">Score:</label>
-                                <input name='score' type="text" class="form-control" placeholder="Score" value='2000'
-                                       readonly>
+                <div class="container">
+                    <div class = "row">
+                        <div class='col-md-2'>
+                            <h3>STATS</h3>
+                            <em><p>Complete Questions: <a id="clicks">0</a></p></em>
+                            <div id="div1" class="stats"></div>
+                            <div>
+                                <h4>SCORE: <span id="Counter">0</span></h4>
                             </div>
-                            <div class="form-group">
-                                <label class="sr-only">username:</label>
-                                <input name='username' type="text" class="form-control" placeholder="Username" required>
+                            <hr>
+                            <div>
+                                <h4>TIME</h4>
+                                <h4 id="Timer">x seconds</h4>
                             </div>
+                            <hr>
+                            <div>
+                                <h4>Lifelines</h4>
+                                <button id='SkipQuestion' class="btn btn-outline-primary">Skip Question</button>
+                            </div>
+                        </div>
+                        <!--  DISPLAY QUESTION -->
+                        <div class='col-md-10'>
+                            <div class="jumbotron">
+                                <h1 class="text-center" id='question'></h1>
+                            </div>
+                        
                             <br>
-                            <button type="submit" class="btn btn-primary btn-lg">POST!</button>
-                            <div class='container'>
-                                ​<a href='/'>QUIT GAME</a>
+                            <br>
+                            <!-- DISPLAY OPTIONS -->
+                            <div class = 'container' id="optionboard">
+                                <div class="row answers">
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_1"></div>
+                                    <div class="col-md-2"></div>
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_2"></div>
+                                </div>
+                                <br>
+                                <div class="row answers">
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_3"></div>
+                                    <div class="col-md-2"></div>
+                                    <div class='col-md-5 text-center option  btn btn-outline-secondary' id="option_4"></div>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                        <br>
+                        <hr>
+                        <div class="text-center">
+                            <script type="text/javascript">
+                                var clicks = 0;
+
+                                function onClick() {
+                                    clicks += 1;
+                                    document.getElementById("clicks").innerHTML = clicks;
+                                };</script>
+                            <button id="submit" class="btn btn-outline-primary">Submit</button>
+                            <button id="next" onClick="onClick()" class="btn btn-outline-primary">Next Question</button>
+                            <button id='submitScore' class="btn btn-outline-primary">Submit Score</button>
+                            
+                          
+                        </div>
+                        <div class='container' id="quit">
+                            ​<a href='/'>QUIT GAME</a>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:25px;'>
+                <div class="row text-white">
+                    <div class="mx-auto text-center  p-4">
+                        <h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
+                        <div class="px-2">
+                            <form id='leaderboardForm' method="POST" action="/leaderboard/create"
+                                class="justify-content-center">
+                                <div class="form-group">
+                                    <label class="sr-only">Score:</label>
+                                    <input name='score' type="text" class="form-control" placeholder="Score" value='2000'
+                                        readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">username:</label>
+                                    <input name='username' type="text" class="form-control" placeholder="Username" required>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-lg">POST!</button>
+                                <br>
+                                <div class='container'>
+                                    ​<a href='/'>QUIT GAME</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
+    </div>
 </body>
 </html>
