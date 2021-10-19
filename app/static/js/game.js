@@ -26,7 +26,7 @@ $(document).ready(function () {
     var skipleft = MaxSkip
 
     // for timer function and score function
-    var correctCount = 0;
+    var player_score = 0;
     var timer = 30; // Timer (Seconds)
     var timeleft = timer;
     var timerpower = true; //determines whether timer is active or not
@@ -233,10 +233,10 @@ $(document).ready(function () {
 
 
                 // score function can be added score++ in this if function
-                correctCount ++;
+                player_score = player_score + 100;
                 //timeleft = timer;
                 //Update the Score
-                $('#Counter').html(correctCount);
+                $('#Counter').html(player_score);
 
             } else {
                 // change user_selection color to red, and answer to green
@@ -255,17 +255,15 @@ $(document).ready(function () {
 
             // when 3 attempts, game over, only allow to submit score.
             if (attempt_counter <= 0) {
-                $('#Score').val(correctCount)
-                alert("GameOver!");
+                $('#Score').val(player_score);
                 $('#next').detach();
                 $('#submit').detach();
-                
-
+                $('input[name="score"]').val(player_score);
                 $('#cover-caption').slideToggle("slow");
                 $('#main-container').hide();
-                $('#optionboard').hide()
-                $('#quit').hide()
-                $('#SkipQuestion').hide()
+                $('#optionboard').hide();
+                $('#quit').hide();
+                $('#SkipQuestion').hide();
             }
         }
     }
