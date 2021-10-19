@@ -78,5 +78,5 @@ def leaderBoard_create():
 
 @app.route('/leaderboard')
 def leaderBoard():
-    scores = LeaderboardScore.query.all()
+    scores = LeaderboardScore.query.order_by(LeaderboardScore.score.desc()).all()
     return render_template('leaderboard.html', scores=scores)

@@ -16,5 +16,5 @@ class LeaderboardScore(db.Model):
     __tablename__ = "LeaderboardScore"
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(129), unique=False, nullable=False)
-    username = db.Column(db.String(129), unique=True, nullable=False)
+    username = db.Column(db.String(129), unique=False, nullable=False)
     score = db.Column(db.Integer)
