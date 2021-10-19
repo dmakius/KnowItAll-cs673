@@ -1,9 +1,14 @@
-
 // variables
 // to automatically generate a new array [1,2,3, ... ,50]
-var arr = Array.from({length: 50}, (_, i) => i+1);
+var arr = Array.from({
+    length: 50
+}, (_, i) => i + 1);
 // showed_id arry is to store the question id which was already showed
 var showed_id = [];
+
+// Timer variables
+var timeInSecond = 4;
+var timeLeft = timeInSecond;
 
 $(document).ready(function () {
 
@@ -26,8 +31,8 @@ $(document).ready(function () {
 
     // for timer function and score function
     var correctCount = 0;
-    var timer = 30; // Timer (Seconds)
-    var timeleft = timer;
+/*     var timeInSecond = 30; // Timer (Seconds) */
+/*     var timeLeft = timeInSecond; */
 
     //---------------------------------
     //CLICK/BUTTON
@@ -52,6 +57,7 @@ $(document).ready(function () {
     //Next button, for new question
     var next = $('#next');
     next.on('click', DisplayNewQuestion);
+    next.on('click', timerFunction);
     //Hide next button before click submit
     next.hide();
     $('#SkipQuestion').hide();
@@ -69,41 +75,23 @@ $(document).ready(function () {
     DisplayStats();
 
     // Skip question function
-    $('#SkipQuestion').click(function(){
-        if (skipnum >= 3){
+    $('#SkipQuestion').click(function () {
+        if (skipnum >= 3) {
             console.log('No more skips!');
             return false;
         }
         skipnum += 1
         console.log('Skipped!');
         DisplayNewQuestion();
-        if (skipnum >= MaxSkip){
+        if (skipnum >= MaxSkip) {
             document.getElementById('SkipQuestion').disabled = true;
         };
+        clearInterval(timer);
+        timerFunction();
     });
 
 
-    // Initialize the firstQuestion
-    //  Comment: Each Time the First question would put the answer in the first option, it does not follow the rule, because the function only available after you click. (You need to initialize the first question as well)
 
-    // Timer
-    /*
-    var Timer = setInterval(function () {
-        if (timeleft < 0) {
-
-            document.getElementById("Timer").innerHTML = "Finished";
-            alert("Timeout!");
-            DisplayNewQuestion();
-            timeleft = timer;
-
-        } else {
-            document.getElementById("Timer").innerHTML = timeleft + " seconds remaining";
-        }
-        timeleft -= 1;
-
-    }, 1000);
-
-     */
 
 
     //get user selection when player click the option
@@ -119,6 +107,8 @@ $(document).ready(function () {
     }
 
     function DisplayNewQuestion() {
+
+
         $('#Counter').html(correctCount);
         //timeleft = timer;
         // turn on the color change function for selected option
@@ -142,7 +132,7 @@ $(document).ready(function () {
             // create a random id number by the lenght of arr
             var q_id = Math.floor(Math.random() * arr.length);
             // delete the same id number of question from arr, and pass the number to index variable
-            index = arr.splice(q_id,1)[0];
+            index = arr.splice(q_id, 1)[0];
             // push the id number of question that has been deleted, to the showed_id array list
             showed_id.push(index);
         } else {
@@ -170,17 +160,24 @@ $(document).ready(function () {
                 answer_location = data[6]['Answer_Location'];
             }
         });
+
     }
+
+
 
     // return answer, count attempts
     function Submit() {
+        //TODO: 当submit了答案，需要暂停时间。
+
 
         // check user selection is empty or not
-        if (user_selection[0] == undefined){
+        if (user_selection[0] == undefined) {
 
             alert("Please select an option!");
 
+
         } else {
+            clearInterval(timer)
             // turn off the selected option color change function,
             // when user submit their answer, selected option no longer available to change color
             opt.off('click', ChangeSelectedOptionColor);
@@ -197,12 +194,14 @@ $(document).ready(function () {
             // So that we can use user_selection[0] compare with the result from function CheckAnswer()
             // to check if player selection is right or wrong
             if (user_selection[0] == CheckAnswer()) {
+
+
                 // change answer color to green
                 $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
 
 
                 // score function can be added score++ in this if function
-                correctCount ++;
+                correctCount++;
                 //timeleft = timer;
 
             } else {
@@ -267,12 +266,14 @@ $(document).ready(function () {
 // to add some events when the play button is being clicked
 window.addEventListener("DOMContentLoaded", event => {
     document.getElementById("startgame").addEventListener("click", event => {
+
         // disapper the play button
         document.getElementById("startgame").style.display = "none";
         // display the question
         document.querySelector(".jumbotron.well").style.display = "block";
         // display all options
         display_all_options();
+        timerFunction();
         $('#SkipQuestion').show();
     });
 });
@@ -286,4 +287,24 @@ function display_all_options() {
         // display all the contents that meets the condictions
         selector[i].style.display = "flex";
     }
+}
+
+
+// Timer
+function timerFunction() {
+    timeLeft = timeInSecond;
+    document.getElementById("Timer").innerHTML = (timeLeft + 1) + " seconds remaining";
+
+    timer = setInterval(function() {
+        console.log(timeLeft)
+
+        if(timeLeft < 0) {
+            document.getElementById("Timer").innerHTML = "Finished";
+            var sub = $('#submit');
+            sub.on('click', Submit);
+        } else {
+            document.getElementById("Timer").innerHTML = timeLeft + " seconds remaining";
+        }
+        timeLeft  = timeLeft - 1;
+    }, 1000);
 }
