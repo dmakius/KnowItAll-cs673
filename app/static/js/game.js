@@ -269,6 +269,7 @@ $(document).ready(function () {
 
             // when 3 attempts, game over, only allow to submit score.
             if (attempt_counter <= 0) {
+                alert("Game over!");
                 $('#Score').val(player_score);
                 $('#next').detach();
                 $('#submit').detach();
