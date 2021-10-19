@@ -7,8 +7,8 @@ var arr = Array.from({
 var showed_id = [];
 
 // Timer variables
-var timeInSecond = 4;
-var timeLeft = timeInSecond;
+var timer = 30;
+var timeLeft = timer;
 
 $(document).ready(function () {
 
@@ -28,11 +28,13 @@ $(document).ready(function () {
     // for skip question function
     const MaxSkip = 3
     var skipnum = 0
+    var skipleft = MaxSkip
 
     // for timer function and score function
-    var correctCount = 0;
-/*     var timeInSecond = 30; // Timer (Seconds) */
-/*     var timeLeft = timeInSecond; */
+    var player_score = 0;
+    //var timer = 30; // Timer (Seconds)
+    //var timeleft = timer;
+    var timerpower = true; //determines whether timer is active or not
 
     //---------------------------------
     //CLICK/BUTTON
@@ -60,7 +62,7 @@ $(document).ready(function () {
     next.on('click', timerFunction);
     //Hide next button before click submit
     next.hide();
-    $('#SkipQuestion').hide();
+    // $('#SkipQuestion').hide();
     //------------------------------------------------
 
 
@@ -75,22 +77,45 @@ $(document).ready(function () {
     DisplayStats();
 
     // Skip question function
-    $('#SkipQuestion').click(function () {
-        if (skipnum >= 3) {
+    $('#SkipQuestion').click(function(){
+        if (skipnum >= MaxSkip){
             console.log('No more skips!');
             return false;
         }
         skipnum += 1
+        skipleft = skipleft - 1
+        document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
         console.log('Skipped!');
         DisplayNewQuestion();
-        if (skipnum >= MaxSkip) {
-            document.getElementById('SkipQuestion').disabled = true;
+        if (skipnum >= MaxSkip){
+           document.getElementById('SkipQuestion').disabled = true;
         };
         clearInterval(timer);
         timerFunction();
     });
 
 
+    // Initialize the firstQuestion
+    //  Comment: Each Time the First question would put the answer in the first option, it does not follow the rule, because the function only available after you click. (You need to initialize the first question as well)
+
+    // Timer
+    var Timer = setInterval(function () {
+        if (timerpower == true) {
+
+            if (timeleft < 0) {
+
+                document.getElementById("Timer").innerHTML = "Finished";
+                alert("Timeout!");
+                user_selection[0] = 5;
+                Submit()
+                timeleft = timer;
+
+            } else {
+                document.getElementById("Timer").innerHTML = timeleft + " seconds remaining";
+            }
+            timeleft -= 1;
+        }
+    }, 1000);
 
 
 
@@ -107,10 +132,6 @@ $(document).ready(function () {
     }
 
     function DisplayNewQuestion() {
-
-
-        $('#Counter').html(correctCount);
-        //timeleft = timer;
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
 
@@ -119,6 +140,16 @@ $(document).ready(function () {
 
         // turn off and hide next button, user cannot go next before submit
         next.hide();
+
+        // turn on the timer
+        timerpower = true;
+        timeleft = timer;
+
+        // enable the skip question button if skips remain
+        if (skipnum < MaxSkip){
+            document.getElementById('SkipQuestion').disabled = false;
+
+        };
 
         // replace the changed color back, and background color back.
         opt.css('color', 'black');
@@ -167,11 +198,12 @@ $(document).ready(function () {
 
     // return answer, count attempts
     function Submit() {
-        //TODO: 当submit了答案，需要暂停时间。
-
-
         // check user selection is empty or not
-        if (user_selection[0] == undefined) {
+        if (user_selection[0] == undefined && timeleft == 0){
+
+            //this is the code that should run whent he timer ends, but currently we're just running (else) by putting something other than 'undefiend' in user_selection[0]
+
+        } else if (user_selection[0] == undefined) {
 
             alert("Please select an option!");
 
@@ -182,11 +214,25 @@ $(document).ready(function () {
             // when user submit their answer, selected option no longer available to change color
             opt.off('click', ChangeSelectedOptionColor);
 
+
+            //pause the timer
+            timerpower = false;
+
+            //turn off the skip question button after question submission
+            if (skipnum < MaxSkip){
+                document.getElementById('SkipQuestion').disabled = true;
+                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
+            };
+
             // hide Submit button, user already submitted once
             sub.hide();
 
             // show next button
             next.show();
+
+            // Update the Score
+
+
             // if else function for check if player answer right or wrong
             // user_selection is getting from function Selection(),
             // and user_selection is a list, value locate at [0] is a HTML<div>...</div>
@@ -201,8 +247,10 @@ $(document).ready(function () {
 
 
                 // score function can be added score++ in this if function
-                correctCount++;
+                player_score = player_score + 100;
                 //timeleft = timer;
+                //Update the Score
+                $('#Counter').html(player_score);
 
             } else {
                 // change user_selection color to red, and answer to green
@@ -221,16 +269,20 @@ $(document).ready(function () {
 
             // when 3 attempts, game over, only allow to submit score.
             if (attempt_counter <= 0) {
-                alert("GameOver!");
+                $('#Score').val(player_score);
                 $('#next').detach();
                 $('#submit').detach();
+                $('input[name="score"]').val(player_score);
                 $('#cover-caption').slideToggle("slow");
-                $('#optionboard').hide()
-                $('#quit').hide()
-                $('#SkipQuestion').hide()
+                $('#main-container').hide();
+                $('#optionboard').hide();
+                $('#quit').hide();
+                $('#SkipQuestion').hide();
             }
         }
     }
+
+
 
     // function for checking which option is the answer
     function CheckAnswer() {
@@ -258,7 +310,7 @@ $(document).ready(function () {
     }
     // Display remaining lives
     function DisplayStats() {
-        $(".stats").html('<h4>' + 'remaining lives: ' + attempt_counter + '/3' + '</h4>');
+        $(".stats").html('<h4>' + 'LIVES: <span style="color:red"> ' + attempt_counter + '/3' + '</span></h4>');
     }
 
 });
@@ -273,7 +325,7 @@ window.addEventListener("DOMContentLoaded", event => {
         document.querySelector(".jumbotron.well").style.display = "block";
         // display all options
         display_all_options();
-        timerFunction();
+        //timerFunction();
         $('#SkipQuestion').show();
     });
 });
@@ -308,3 +360,25 @@ function timerFunction() {
         timeLeft  = timeLeft - 1;
     }, 1000);
 }
+// window.addEventListener("DOMContentLoaded", event => {
+//     document.getElementById("startgame").addEventListener("click", event => {
+//         // disapper the play button
+//         document.getElementById("startgame").style.display = "none";
+//         // display the question
+//         document.querySelector(".jumbotron.well").style.display = "block";
+//         // display all options
+//         display_all_options();
+//         $('#SkipQuestion').show();
+//     });
+// });
+
+
+// // go over all contents that meets the condictions with queryselector
+// function display_all_options() {
+//     var selector, i;
+//     selector = document.querySelectorAll(".row.answers");
+//     for (i = 0; i < selector.length; i++) {
+//         // display all the contents that meets the condictions
+//         selector[i].style.display = "flex";
+//     }
+// }

@@ -1,11 +1,8 @@
-.jumbotron.well {
-    display: none;
+.jumbotron{
+  background-color:#d6d3d3;
+  padding:20px;
+  border-radius: 10px;
 }
-
-.row.answers {
-    display: none;
-}
-
 /* .option{
 outline: 1px solid black;
 }
