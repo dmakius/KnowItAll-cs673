@@ -12,7 +12,7 @@ Online gaming industry has a very high number of active users. It has an ever in
 ```
 $git clone [respository]
 ```
-2- Set up a Virtual Environment
+2- Set up a Virtual Environment - Instructions for this step apply for Mac, PC instructions will be added in a later iteration.
 
 ```
 $virtualenv venv
