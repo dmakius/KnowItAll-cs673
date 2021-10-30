@@ -1,15 +1,15 @@
-from app import db
+from . import db
 
 # Define question table Schema
 class Question(db.Model):
-    __tablename__ = "question"
+    __tablename__ = "Question"
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(129), unique=False, nullable=False)
     question = db.Column(db.String(129), unique=True, nullable=False)
-    answer = db.Column(db.String(129), unique=True, nullable=False)
-    option_1 = db.Column(db.String(129), unique=True, nullable=False)
-    option_2 = db.Column(db.String(129), unique=True, nullable=False)
-    option_3 = db.Column(db.String(129), unique=True, nullable=False)
+    answer = db.Column(db.String(129), unique=False, nullable=False)
+    option_1 = db.Column(db.String(129), unique=False, nullable=False)
+    option_2 = db.Column(db.String(129), unique=False, nullable=False)
+    option_3 = db.Column(db.String(129), unique=False, nullable=False)
 
 # Define LeaderboardScore table Schema
 class LeaderboardScore(db.Model):
