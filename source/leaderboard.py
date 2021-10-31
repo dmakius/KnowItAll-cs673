@@ -1,6 +1,5 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, url_for, request
 from flask_sqlalchemy import SQLAlchemy
-import random
 
 from . import db
 from .models import LeaderboardScore
