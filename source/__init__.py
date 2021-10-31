@@ -17,15 +17,15 @@ def create_app():
     db.init_app(app)
 
     from .views import views
-    from .game import game
+    from .question import question
     from .leaderboard import leaderboard
     
     app.register_blueprint(views, url_prefix='/') 
-    app.register_blueprint(game, url_prefix='/') 
+    app.register_blueprint(question, url_prefix='/') 
     app.register_blueprint(leaderboard, url_prefix='/') 
     
     create_database(app)
-    
+    print(app.url_map)
     return app
 
 def create_database(app):

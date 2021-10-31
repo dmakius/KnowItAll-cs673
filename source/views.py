@@ -2,7 +2,6 @@ from flask import Flask, Blueprint, render_template, request, redirect, jsonify,
 from flask_sqlalchemy import SQLAlchemy
 import random
 
-
 from .models import Question, LeaderboardScore
 
 views = Blueprint('views', __name__)

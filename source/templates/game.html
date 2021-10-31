@@ -93,7 +93,7 @@
                     <div class="mx-auto text-center  p-4">
                         <h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
                         <div class="px-2">
-                            <form id='leaderboardForm' method="POST" action="/leaderboard/create"
+                            <form id='leaderboardForm' method="POST" action="{{url_for('leaderboard.leaderBoard_create')}}"
                                 class="justify-content-center">
                                 <div class="form-group">
                                     <label class="sr-only">Score:</label>

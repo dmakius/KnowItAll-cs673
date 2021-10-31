@@ -15,4 +15,4 @@ def leaderBoard_create():
 
     db.session.add(new_score)
     db.session.commit()
-    return redirect(url_for('leaderBoard'))
+    return redirect(url_for('views.leaderBoard'))

@@ -4,9 +4,9 @@ import random
 
 from .models import Question
 
-game = Blueprint('game', __name__)
+question = Blueprint('question', __name__)
 
-@game.route('/question/<int:id>')
+@question.route('/question/<int:id>')
 def getSingleQuestion(id):
     str_id = str(id)
     q = Question.query.get(str_id)
