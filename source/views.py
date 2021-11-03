@@ -12,7 +12,8 @@ views = Blueprint('views', __name__)
 # ROUTES
 @views.route('/')
 def main():
-    return render_template('main.html' ,user ="")
+    print(current_user)
+    return render_template('main.html' ,user =current_user)
 
 
 @views.route('/game')
@@ -22,16 +23,16 @@ def game():
     # select a randon number annd conver to int
     random_question_number = random.randint(1, total_num_questions)
     random_question_number = str(random_question_number)
-
+    print(current_user)
     # select a random question
     q = Question.query.get(random_question_number)
-    return render_template('game.html', q=q, num=total_num_questions)
+    return render_template('game.html', user = current_user, q=q, num=total_num_questions)
 
 
 @views.route('/leaderboard')
 def leaderBoard():
     scores = LeaderboardScore.query.order_by(LeaderboardScore.score.desc()).all()
-    return render_template('leaderboard.html', scores=scores)
+    return render_template('leaderboard.html', user=current_user, scores=scores)
 
 @views.route('/playerProfile')
 def userProfile():

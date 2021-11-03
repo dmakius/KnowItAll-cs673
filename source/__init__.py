@@ -16,7 +16,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
-
+    
+    
     from .views import views
     from .question import question
     from .leaderboard import leaderboard
@@ -38,11 +39,12 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # define a function for loading the user
+
+        # define a function for loading the user
     @login_manager.user_loader
-    def loads_user(id):
+    def load_user(id):
+        print("GETTING USER")
         return Player.query.get(int(id))
-    
     return app
 
 def create_database(app):
@@ -54,4 +56,3 @@ def create_database(app):
         
     else:
         print("Database found")
-
