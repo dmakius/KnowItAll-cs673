@@ -11,9 +11,7 @@ def getSingleQuestion(id):
     str_id = str(id)
     q = Question.query.get(str_id)
 
-
     # Shuffle the 4 potential answers
-
     answer_location = 0
     input = [q.answer, q.option_1, q.option_2, q.option_3]
     answers = random.sample(input, len(input))

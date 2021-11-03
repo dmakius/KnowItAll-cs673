@@ -1,40 +1,55 @@
-// variables
-// to automatically generate a new array [1,2,3, ... ,50]
-var arr = Array.from({
-    length: 70
-}, (_, i) => i + 1);
-// showed_id arry is to store the question id which was already showed
-var showed_id = [];
+//Define all game Variables
+//For some reason if I don't initialize these variables it seems like the AJAX request doesn't happen fast enough and the variables don't display right initially
+// count how many attempt used
+var attempt_counter = 3
+// total number of questions
+var max_questions = 70
+// time for each question
+var timer = 30
+// for skip question function
+var MaxSkip = 3
+// for player score
+var player_score = 0
 
-// Timer variables
-var timer = 30;
-var timeLeft = timer;
 
 $(document).ready(function () {
+    //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: '/game/settings',
+        success: function (data) {
+            // Log data on front end
+            console.log(typeof data);
+            console.log(data);
+            
+        //initialize the variables from the ajax data
+        attempt_counter = data[0]['Lives']
+        MaxSkip = data[3]['Number Question Skips']
+        timer = data[1]['Question Time']
+        player_score = data[2]['Score']
+        max_questions = data[4]['numberQuestions']
+        }
+    });
 
-
-    // read and keep options here
-    var option1;
-    var option2;
-    var option3;
-    var option4;
     //read and keep answer location
     var answer_location;
     //read and keep user selection
     var user_selection = [];
-    // count how many attempt used
-    var attempt_counter = 3;
-
+    
+    
     // for skip question function
-    const MaxSkip = 3
     var skipnum = 0
     var skipleft = MaxSkip
-
+    
     // for timer function and score function
-    var player_score = 0;
-    //var timer = 30; // Timer (Seconds)
-    //var timeleft = timer;
+    var timeleft = timer;
     var timerpower = true; //determines whether timer is active or not
+
+    // to automatically generate a new array [1,2,3, ... ,MaxQuestions]
+    var arr = Array.from({
+        length: 70 //This should be MaxQuestions
+    }, (_, i) => i + 1);
 
     //---------------------------------
     //CLICK/BUTTON
@@ -59,22 +74,14 @@ $(document).ready(function () {
     //Next button, for new question
     var next = $('#next');
     next.on('click', DisplayNewQuestion);
-    next.on('click', timerFunction);
-    //Hide next button before click submit
-    next.hide();
-    // $('#SkipQuestion').hide();
-    //------------------------------------------------
 
-
-    //------------------------------------------------
-    //FUNCTION
-
-    // Load random question when load the page
+    // Initiate the first question upon game start
     DisplayNewQuestion();
+    
 
-    //Display remaining lives
+    // Initiate the display of the userlives
     $(".stats").show();
-    DisplayStats();
+    UpdateLives();
 
     // Skip question function
     $('#SkipQuestion').click(function(){
@@ -83,20 +90,14 @@ $(document).ready(function () {
             return false;
         }
         skipnum += 1
-        skipleft = skipleft - 1
+        skipleft = MaxSkip - skipnum;
         document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
         console.log('Skipped!');
         DisplayNewQuestion();
         if (skipnum >= MaxSkip){
            document.getElementById('SkipQuestion').disabled = true;
         };
-        clearInterval(timer);
-        timerFunction();
     });
-
-
-    // Initialize the firstQuestion
-    //  Comment: Each Time the First question would put the answer in the first option, it does not follow the rule, because the function only available after you click. (You need to initialize the first question as well)
 
     // Timer
     var Timer = setInterval(function () {
@@ -131,6 +132,79 @@ $(document).ready(function () {
         $(user_selection).css('background-color', 'grey').css('color', 'white');
     }
 
+    // All of the functionality attached to the player clicking the 'Submit' button
+    function Submit() {
+        // check user selection is empty or not
+        if (user_selection[0] == undefined) {
+
+            alert("Please select an option!");
+
+
+        } else {
+            // turn off the selected option color change function,
+            // when user submit their answer, selected option no longer available to change color
+            opt.off('click', ChangeSelectedOptionColor);
+
+            //pause the timer
+            timerpower = false;
+
+            //turn off the skip question button after question submission
+            if (skipnum < MaxSkip){
+                document.getElementById('SkipQuestion').disabled = true;
+                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
+            };
+
+            // hide Submit button, user already submitted once
+            sub.hide();
+
+            // show next button
+            next.show();
+
+            // if else function for check if player answer right or wrong
+            // user_selection is getting from function Selection(),
+            // and user_selection is a list, value locate at [0] is a HTML<div>...</div>
+            // something like this: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_2" style="color: green;">B: Baker Street</div>
+            // So that we can use user_selection[0] compare with the result from function CheckAnswer()
+            // to check if player selection is right or wrong
+            if (user_selection[0] == CheckAnswer()) {
+
+
+                // change answer color to green
+                $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
+
+
+                // Update the player score as a function of the time left.
+                player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
+                $('#Counter').html(player_score);
+
+            } else {
+                // change user_selection color to red, and answer to green
+                $(user_selection).css('color', 'red');
+                $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
+
+                //Remove one of the remaining lives and update the lives display
+                attempt_counter--;
+                UpdateLives();
+            }
+
+            // When no more attempts are left run through the end of game logic
+            if (attempt_counter <= 0) {
+                //Alert the player the game is over
+                alert("Game over!");
+                $('#Score').val(player_score);
+                $('#next').detach();
+                $('#submit').detach();
+                $('input[name="score"]').val(player_score);
+                $('#cover-caption').slideToggle("slow");
+                $('#main-container').hide();
+                $('#optionboard').hide();
+                $('#quit').hide();
+                $('#SkipQuestion').hide();
+            }
+        }
+    }
+
+    // All of the functionality attached to the player clicking the 'Next Question' button
     function DisplayNewQuestion() {
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
@@ -141,7 +215,7 @@ $(document).ready(function () {
         // turn off and hide next button, user cannot go next before submit
         next.hide();
 
-        // turn on the timer
+        // turn on and reset the timer
         timerpower = true;
         timeleft = timer;
 
@@ -151,7 +225,7 @@ $(document).ready(function () {
 
         };
 
-        // replace the changed color back, and background color back.
+        // set all option colors back to default
         opt.css('color', 'black');
         opt.css('background-color', 'white').css('color', 'black');
 
@@ -164,11 +238,11 @@ $(document).ready(function () {
             var q_id = Math.floor(Math.random() * arr.length);
             // delete the same id number of question from arr, and pass the number to index variable
             index = arr.splice(q_id, 1)[0];
-            // push the id number of question that has been deleted, to the showed_id array list
-            showed_id.push(index);
         } else {
             // when arr.length = 0, means all questions has been showed once
             alert("Congratulation! You finished all the questions! Let's start from the beginning!");
+
+            //Reinitiate the question array and continue as usual
             arr = Array.from({
                 length: 70
             }, (_, i) => i + 1);
@@ -176,8 +250,6 @@ $(document).ready(function () {
             var q_id = Math.floor(Math.random() * arr.length);
             // delete the same id number of question from arr, and pass the number to index variable
             index = arr.splice(q_id, 1)[0];
-            // push the id number of question that has been deleted, to the showed_id array list
-            showed_id.push(index);
         }
         // pass the values of index to the test_int as the next question id
         var test_int = index;
@@ -202,97 +274,6 @@ $(document).ready(function () {
         });
 
     }
-
-
-
-    // return answer, count attempts
-    function Submit() {
-        // check user selection is empty or not
-        if (user_selection[0] == undefined && timeleft == 0){
-
-            //this is the code that should run whent he timer ends, but currently we're just running (else) by putting something other than 'undefiend' in user_selection[0]
-
-        } else if (user_selection[0] == undefined) {
-
-            alert("Please select an option!");
-
-
-        } else {
-            clearInterval(timer)
-            // turn off the selected option color change function,
-            // when user submit their answer, selected option no longer available to change color
-            opt.off('click', ChangeSelectedOptionColor);
-
-
-            //pause the timer
-            timerpower = false;
-
-            //turn off the skip question button after question submission
-            if (skipnum < MaxSkip){
-                document.getElementById('SkipQuestion').disabled = true;
-                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
-            };
-
-            // hide Submit button, user already submitted once
-            sub.hide();
-
-            // show next button
-            next.show();
-
-            // Update the Score
-
-
-            // if else function for check if player answer right or wrong
-            // user_selection is getting from function Selection(),
-            // and user_selection is a list, value locate at [0] is a HTML<div>...</div>
-            // something like this: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_2" style="color: green;">B: Baker Street</div>
-            // So that we can use user_selection[0] compare with the result from function CheckAnswer()
-            // to check if player selection is right or wrong
-            if (user_selection[0] == CheckAnswer()) {
-
-
-                // change answer color to green
-                $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
-
-
-                // score function can be added score++ in this if function
-                player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
-                //timeleft = timer;
-                //Update the Score
-                $('#Counter').html(player_score);
-
-            } else {
-                // change user_selection color to red, and answer to green
-                $(user_selection).css('color', 'red');
-                $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
-
-                // attempt counter count one chance
-                attempt_counter--;
-
-
-                // score function can be added score-- in here.
-                //timeleft = timer;
-
-            }
-            DisplayStats();
-
-            // when 3 attempts, game over, only allow to submit score.
-            if (attempt_counter <= 0) {
-                alert("Game over!");
-                $('#Score').val(player_score);
-                $('#next').detach();
-                $('#submit').detach();
-                $('input[name="score"]').val(player_score);
-                $('#cover-caption').slideToggle("slow");
-                $('#main-container').hide();
-                $('#optionboard').hide();
-                $('#quit').hide();
-                $('#SkipQuestion').hide();
-            }
-        }
-    }
-
-
 
     // function for checking which option is the answer
     function CheckAnswer() {
@@ -319,76 +300,7 @@ $(document).ready(function () {
         return q_answer;
     }
     // Display remaining lives
-    function DisplayStats() {
+    function UpdateLives() {
         $(".stats").html('<h4>' + 'LIVES: <span style="color:red"> ' + attempt_counter + '/3' + '</span></h4>');
     }
-
 });
-
-// to add some events when the play button is being clicked
-window.addEventListener("DOMContentLoaded", event => {
-    document.getElementById("startgame").addEventListener("click", event => {
-
-        // disapper the play button
-        document.getElementById("startgame").style.display = "none";
-        // display the question
-        document.querySelector(".jumbotron.well").style.display = "block";
-        // display all options
-        display_all_options();
-        //timerFunction();
-        $('#SkipQuestion').show();
-    });
-});
-
-
-// go over all contents that meets the condictions with queryselector
-function display_all_options() {
-    var selector, i;
-    selector = document.querySelectorAll(".row.answers");
-    for (i = 0; i < selector.length; i++) {
-        // display all the contents that meets the condictions
-        selector[i].style.display = "flex";
-    }
-}
-
-
-// Timer
-function timerFunction() {
-    timeLeft = timeInSecond;
-    document.getElementById("Timer").innerHTML = (timeLeft + 1) + " seconds remaining";
-
-    timer = setInterval(function() {
-        console.log(timeLeft)
-
-        if(timeLeft < 0) {
-            document.getElementById("Timer").innerHTML = "Finished";
-            var sub = $('#submit');
-            sub.on('click', Submit);
-        } else {
-            document.getElementById("Timer").innerHTML = timeLeft + " seconds remaining";
-        }
-        timeLeft  = timeLeft - 1;
-    }, 1000);
-}
-// window.addEventListener("DOMContentLoaded", event => {
-//     document.getElementById("startgame").addEventListener("click", event => {
-//         // disapper the play button
-//         document.getElementById("startgame").style.display = "none";
-//         // display the question
-//         document.querySelector(".jumbotron.well").style.display = "block";
-//         // display all options
-//         display_all_options();
-//         $('#SkipQuestion').show();
-//     });
-// });
-
-
-// // go over all contents that meets the condictions with queryselector
-// function display_all_options() {
-//     var selector, i;
-//     selector = document.querySelectorAll(".row.answers");
-//     for (i = 0; i < selector.length; i++) {
-//         // display all the contents that meets the condictions
-//         selector[i].style.display = "flex";
-//     }
-// }
