@@ -18,15 +18,8 @@ def main():
 
 @views.route('/game')
 def game():
-    # get the total number of questions
-    total_num_questions = Question.query.count()
-    # select a randon number annd conver to int
-    random_question_number = random.randint(1, total_num_questions)
-    random_question_number = str(random_question_number)
     print(current_user)
-    # select a random question
-    q = Question.query.get(random_question_number)
-    return render_template('game.html', user = current_user, q=q, num=total_num_questions)
+    return render_template('game.html', user = current_user)
 
 
 @views.route('/leaderboard')

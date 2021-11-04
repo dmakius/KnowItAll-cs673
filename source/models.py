@@ -44,3 +44,11 @@ class Game(db.Model):
     question_time = db.Column(db.Integer, unique=False, nullable = False)
     skip_question = db.Column(db.Boolean, unique=False, nullable = False)
     num_skip_question = db.Column(db.Integer, unique=False, nullable = False)
+    questions_left = db.Column(db.String(300), unique=True, nullable=False) #if we have significantly more questions this needs to be longer
+    max_questions = db.Column(db.Integer, unique=False, nullable = False)
+    question = db.Column(db.String(129), unique=False, nullable=True)
+    option_1 = db.Column(db.String(129), unique=False, nullable=True)
+    option_2 = db.Column(db.String(129), unique=False, nullable=True)
+    option_3 = db.Column(db.String(129), unique=False, nullable=True)
+    option_4 = db.Column(db.String(129), unique=False, nullable=True)
+    answer_location = db.Column(db.Integer, unique=False, nullable = False)

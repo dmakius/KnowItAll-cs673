@@ -1,5 +1,6 @@
 //Define all game Variables
 //For some reason if I don't initialize these variables it seems like the AJAX request doesn't happen fast enough and the variables don't display right initially
+//This is true even with the questions AND game data being imported in a single AJAX request, we should probably keep them here but it seems like a bandaid
 // count how many attempt used
 var attempt_counter = 3
 // total number of questions
@@ -12,8 +13,10 @@ var MaxSkip = 3
 var player_score = 0
 
 
+
 $(document).ready(function () {
     //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
+    //also initiate the first question in the same ajex request
     $.ajax({
         dataType: 'json',
         type: 'GET',
@@ -28,7 +31,13 @@ $(document).ready(function () {
         MaxSkip = data[3]['Number Question Skips']
         timer = data[1]['Question Time']
         player_score = data[2]['Score']
-        max_questions = data[4]['numberQuestions']
+
+        //replace front end ui with NEW data from server
+        $('#question').text(data[4]['Question']);
+        option1 = $('#option_1').text("A: " + data[5]['Option_1']);
+        option2 = $('#option_2').text("B: " + data[6]['Option_2']);
+        option3 = $('#option_3').text("C: " + data[7]['Option_3']);
+        option4 = $('#option_4').text("D: " + data[8]['Option_4']);
         }
     });
 
@@ -60,7 +69,6 @@ $(document).ready(function () {
     });
     $('#submitScore').hide()
 
-
     var opt = $('.option');
     // clicking on any of the options will return value to user_selection
     opt.on('click', Selection);
@@ -74,14 +82,7 @@ $(document).ready(function () {
     //Next button, for new question
     var next = $('#next');
     next.on('click', DisplayNewQuestion);
-
-    // Initiate the first question upon game start
-    DisplayNewQuestion();
-    
-
-    // Initiate the display of the userlives
-    $(".stats").show();
-    UpdateLives();
+    next.hide();    
 
     // Skip question function
     $('#SkipQuestion').click(function(){
@@ -134,6 +135,22 @@ $(document).ready(function () {
 
     // All of the functionality attached to the player clicking the 'Submit' button
     function Submit() {
+        //PUT AJAX REQUEST FOR ANSWER LOCATION HERE
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: '/game/answer',
+                    success: function (data) {
+                        // Log data on front end
+                        console.log(typeof data);
+                        console.log(data);
+
+                        //update the answer location
+                        answer_location = data[0]['Answer_Location'];
+                    }
+                });  
+
+
         // check user selection is empty or not
         if (user_selection[0] == undefined) {
 
@@ -206,6 +223,9 @@ $(document).ready(function () {
 
     // All of the functionality attached to the player clicking the 'Next Question' button
     function DisplayNewQuestion() {
+        //reset the answer location variable to 0, it will be set to the correct location upon clicking submit
+        answer_location = 0
+
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
 
