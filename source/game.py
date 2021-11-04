@@ -40,7 +40,7 @@ def gameSettings():
         db.session.commit()
 
     # initialize the remaining questions array
-    questions_left = list(range(1, total_num_questions + 1))
+    questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
     
     # select the random question for the first question
     str_id = random.randint(1, total_num_questions)
@@ -60,6 +60,7 @@ def gameSettings():
 
     #pass all the question information to the game object
     game.questions_left = str(questions_left)
+    print(game.questions_left)
     game.question = q.question
     game.option_1 = answers[0]
     game.option_2 = answers[1]
@@ -89,31 +90,33 @@ def gameAnswer():
 
 #Change Lives
 #TODO currently this is changing the 'game' object, eventually we want it to be handling a game session which would be provided in the url
-#@question.route('/game/removelife')
-#def removeLife():
+@game.route('/game/removelife')
+def removeLife():
     
     #GameType is only a single entity table so (1) works here.
-#    game = Game.query.get(1)
-#    game.lives = game.lives - 1
-#    db.session.commit()
+    game = Game.query.get(1)
+    game.lives = game.lives - 1
+    db.session.commit()
 
-    # return new lives
-#    return(str(game.lives))
+    print(game.lives)
+    #return new lives
+    return(str(game.lives))
 
         
 
 #Change Question Skips
 #TODO currently this is changing the 'game' object, eventually we want it to be handling a game session which would be provided in the url
-#@question.route('/game/skip_question')
-#def skipQuestion():
+@game.route('/game/skip_question')
+def skipQuestion():
     
-    #GameType is only a single entity table so (1) works here.
-#    game = Game.query.get(1)
-#    game.num_skip_question = game.num_skip_question - 1
-#    db.session.commit()
+    #GameType is only a single entity table so (1) works here. Eventually we want the 
+    game = Game.query.get(1)
+    game.num_skip_question = game.num_skip_question - 1
+    db.session.commit()
 
+    print(game.num_skip_question)
     # return new number of question skips
-#    return(str(game.num_skip_question))
+    return(str(game.num_skip_question))
 
 
 

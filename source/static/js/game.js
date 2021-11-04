@@ -2,15 +2,15 @@
 //For some reason if I don't initialize these variables it seems like the AJAX request doesn't happen fast enough and the variables don't display right initially
 //This is true even with the questions AND game data being imported in a single AJAX request, we should probably keep them here but it seems like a bandaid
 // count how many attempt used
-var attempt_counter = 3
+var attempt_counter
 // total number of questions
-var max_questions = 70
+var max_questions
 // time for each question
-var timer = 30
+var timer
 // for skip question function
-var MaxSkip = 3
+var MaxSkip
 // for player score
-var player_score = 0
+var player_score 
 
 
 
@@ -21,6 +21,7 @@ $(document).ready(function () {
         dataType: 'json',
         type: 'GET',
         url: '/game/settings',
+        async: false,
         success: function (data) {
             // Log data on front end
             console.log(typeof data);
@@ -46,19 +47,12 @@ $(document).ready(function () {
     //read and keep user selection
     var user_selection = [];
     
-    
     // for skip question function
-    var skipnum = 0
     var skipleft = MaxSkip
     
     // for timer function and score function
     var timeleft = timer;
     var timerpower = true; //determines whether timer is active or not
-
-    // to automatically generate a new array [1,2,3, ... ,MaxQuestions]
-    var arr = Array.from({
-        length: 70 //This should be MaxQuestions
-    }, (_, i) => i + 1);
 
     //---------------------------------
     //CLICK/BUTTON
@@ -86,21 +80,36 @@ $(document).ready(function () {
 
     // Skip question function
     $('#SkipQuestion').click(function(){
-        if (skipnum >= MaxSkip){
+        if (skipleft <= 0){
             console.log('No more skips!');
             return false;
         }
-        skipnum += 1
-        skipleft = MaxSkip - skipnum;
+
+        //
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/skip_question',
+            async: false,
+            success: function (data) {
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+
+                //update the answer location
+                skipleft = data;
+            }
+        });  
+
         document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
         console.log('Skipped!');
         DisplayNewQuestion();
-        if (skipnum >= MaxSkip){
+        if (skipleft <= 0){
            document.getElementById('SkipQuestion').disabled = true;
         };
     });
 
-    // Timer
+    // Timer - will be implementing this on the back end last
     var Timer = setInterval(function () {
         if (timerpower == true) {
 
@@ -135,11 +144,12 @@ $(document).ready(function () {
 
     // All of the functionality attached to the player clicking the 'Submit' button
     function Submit() {
-        //PUT AJAX REQUEST FOR ANSWER LOCATION HERE
+        //Get the answer location for the last question loaded into the game object
                 $.ajax({
                     dataType: 'json',
                     type: 'GET',
                     url: '/game/answer',
+                    async: false,
                     success: function (data) {
                         // Log data on front end
                         console.log(typeof data);
@@ -166,7 +176,7 @@ $(document).ready(function () {
             timerpower = false;
 
             //turn off the skip question button after question submission
-            if (skipnum < MaxSkip){
+            if (skipleft > 0){
                 document.getElementById('SkipQuestion').disabled = true;
                 document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
             };
@@ -192,6 +202,7 @@ $(document).ready(function () {
 
                 // Update the player score as a function of the time left.
                 player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
+                //THIS WILL NEED TO BE MOVED TO THE BACK END AND AN AJAX REQUEST TO GET THE SCORE AFTER IT HAS UPDATED WILL NEED TO BE PUT HERE
                 $('#Counter').html(player_score);
 
             } else {
@@ -200,7 +211,20 @@ $(document).ready(function () {
                 $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
 
                 //Remove one of the remaining lives and update the lives display
-                attempt_counter--;
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: '/game/removelife',
+                    async: false,
+                    success: function (data) {
+                        // Log data on front end
+                        console.log(typeof data);
+                        console.log(data);
+        
+                        //update the answer location
+                        attempt_counter = data;
+                    }
+                });  
                 UpdateLives();
             }
 
@@ -240,7 +264,7 @@ $(document).ready(function () {
         timeleft = timer;
 
         // enable the skip question button if skips remain
-        if (skipnum < MaxSkip){
+        if (skipleft > 0){
             document.getElementById('SkipQuestion').disabled = false;
 
         };
@@ -252,44 +276,23 @@ $(document).ready(function () {
         // refresh user selection to an empty list
         user_selection = [];
 
-        // no duplicated questions, every question will be show once
-        if (arr.length > 0) {
-            // create a random id number by the lenght of arr
-            var q_id = Math.floor(Math.random() * arr.length);
-            // delete the same id number of question from arr, and pass the number to index variable
-            index = arr.splice(q_id, 1)[0];
-        } else {
-            // when arr.length = 0, means all questions has been showed once
-            alert("Congratulation! You finished all the questions! Let's start from the beginning!");
-
-            //Reinitiate the question array and continue as usual
-            arr = Array.from({
-                length: 70
-            }, (_, i) => i + 1);
-            // create a random id number by the lenght of arr
-            var q_id = Math.floor(Math.random() * arr.length);
-            // delete the same id number of question from arr, and pass the number to index variable
-            index = arr.splice(q_id, 1)[0];
-        }
-        // pass the values of index to the test_int as the next question id
-        var test_int = index;
+        // This is where the question cycling used to be - we still need to implement a wrap condition on the backend.
 
         $.ajax({
             dataType: 'json',
             type: 'GET',
-            url: '/question/' + test_int,
+            url: '/question/',
             success: function (data) {
                 // Log data on front end
                 console.log(typeof data);
                 console.log(data);
 
                 //replace front end ui with NEW data from server
-                $('#question').text(data[1]['Question']);
-                option1 = $('#option_1').text("A: " + data[2]['Option_1']);
-                option2 = $('#option_2').text("B: " + data[3]['Option_2']);
-                option3 = $('#option_3').text("C: " + data[4]['Option_3']);
-                option4 = $('#option_4').text("D: " + data[5]['Option_4']);
-                answer_location = data[6]['Answer_Location'];
+                $('#question').text(data[0]['Question']);
+                option1 = $('#option_1').text("A: " + data[1]['Option_1']);
+                option2 = $('#option_2').text("B: " + data[2]['Option_2']);
+                option3 = $('#option_3').text("C: " + data[3]['Option_3']);
+                option4 = $('#option_4').text("D: " + data[4]['Option_4']);
             }
         });
 
