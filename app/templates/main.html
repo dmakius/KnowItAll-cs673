@@ -12,25 +12,31 @@
 
 		<!-- INSERTING JQUERY -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src='/static/js/main.js'></script>
+		<link rel="stylesheet" href="/static/css/main.css"/>
 	</head>
 
 	<body>
-		<div class="container">
-			<div class="row text-center">
-				<h1>KNOWITALL</h1>
+		<div class="container" id="text">
+			<div class="text-center">
+				<div class="text-3d">KNOWITALL</div>
 			</div>
 		</div>
 		<br>
-		<hr>
-		<div class="container">
+		<!-- <hr> -->
+		<div id="bg"></div>
+		<div class="container" id="box">
 			<div class="text-center">
-					<a href='/game' class="btn btn-primary btn-lg" id="startgame">START</a>
+				<a href='/game' id="startgame" style="width: 550px; height: 300px; left: 400px; top: 140px; display: flex; justify-content: center; align-items: center; font-size: 2.8em; text-decoration:none;">START</a>
+				<a href='/leaderboard' style="width: 320px; height: 180px; left: 70px; top: 140px; text-decoration:none;">LeaderBoard</a>
+				<a style="width: 350px; height: 200px; left: 960px; top: 240px; text-decoration:none;">Player Profie</a>
+				<a style="width: 300px; height: 150px; left: 290px; top: 450px; text-decoration:none;">About</a>
+		
 			</div>
 		</div>
 		
 		<br>
-		<hr>
-		<a href = '/leaderboard' class="btn btn-outline-primary btn-lg">Leader Board</a>
+		<!-- <hr> -->
 	</body>
 
 </html>
