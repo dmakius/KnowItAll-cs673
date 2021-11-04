@@ -40,7 +40,8 @@ def getSingleQuestion():
             questions_left[i] = int(questions_left[i].rstrip(questions_left[i][-1]))
 
     #if the questions_left array is empty, reinitialize it with all of the questions.
-    questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
+    if len(questions_left) == 0:
+        questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
 
     # Update all of these parameters in the game object
     game.questions_left = str(questions_left)

@@ -10,11 +10,6 @@ game = Blueprint('game', __name__)
 @game.route('/game/settings', methods=['GET', 'POST'])
 def gameSettings():
     # Set the game variables
-    lives = 3
-    timer = 30
-    score = 0
-    skip_question = True #eventually this functionality would be used to disable lifelines if desired.
-    num_skip_question = 210
     answer_location = 0
 
     # get the total number of questions and prepare array to track provided questions
@@ -22,19 +17,19 @@ def gameSettings():
 
     # Either create the game variables if they don't exist or set the game variables to the initial variables upon starting a game.
     if Game.query.count() < 1:
-        game = Game(type = 'TEST', lives = lives, score = score, question_time = timer, 
-                    skip_question = skip_question, num_skip_question = num_skip_question, questions_left = str(0),
-                    answer_location =  answer_location, max_questions = total_num_questions)
+        game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
+                    skip_question = True, num_skip_question = 3, questions_left = str(0),
+                    answer_location =  0, max_questions = total_num_questions)
         db.session.add(game)
         db.session.commit()
     else:
         game = Game.query.get(1)
-        game.lives = lives
-        game.question_time = timer
-        game.score = score
-        game.skip_question = skip_question
-        game.num_skip_question = num_skip_question
-        game.questions_left = questions_left = str(0)
+        game.lives = 3
+        game.question_time = 30
+        game.score = 0
+        game.skip_question = True
+        game.num_skip_question = 3
+        game.questions_left = str(0)
         game.answer_location = answer_location
         game.max_questions =  total_num_questions
         db.session.commit()

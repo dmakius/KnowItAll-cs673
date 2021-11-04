@@ -1,6 +1,7 @@
 from . import db
 from sqlalchemy.sql import func
 from flask_login import UserMixin
+from sqlalchemy import DateTime
 
 # Define question table Schema
 class Question(db.Model):
@@ -39,6 +40,7 @@ class Game(db.Model):
     __tablename__ = "Game"
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(129), unique=False, nullable=False)
+    category = db.Column(db.String(129), unique=False, nullable=True)
     lives = db.Column(db.Integer, unique=False, nullable = False)
     score = db.Column(db.Integer, unique=False, nullable = False)
     question_time = db.Column(db.Integer, unique=False, nullable = False)
@@ -52,3 +54,4 @@ class Game(db.Model):
     option_3 = db.Column(db.String(129), unique=False, nullable=True)
     option_4 = db.Column(db.String(129), unique=False, nullable=True)
     answer_location = db.Column(db.Integer, unique=False, nullable = False)
+    cr_time = db.Column(DateTime(timezone=True), server_default=func.now()) 

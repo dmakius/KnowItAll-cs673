@@ -1,19 +1,3 @@
-//Define all game Variables
-//For some reason if I don't initialize these variables it seems like the AJAX request doesn't happen fast enough and the variables don't display right initially
-//This is true even with the questions AND game data being imported in a single AJAX request, we should probably keep them here but it seems like a bandaid
-// count how many attempt used
-var attempt_counter
-// total number of questions
-var max_questions
-// time for each question
-var timer
-// for skip question function
-var MaxSkip
-// for player score
-var player_score 
-
-
-
 $(document).ready(function () {
     //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
     //also initiate the first question in the same ajex request
