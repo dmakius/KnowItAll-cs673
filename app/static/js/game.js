@@ -1,5 +1,5 @@
 // variables
-// to automatically generate a new array [1,2,3, ... ,50]
+// to automatically generate a new array [1,2,3, ... ,70]
 var arr = Array.from({
     length: 70
 }, (_, i) => i + 1);
@@ -168,16 +168,16 @@ $(document).ready(function () {
             showed_id.push(index);
         } else {
             // when arr.length = 0, means all questions has been showed once
-            alert("Congratulation! You finished all the questions! Let's start from the beginning!");
-            arr = Array.from({
-                length: 70
-            }, (_, i) => i + 1);
-            // create a random id number by the lenght of arr
-            var q_id = Math.floor(Math.random() * arr.length);
-            // delete the same id number of question from arr, and pass the number to index variable
-            index = arr.splice(q_id, 1)[0];
-            // push the id number of question that has been deleted, to the showed_id array list
-            showed_id.push(index);
+            alert("Congratulation! You finished all the questions!");
+            $('#Score').val(player_score);
+            $('#next').detach();
+            $('#submit').detach();
+            $('input[name="score"]').val(player_score);
+            $('#cover-caption').slideToggle("slow");
+            $('#main-container').hide();
+            $('#optionboard').hide();
+            $('#quit').hide();
+            $('#SkipQuestion').hide();
         }
         // pass the values of index to the test_int as the next question id
         var test_int = index;

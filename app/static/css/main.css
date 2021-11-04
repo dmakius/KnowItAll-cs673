@@ -4,7 +4,6 @@
 }
 	
 body{
-	/* If you don’t need 3D effects, just delete the following line */
 	perspective: 2500px;
 	overflow: hidden;
 	background-color: gainsboro;
