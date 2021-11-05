@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 import random
-
+from datetime import datetime
 from . import db
 from .models import Question, Game
 
@@ -43,7 +43,8 @@ def getSingleQuestion():
     if len(questions_left) == 0:
         questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
 
-    # Update all of these parameters in the game object
+    # Update all of these parameters in the game object, including the game time
+    #TODO I need to remove the question details from the game object and just store the question primary key
     game.questions_left = str(questions_left)
     print(game.questions_left)
     game.question = q.question
@@ -52,6 +53,7 @@ def getSingleQuestion():
     game.option_3 = answers[2]
     game.option_4 = answers[3]
     game.answer_location = answer_location
+    game.cr_time = datetime.now()
     db.session.commit()
 
     # convert data into JSON object

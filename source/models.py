@@ -44,7 +44,6 @@ class Game(db.Model):
     lives = db.Column(db.Integer, unique=False, nullable = False)
     score = db.Column(db.Integer, unique=False, nullable = False)
     question_time = db.Column(db.Integer, unique=False, nullable = False)
-    skip_question = db.Column(db.Boolean, unique=False, nullable = False)
     num_skip_question = db.Column(db.Integer, unique=False, nullable = False)
     questions_left = db.Column(db.String(300), unique=True, nullable=False) #if we have significantly more questions this needs to be longer
     max_questions = db.Column(db.Integer, unique=False, nullable = False)

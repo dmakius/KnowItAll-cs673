@@ -106,7 +106,7 @@ $(document).ready(function () {
                 timeleft = timer;
 
             } else {
-                document.getElementById("Timer").innerHTML = timeleft + " seconds remaining";
+                document.getElementById("Timer").innerHTML = timeleft + " seconds";
             }
             timeleft -= 1;
         }
@@ -185,8 +185,22 @@ $(document).ready(function () {
 
 
                 // Update the player score as a function of the time left.
-                player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
-                //THIS WILL NEED TO BE MOVED TO THE BACK END AND AN AJAX REQUEST TO GET THE SCORE AFTER IT HAS UPDATED WILL NEED TO BE PUT HERE
+                //player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
+
+                $.ajax({
+                    dataType: 'json',
+                    type: 'GET',
+                    url: '/game/update_score',
+                    async: false,
+                    success: function (data) {
+                        // Log data on front end
+                        console.log(typeof data);
+                        console.log(data);
+        
+                        //update the answer location
+                        player_score = data;
+                    }
+                });  
                 $('#Counter').html(player_score);
 
             } else {

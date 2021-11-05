@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import random
+from datetime import datetime
+import random, math
 from . import db
 from .models import Game, Question
 
@@ -18,7 +19,7 @@ def gameSettings():
     # Either create the game variables if they don't exist or set the game variables to the initial variables upon starting a game.
     if Game.query.count() < 1:
         game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
-                    skip_question = True, num_skip_question = 3, questions_left = str(0),
+                    num_skip_question = 3, questions_left = str(0),
                     answer_location =  0, max_questions = total_num_questions)
         db.session.add(game)
         db.session.commit()
@@ -27,7 +28,6 @@ def gameSettings():
         game.lives = 3
         game.question_time = 30
         game.score = 0
-        game.skip_question = True
         game.num_skip_question = 3
         game.questions_left = str(0)
         game.answer_location = answer_location
@@ -62,6 +62,7 @@ def gameSettings():
     game.option_3 = answers[2]
     game.option_4 = answers[3]
     game.answer_location = answer_location
+    game.cr_time = datetime.now()
     db.session.commit()
 
     # Define the data to be handed off to the template
@@ -71,50 +72,51 @@ def gameSettings():
 
     return jsonify(return_data)
 
+# Return the answer to the current question
 @game.route('/game/answer')
 def gameAnswer():
-    # get the game state
     game = Game.query.get(1)
-
-    print(game.answer_location)
-
-    # prepare ajax request
     return_data = [{"Answer_Location" : game.answer_location}]
-
     return(jsonify(return_data))
 
-#Change Lives
-#TODO currently this is changing the 'game' object, eventually we want it to be handling a game session which would be provided in the url
+# Modify the game's lives
 @game.route('/game/removelife')
 def removeLife():
-    
-    #GameType is only a single entity table so (1) works here.
     game = Game.query.get(1)
     game.lives = game.lives - 1
     db.session.commit()
-
-    print(game.lives)
-    #return new lives
     return(str(game.lives))
 
         
 
-#Change Question Skips
-#TODO currently this is changing the 'game' object, eventually we want it to be handling a game session which would be provided in the url
+#Modify the game's remaining question skips
 @game.route('/game/skip_question')
 def skipQuestion():
-    
-    #GameType is only a single entity table so (1) works here. Eventually we want the 
+    #TODO We need to dynamically get the game associated with the user/game instance
     game = Game.query.get(1)
     game.num_skip_question = game.num_skip_question - 1
     db.session.commit()
 
-    print(game.num_skip_question)
-    # return new number of question skips
     return(str(game.num_skip_question))
 
 
 
-#Update Score
+#Update Score and reset question Time
+@game.route('/game/update_score')
+def updateScore():
+    #GameType is only a single entity table so (1) works here. Eventually we want the 
+    game = Game.query.get(1)
 
-#Check Valid Time
+    #Sent the current time for the next question, and take the difference for the passed time
+    previous_time = game.cr_time
+    game.cr_time = datetime.now()
+    passed_time = (game.cr_time - previous_time)
+
+    #Update the score based on how much time has passed.
+    game.score = game.score + math.floor(float(100) * float(max(31 - passed_time.seconds, 0 ))/30)
+
+    #commit the new score and time
+    db.session.commit()
+
+    # return new number of question skips
+    return(str(game.score))
