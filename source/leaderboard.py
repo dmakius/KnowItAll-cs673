@@ -8,6 +8,7 @@ leaderboard = Blueprint('leaderboard', __name__)
 
 @leaderboard.route('/leaderboard/create', methods=['POST'])
 def leaderBoard_create():
+    #TODO We need to dynamically get the game associated with the user/game instance
     game = Game.query.get(1)
     username = request.form['username']
     score = game.score

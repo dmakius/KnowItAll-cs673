@@ -1,30 +1,6 @@
 $(document).ready(function () {
-    //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
-    //also initiate the first question in the same ajex request
-    $.ajax({
-        dataType: 'json',
-        type: 'GET',
-        url: '/game/settings',
-        async: false,
-        success: function (data) {
-            // Log data on front end
-            console.log(typeof data);
-            console.log(data);
-            
-        //initialize the variables from the ajax data
-        attempt_counter = data[0]['Lives']
-        MaxSkip = data[3]['Number Question Skips']
-        timer = data[1]['Question Time']
-        player_score = data[2]['Score']
 
-        //replace front end ui with NEW data from server
-        $('#question').text(data[4]['Question']);
-        option1 = $('#option_1').text("A: " + data[5]['Option_1']);
-        option2 = $('#option_2').text("B: " + data[6]['Option_2']);
-        option3 = $('#option_3').text("C: " + data[7]['Option_3']);
-        option4 = $('#option_4').text("D: " + data[8]['Option_4']);
-        }
-    });
+    initGameVariables()
 
     //read and keep answer location
     var answer_location;
@@ -35,11 +11,8 @@ $(document).ready(function () {
     var skipleft = MaxSkip
     
     // for timer function and score function
-    var timeleft = timer;
     var timerpower = true; //determines whether timer is active or not
 
-    //---------------------------------
-    //CLICK/BUTTON
     //Make Add score to Leader board form appear
     $('#submitScore').click(function () {
         console.log('clicked!');
@@ -68,22 +41,9 @@ $(document).ready(function () {
             console.log('No more skips!');
             return false;
         }
-
-        //
-        $.ajax({
-            dataType: 'json',
-            type: 'GET',
-            url: '/game/skip_question',
-            async: false,
-            success: function (data) {
-                // Log data on front end
-                console.log(typeof data);
-                console.log(data);
-
-                //update the answer location
-                skipleft = data;
-            }
-        });  
+        
+        //Get skip question data from backend
+        ajaxSkipQuestion()
 
         document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
         console.log('Skipped!');
@@ -92,6 +52,21 @@ $(document).ready(function () {
            document.getElementById('SkipQuestion').disabled = true;
         };
     });
+
+    function ajaxSkipQuestion(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/skip_question',
+            async: false,
+            success: function (data) {
+                console.log(typeof data);
+                console.log(data);
+
+                skipleft = data;
+            }
+        });  
+    }
 
     // Timer - will be implementing this on the back end last
     var Timer = setInterval(function () {
@@ -112,7 +87,34 @@ $(document).ready(function () {
         }
     }, 1000);
 
-
+    //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
+    function initGameVariables(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/settings',
+            async: false,
+            success: function (data) {
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+                
+            //initialize the variables from the ajax data
+            attempt_counter = data[0]['Lives']
+            MaxSkip = data[3]['Number Question Skips']
+            timer = data[1]['Question Time']
+            player_score = data[2]['Score']
+            timeleft = timer;
+    
+            //replace front end ui with NEW data from server
+            $('#question').text(data[4]['Question']);
+            option1 = $('#option_1').text("A: " + data[5]['Option_1']);
+            option2 = $('#option_2').text("B: " + data[6]['Option_2']);
+            option3 = $('#option_3').text("C: " + data[7]['Option_3']);
+            option4 = $('#option_4').text("D: " + data[8]['Option_4']);
+            }
+        });
+    }
 
     //get user selection when player click the option
     function Selection() {
@@ -129,21 +131,7 @@ $(document).ready(function () {
     // All of the functionality attached to the player clicking the 'Submit' button
     function Submit() {
         //Get the answer location for the last question loaded into the game object
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: '/game/answer',
-                    async: false,
-                    success: function (data) {
-                        // Log data on front end
-                        console.log(typeof data);
-                        console.log(data);
-
-                        //update the answer location
-                        answer_location = data[0]['Answer_Location'];
-                    }
-                });  
-
+        ajaxAnswerLocation()
 
         // check user selection is empty or not
         if (user_selection[0] == undefined) {
@@ -172,35 +160,14 @@ $(document).ready(function () {
             next.show();
 
             // if else function for check if player answer right or wrong
-            // user_selection is getting from function Selection(),
-            // and user_selection is a list, value locate at [0] is a HTML<div>...</div>
-            // something like this: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_2" style="color: green;">B: Baker Street</div>
-            // So that we can use user_selection[0] compare with the result from function CheckAnswer()
-            // to check if player selection is right or wrong
             if (user_selection[0] == CheckAnswer()) {
 
 
                 // change answer color to green
                 $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
-
-
-                // Update the player score as a function of the time left.
-                //player_score = player_score + Math.round((100) * ((timeleft+1)/timer) );
-
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: '/game/update_score',
-                    async: false,
-                    success: function (data) {
-                        // Log data on front end
-                        console.log(typeof data);
-                        console.log(data);
-        
-                        //update the answer location
-                        player_score = data;
-                    }
-                });  
+                
+                //update the score
+                ajaxUpdateScore()
                 $('#Counter').html(player_score);
 
             } else {
@@ -209,20 +176,7 @@ $(document).ready(function () {
                 $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
 
                 //Remove one of the remaining lives and update the lives display
-                $.ajax({
-                    dataType: 'json',
-                    type: 'GET',
-                    url: '/game/removelife',
-                    async: false,
-                    success: function (data) {
-                        // Log data on front end
-                        console.log(typeof data);
-                        console.log(data);
-        
-                        //update the answer location
-                        attempt_counter = data;
-                    }
-                });  
+                ajaxRemoveLife()
                 UpdateLives();
             }
 
@@ -241,6 +195,57 @@ $(document).ready(function () {
                 $('#SkipQuestion').hide();
             }
         }
+    }
+
+    function ajaxAnswerLocation(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/answer',
+            async: false,
+            success: function (data) {
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+
+                //update the answer location
+                answer_location = data[0]['Answer_Location'];
+            }
+        });  
+    }
+
+    function ajaxUpdateScore(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/update_score',
+            async: false,
+            success: function (data) {
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+
+                //update the answer location
+                player_score = data;
+            }
+        });  
+    }
+
+    function ajaxRemoveLife(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/removelife',
+            async: false,
+            success: function (data) {
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+
+                //update the answer location
+                attempt_counter = data;
+            }
+        });  
     }
 
     // All of the functionality attached to the player clicking the 'Next Question' button
@@ -274,7 +279,7 @@ $(document).ready(function () {
         // refresh user selection to an empty list
         user_selection = [];
 
-        // This is where the question cycling used to be - we still need to implement a wrap condition on the backend.
+        //TODO We need to implement a notification which displays when the player has cycled through the questions available.
 
         $.ajax({
             dataType: 'json',

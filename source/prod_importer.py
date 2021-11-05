@@ -22,14 +22,3 @@ try:
 except (Exception, psycopg2.DatabaseError) as error:
      print(error)
      
-
-
-
-        
- 
-       
-        
-    
-  
-# print(df.head(50))
-# print(engine)

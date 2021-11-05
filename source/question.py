@@ -9,6 +9,7 @@ question = Blueprint('question', __name__)
 
 @question.route('/question/')
 def getSingleQuestion():
+    #TODO We need to dynamically get the game associated with the user/game instance
     game = Game.query.get(1)
 
     # get random question from ID's remaining
@@ -39,6 +40,7 @@ def getSingleQuestion():
             #the last question has a ] at the end which needs to be removed
             questions_left[i] = int(questions_left[i].rstrip(questions_left[i][-1]))
 
+    #This will also have to reinitialize just the questions related to the category so the same logic utilized in game.py will need to be used here
     #if the questions_left array is empty, reinitialize it with all of the questions.
     if len(questions_left) == 0:
         questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
@@ -47,11 +49,7 @@ def getSingleQuestion():
     #TODO I need to remove the question details from the game object and just store the question primary key
     game.questions_left = str(questions_left)
     print(game.questions_left)
-    game.question = q.question
-    game.option_1 = answers[0]
-    game.option_2 = answers[1]
-    game.option_3 = answers[2]
-    game.option_4 = answers[3]
+    game.question = q.id
     game.answer_location = answer_location
     game.cr_time = datetime.now()
     db.session.commit()
