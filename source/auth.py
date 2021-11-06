@@ -13,18 +13,18 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        
+
         # Check the email exist in the database
         user = Player.query.filter_by(email=email).first()
-        
+
         if user:
             # Check the password equal to the user's password in database
             if check_password_hash(user.password, password):
                 flash('Logged in successful', category='success')
-                
+
                 # User login and remember the user
                 login_user(user, remember=True)
-                
+
                 # TODO: need to redirect to the home page
                 return redirect(url_for('views.main',user=current_user))
             else:
