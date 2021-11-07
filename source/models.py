@@ -47,4 +47,6 @@ class Game(db.Model):
     max_questions = db.Column(db.Integer, unique=False, nullable = False)
     question_id = db.Column(db.Integer, unique=False, nullable = True)
     answer_location = db.Column(db.Integer, unique=False, nullable = False)
-    cr_time = db.Column(DateTime(timezone=True), server_default=func.now()) 
+    cr_time = db.Column(DateTime(timezone=True), server_default=func.now())
+    num_fifty_fifty = db.Column(db.Integer, unique=False, nullable = False)
+    fifty_fifty_option = db.Column(db.String(100), unique=False, nullable = False)

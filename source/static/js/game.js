@@ -68,6 +68,53 @@ $(document).ready(function () {
         });  
     }
 
+    $('#FiftyFifty').click(function(){
+        ajaxFiftyFifty();
+        alert(fifty_fifty_attempt + removeable_option1 + removeable_option2 + '!');
+        $('#FiftyFifty').text("50/50 (" + fifty_fifty_attempt +")");
+        if (removeable_option1 == 1){
+            $('#option_1').hide()
+        } else if (removeable_option1 == 2){
+            $('#option_2').hide()
+        } else if (removeable_option1 == 3){
+            $('#option_3').hide()
+        } else if (removeable_option1 == 4){
+            $('#option_4').hide()
+        }
+        if (removeable_option2 == 1){
+            $('#option_1').hide()
+        } else if (removeable_option2 == 2){
+            $('#option_2').hide()
+        } else if (removeable_option2 == 3){
+            $('#option_3').hide()
+        } else if (removeable_option2 == 4){
+            $('#option_4').hide()
+        }
+        if (fifty_fifty_attempt <= 0){
+           document.getElementById('FiftyFifty').disabled = true;
+        }
+    });
+
+    function ajaxFiftyFifty(){
+        $.ajax({
+            dataType: 'json',
+            type: 'GET',
+            url: '/game/fifty_fifty',
+            async: false,
+            success: function (data){
+                // Log data on front end
+                console.log(typeof data);
+                console.log(data);
+
+            //initialize the variables from the ajax data
+            removeable_option1 = data[0]['first_option'];
+            removeable_option2 = data[1]['second_option'];
+            fifty_fifty_attempt = data[2]['attempt'];
+            }
+        });
+    }
+
+
     // Timer - will be implementing this on the back end last
     var Timer = setInterval(function () {
         if (timerpower == true) {
@@ -140,24 +187,8 @@ $(document).ready(function () {
 
 
         } else {
-            // turn off the selected option color change function,
-            // when user submit their answer, selected option no longer available to change color
-            opt.off('click', ChangeSelectedOptionColor);
-
-            //pause the timer
-            timerpower = false;
-
-            //turn off the skip question button after question submission
-            if (skipleft > 0){
-                document.getElementById('SkipQuestion').disabled = true;
-                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
-            };
-
-            // hide Submit button, user already submitted once
-            sub.hide();
-
-            // show next button
-            next.show();
+            // all the function turn on or off are in the SettingForSubmit
+            SettingForSubmitButton();
 
             // if else function for check if player answer right or wrong
             if (user_selection[0] == CheckAnswer()) {
@@ -183,16 +214,7 @@ $(document).ready(function () {
             // When no more attempts are left run through the end of game logic
             if (attempt_counter <= 0) {
                 //Alert the player the game is over
-                alert("Game over!");
-                $('#Score').val(player_score);
-                $('#next').detach();
-                $('#submit').detach();
-                $('input[name="score"]').val(player_score);
-                $('#cover-caption').slideToggle("slow");
-                $('#main-container').hide();
-                $('#optionboard').hide();
-                $('#quit').hide();
-                $('#SkipQuestion').hide();
+                gameOver();
             }
         }
     }
@@ -250,34 +272,8 @@ $(document).ready(function () {
 
     // All of the functionality attached to the player clicking the 'Next Question' button
     function DisplayNewQuestion() {
-        //reset the answer location variable to 0, it will be set to the correct location upon clicking submit
-        answer_location = 0
-
-        // turn on the color change function for selected option
-        opt.on('click', ChangeSelectedOptionColor);
-
-        // show submit button, new question, user can do submit
-        sub.show();
-
-        // turn off and hide next button, user cannot go next before submit
-        next.hide();
-
-        // turn on and reset the timer
-        timerpower = true;
-        timeleft = timer;
-
-        // enable the skip question button if skips remain
-        if (skipleft > 0){
-            document.getElementById('SkipQuestion').disabled = false;
-
-        };
-
-        // set all option colors back to default
-        opt.css('color', 'black');
-        opt.css('background-color', 'white').css('color', 'black');
-
-        // refresh user selection to an empty list
-        user_selection = [];
+        // Set all button back to default setting
+        SettingForDisplayNewQuestion();
 
         //TODO We need to implement a notification which displays when the player has cycled through the questions available.
 
@@ -325,8 +321,92 @@ $(document).ready(function () {
         // something like: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_1" style="color: green;">B: Baker Street</div>
         return q_answer;
     }
+
     // Display remaining lives
     function UpdateLives() {
         $(".stats").html('<h4>' + 'LIVES: <span style="color:red"> ' + attempt_counter + '/3' + '</span></h4>');
     }
+
+    // Here to change the button and related function activate or deactivate for Submit() function
+    function SettingForSubmitButton(){
+            // turn off the selected option color change function,
+            // when user submit their answer, selected option no longer available to change color
+            opt.off('click', ChangeSelectedOptionColor);
+
+            //pause the timer
+            timerpower = false;
+
+            //turn off the skip question button after question submission
+            if (skipleft > 0){
+                document.getElementById('SkipQuestion').disabled = true;
+                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
+            };
+
+            //turn off the fifty fifty button after question submission
+            if (fifty_fifty_attempt > 0){
+                document.getElementById('FiftyFifty').disabled = true;
+                $('#FiftyFifty').text("50/50 (" + fifty_fifty_attempt +")");
+            };
+
+            // hide Submit button, user already submitted once
+            sub.hide();
+
+            // show next button
+            next.show();
+    }
+
+    // Here to change the button and related function activate or deactivate for DisplayNewQuestion() function
+    function SettingForDisplayNewQuestion(){
+        //reset the answer location variable to 0, it will be set to the correct location upon clicking submit
+        answer_location = 0
+
+        $('#option_1').show();
+        $('#option_2').show();
+        $('#option_3').show();
+        $('#option_4').show();
+
+        // turn on the color change function for selected option
+        opt.on('click', ChangeSelectedOptionColor);
+
+        // turn off and hide next button, user cannot go next before submit
+        next.hide();
+
+        // show submit button, new question, user can do submit
+        sub.show();
+        // turn on and reset the timer
+        timerpower = true;
+        timeleft = timer;
+
+        // enable the skip question button if skips remain
+        if (skipleft > 0){
+            document.getElementById('SkipQuestion').disabled = false;
+        }
+
+        // enable the fifty fifty button if skips remain
+        if (fifty_fifty_attempt > 0){
+            document.getElementById('FiftyFifty').disabled = false;
+        }
+
+        // set all option colors back to default
+        opt.css('color', 'black');
+        opt.css('background-color', 'white').css('color', 'black');
+
+        // refresh user selection to an empty list
+        user_selection = [];
+    }
+
+
+    function gameOver(){
+        alert("Game over!");
+        $('#Score').val(player_score);
+        $('#next').detach();
+        $('#submit').detach();
+        $('input[name="score"]').val(player_score);
+        $('#cover-caption').slideToggle("slow");
+        $('#main-container').hide();
+        $('#optionboard').hide();
+        $('#quit').hide();
+        $('#SkipQuestion').hide();
+    }
+
 });

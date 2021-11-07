@@ -20,7 +20,8 @@ def gameSettings():
     if Game.query.count() < 1:
         game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
                     num_skip_question = 3, questions_left = str(0),
-                    answer_location =  0, max_questions = total_num_questions)
+                    answer_location =  0, max_questions = total_num_questions,
+                    num_fifty_fifty = 3, fifty_fifty_option = str(0))
         db.session.add(game)
         db.session.commit()
     else:
@@ -32,6 +33,8 @@ def gameSettings():
         game.questions_left = str(0)
         game.answer_location = answer_location
         game.max_questions =  total_num_questions
+        game.num_fifty_fifty = 3
+        game.fifty_fifty_option = str(0)
         db.session.commit()
 
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
@@ -65,7 +68,7 @@ def gameSettings():
 
     # Define the data to be handed off to the template
     return_data = [{"Lives" : game.lives}, {"Question Time" : game.question_time}, {"Score" : game.score}, {"Number Question Skips" : game.num_skip_question},
-                   {"Question": q.question}, {"Option_1": answers[0]}, {"Option_2": answers[1]}, {"Option_3": answers[2]}, {"Option_4": answers[3]}]
+                   {"Question": q.question}, {"Option_1": answers[0]}, {"Option_2": answers[1]}, {"Option_3": answers[2]}, {"Option_4": answers[3]}, {"Fifth Fifty Attempt": game.num_fifty_fifty}]
     print(return_data)
 
     return jsonify(return_data)
@@ -98,6 +101,24 @@ def skipQuestion():
 
     return(str(game.num_skip_question))
 
+
+#Modify the game's remaining 50/50, and get the options that can be removed
+@game.route('game/fifty_fifty')
+def fiftyFifty():
+    option = []
+    game = Game.query.get(1)
+    game.num_fifty_fifty = game.num_fifty_fifty-1
+    attempt = str(game.num_fifty_fifty)
+
+    for i in range(1, 4):
+        if i != game.answer_location:
+            option.append(i)
+    game.fifty_fifty_option = str(option)
+    return_data = [{"first_option" : game.fifty_fifty_option[1]},
+                   {"second_option" : game.fifty_fifty_option[4]},
+                   {"attempt" : attempt}]
+    db.session.commit()
+    return (jsonify(return_data))
 
 
 #Update Score and reset question Time
