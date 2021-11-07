@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} delete player page {% endblock %}
+
+{% block content %}
+<h1>Test page for super user, (may implement in the future)</h1>
+<h1 align="center">Players</h1>
+<ul class="list-group list-group-flush" id="players">
+
+    {% for player in players %}
+    <li class="list-group-item">
+        {{ player.email }}
+        <button type="button" class="close" onClick="deletePlayer({{ player.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
