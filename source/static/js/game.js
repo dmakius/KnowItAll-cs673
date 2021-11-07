@@ -70,7 +70,6 @@ $(document).ready(function () {
 
     $('#FiftyFifty').click(function(){
         ajaxFiftyFifty();
-        alert(fifty_fifty_attempt + removeable_option1 + removeable_option2 + '!');
         $('#FiftyFifty').text("50/50 (" + fifty_fifty_attempt +")");
         if (removeable_option1 == 1){
             $('#option_1').hide()
