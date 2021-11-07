@@ -1,24 +1,13 @@
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Trivia Game</title>
-    <!-- https://web.dev/viewport/  -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- INSERTING BOOTSTRAP LIBRARY -->
-    <!-- BOOTSTRAP:CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <!-- BOOTSTRAP:JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
-    </script>
+{% block head %} 
+<!-- game.js file -->
+<script type="text/javascript" src="{{ url_for('static', filename='/js/game.js') }}"></script>
+{% endblock %}
 
-    <!-- INSERTING JQUERY -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block title %} Game {% endblock %}
 
-    <script src='/static/js/game.js'></script>
-    <link rel="stylesheet" href="/static/css/game.css"/>
-<body>
+{% block content %}
     <div class='container' stlye="z-index:0;">
         <div class='container'>
             <div id = 'main-container'  class='container'>
@@ -33,7 +22,9 @@
                     <div class = "row">
                         <div class='col-md-2'>
                             <h3>STATS</h3>
-                            <div id="div1" class="stats"></div>
+                            <div id="div1" class="stats">
+                                <h4>LIVES: <span style="color:red"> 3/3 </span></h4>
+                            </div>
                             <div>
                                 <h4>SCORE: <span id="Counter">0</span></h4>
                             </div>
@@ -46,6 +37,7 @@
                             <div>
                                 <h4>Lifelines</h4>
                                 <button id='SkipQuestion' class="btn btn-outline-primary">Skip Question (3)</button>
+                                <button id='FiftyFifty' class="btn btn-outline-primary">50/50 (3)</button>
                             </div>
                         </div>
                         <!--  DISPLAY QUESTION -->
@@ -102,7 +94,7 @@
                     <div class="mx-auto text-center  p-4">
                         <h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
                         <div class="px-2">
-                            <form id='leaderboardForm' method="POST" action="/leaderboard/create"
+                            <form id='leaderboardForm' method="POST" action="{{url_for('leaderboard.leaderBoard_create')}}"
                                 class="justify-content-center">
                                 <div class="form-group">
                                     <label class="sr-only">Score:</label>
@@ -127,5 +119,4 @@
         </div>
 
     </div>
-</body>
-</html>
+{% endblock %}

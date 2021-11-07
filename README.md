@@ -8,59 +8,54 @@ Online gaming industry has a very high number of active users. It has an ever in
 
 ## HOW TO RUN
 
-1- Clone Repository: 
+1- Clone Repository:
 ```
 $git clone [respository]
 ```
-2- Set up a Virtual Environment - Instructions for this step apply for Mac, PC instructions will be added in a later iteration.
-
+2- Navigate to the BU... folder
 ```
+cd BUMETCS673A1F21P1/source
+```
+3- Checkout the right branch
+```
+$git checkout Gunnar_iter_2
+```
+4- Navigate to the source folder
+```
+cd source
+```
+5- Set up a Virtual Environment - Instructions for this step apply for Mac, PC instructions will be added in a later iteration.
+```
+MAC
 $virtualenv venv
 $source venv/bin/activate
+PC
+$python3 -m venv env
+$source env/Scripts/activate
 ```
 You should now see "(env)" before your username in the command line. This keeps all of your dependencies in one location. To check where your python modules of being imported run the command:
 ```
 $which pip
 ```
-
 to deactivate your vertual environement run the command:
 ```
 (venv)$ deactivate
 ```
-	
-3-Download Dependecies
-
+6-Download Dependecies
 ```bash
 pip install -r requirements.txt
 ```
-
-4-Set Up Data Base
-Navigate to the /app directory, open a python shell and run the follpwing commands:
+7-Navigate back to the previous directory
 ```
-$python
+cd ..
 ```
-
+8- Run the flask application
 ```
->>>from app import db
-db.create_all()
-exit()
-```
-
-5-import the Questions. Run the import function:
-
-```
-$python import_questions.py
-```
-
-6- Run the flask application
-```
-$export FLASK_APP=app.py
-$export FLASK_ENV=development
+$export FLASK_APP=main.py
+$export FLASK_ENV=None
 $flask run
 ```
-
-7- Navigate your browser to: http://localhost:5000/
-
+9- Navigate your browser to: http://localhost:5000/
 ## Features
 
          
