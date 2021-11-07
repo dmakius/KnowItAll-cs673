@@ -26,7 +26,7 @@ def login():
                 login_user(user, remember=True)
 
                 # TODO: need to redirect to the home page
-                return redirect(url_for('views.main',user=current_user))
+                return redirect(url_for('views.main', user=current_user))
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -49,6 +49,7 @@ def sign_up():
         player_name = request.form.get('playerName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+
         user = Player.query.filter_by(email=email).first()
         # Check the email already exists or not
         if user:
@@ -68,12 +69,17 @@ def sign_up():
             flash('password don\'t match', category='error')
         else:
             # add user to the test database
-            new_user = Player(email=email, player_name = player_name, password=generate_password_hash(password1, method='sha256'))
-            db.session.add(new_user)
+            new_player = Player(email=email, player_name = player_name, password=generate_password_hash(password1, method='sha256'))
+            db.session.add(new_player)
             db.session.commit()
-            login_user(user, remember=True)
+
+            # immediately login after created account
+            login_user(new_player, remember=True)
+
             flash('Account created!', category='success')
-            return redirect(url_for('views.main',user=current_user))
+            return redirect(url_for('views.main', user=current_user))
+
             # login the user after created account, and remember it
             # TODO: after we sign up, where should we direct to?
+
     return render_template('sign_up.html', user=current_user)

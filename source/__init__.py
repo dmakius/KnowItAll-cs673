@@ -40,12 +40,12 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-
-        # define a function for loading the user
+        # define a function for loading the player
     @login_manager.user_loader
     def load_user(id):
         print("GETTING USER")
         return Player.query.get(int(id))
+
     return app
 
 def create_database(app):
