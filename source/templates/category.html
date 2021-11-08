@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/static/css/category.css"/>
+<script type="text/javascript" src="{{ url_for('static', filename='/js/category.js') }}"></script>
 {% extends "base.html" %} 
 {% block title %}Main page{% endblock %} 
 {% block content %}
@@ -12,36 +13,48 @@
 		<!-- <hr> -->
 		<div class="container" id="categorybox">
 			<div class="container">
-				<!-- <form method="post"> -->
-					<button class="text-center" onclick="location.href = '/game';">
+				<form method="POST" action="/category/select">
+					<button class="text-center" type="submit" name="geography" id="category_geo">
 						<img src="{{ url_for('static', filename='/image/geo.jfif') }}" width="180" height="100">
 						<div>GEOGRAPHY</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="art" id="category_art">
 						<img src="{{ url_for('static', filename='/image/art.jfif') }}" width="180" height="100">
 						<div>ART</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="computer-science" id="category_cs">
 						<img src="{{ url_for('static', filename='/image/CS.png') }}" width="180" height="100">
 						<div>COMPUTER SCIENCE</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="science" id="category_s">
 						<img src="{{ url_for('static', filename='/image/science.jfif') }}" width="180" height="100">
 						<div>SCIENCE</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="mythology" id="category_m">
 						<img src="{{ url_for('static', filename='/image/mythology.jpg') }}" width="180" height="100">
 						<div>MYTHOLOGY</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="TV-shows" id="category_tv-s">
 						<img src="{{ url_for('static', filename='/image/tv_shows.jfif') }}" width="180" height="100">
 						<div>TV SHOWS</div>
 					</button>
-					<button class="text-center" onclick="location.href = '/game';">
+				</form>
+				<form method="POST">
+					<button class="text-center" onclick="location.href = '/game';" type="submit" name="movie" id="category_movie">
 						<img src="{{ url_for('static', filename='/image/Movie.jpg') }}" width="180" height="100">
 						<div>MOVIE</div>
 					</button>
-				<!-- </form> -->
+				</form>
 			</div>
 		</div>
 {% endblock %}
