@@ -21,6 +21,10 @@ def game():
     print(current_user)
     return render_template('game.html', user = current_user)
 
+@views.route('/category')
+def category():
+    print(current_user)
+    return render_template('category.html', user = current_user)
 
 @views.route('/leaderboard')
 def leaderBoard():

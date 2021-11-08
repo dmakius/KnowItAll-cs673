@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="/static/css/category.css"/>
+{% extends "base.html" %} 
+{% block title %}Main page{% endblock %} 
+{% block content %}
+	
+		<div class="container">
+			<div class="text-center">
+				<h2>SELECT CATEGORY</h2>
+			</div>
+		</div>
+		<br>
+		<!-- <hr> -->
+		<div class="container" id="categorybox">
+			<div class="container">
+				<!-- <form method="post"> -->
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/geo.jfif') }}" width="180" height="100">
+						<div>GEOGRAPHY</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/art.jfif') }}" width="180" height="100">
+						<div>ART</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/CS.png') }}" width="180" height="100">
+						<div>COMPUTER SCIENCE</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/science.jfif') }}" width="180" height="100">
+						<div>SCIENCE</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/mythology.jpg') }}" width="180" height="100">
+						<div>MYTHOLOGY</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/tv_shows.jfif') }}" width="180" height="100">
+						<div>TV SHOWS</div>
+					</button>
+					<button class="text-center" onclick="location.href = '/game';">
+						<img src="{{ url_for('static', filename='/image/Movie.jpg') }}" width="180" height="100">
+						<div>MOVIE</div>
+					</button>
+				<!-- </form> -->
+			</div>
+		</div>
+{% endblock %}

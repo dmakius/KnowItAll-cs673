@@ -12,13 +12,13 @@ window.addEventListener("DOMContentLoaded", event => {
         * element_name.style.left|top = initial X|Y coordinate (optional) + (e.pageX|Y - main content width|height / 2) / constant (optional) + "px"
         */
         
-        bg.style.left = 300 + (-e.pageX - 960) / 10 + "px";
+        bg.style.left = 100 + (-e.pageX - 960) / 10 + "px";
         bg.style.top = 100 + (-e.pageY - 540) / 10 + "px";
         
-        box.style.left = 480 + (-e.pageX - 480) / 5 + "px";
-        box.style.top = 300 + (-e.pageY - 270) / 5 + "px";
+        box.style.left = 500 + (-e.pageX - 480) / 5 + "px";
+        box.style.top = 380 + (-e.pageY - 270) / 5 + "px";
 
-        text.style.left = 400 + (-e.pageX - 400) / 5 + "px";
-        text.style.top = 200 + (-e.pageY - 200) / 5 + "px";
+        text.style.left = 500 + (-e.pageX - 400) / 5 + "px";
+        text.style.top = 300 + (-e.pageY - 200) / 5 + "px";
     }
 });
