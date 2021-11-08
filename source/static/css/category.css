@@ -11,6 +11,7 @@
 }
 
 #categorybox .container .text-center {
+    border-radius: 50px;
     border: 20px solid white;
     border-collapse: collapse;
     background-color: #96D4D4;

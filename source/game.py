@@ -4,7 +4,7 @@ from datetime import datetime
 import random, math
 from . import db
 from .models import Game, Question
-from .category import mycategory
+# from .category import mycategory
 
 game = Blueprint('game', __name__)
 
@@ -44,10 +44,10 @@ def gameSettings():
     # initialize the remaining questions array 
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
     
-    for k in questions_left:  
-        q = Question.query.get(k)
-        if q.category != mycategory:
-            questions_left.remove(k)
+    # for k in questions_left:  
+    #     q = Question.query.get(k)
+    #     if q.category != mycategory:
+    #         questions_left.remove(k)
             
 
     # select the random question for the first question

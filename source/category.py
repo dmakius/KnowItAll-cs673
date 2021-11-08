@@ -5,13 +5,14 @@ from . import db
 category = Blueprint("category", __name__)
 
 @category.route('/category/select', methods=['GET', 'POST'])
-def mycategory(self):
+def mycategory():
+    print(request.method)
     if request.method == 'POST':
-        print(self.select_category)
-        return redirect(url_for("view.game"))
-        # if request.form.get('geography'):
-        #     select_category = "geography"
-        #     return select_category, redirect(url_for("view.game"))
+        # return redirect(url_for("view.game"))
+        if request.form['geography'] == 'geography':
+            redirect(url_for("view.game"))
+            # select_category = "geography"
+            # return select_category, redirect(url_for("view.game"))
         # elif request.form.get('art'):
         #     select_category = "art"
         #     return select_category
@@ -30,3 +31,4 @@ def mycategory(self):
         # elif request.form.get('movie'):
         #     select_category = "movie"
         #     return select_category
+    return render_template("category.html")
