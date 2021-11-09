@@ -32,7 +32,7 @@ def gameSettings():
         game.lives = 3
         game.question_time = 30
         game.score = 0
-        game.num_skip_question = 3
+        game.num_skip_question = 210
         game.questions_left = str(0)
         game.answer_location = answer_location
         game.max_questions =  total_num_questions
@@ -47,12 +47,15 @@ def gameSettings():
     print(game.category)
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
 
-    
-    for k in questions_left:  
-            q = Question.query.get(k)
-            if q.category != game.category:
-                questions_left.remove(k)
-            
+    print(questions_left)
+    if game.category != '':
+        questions_left = []
+        for k in range(total_num_questions):  
+            q = Question.query.get(k+1)
+            if q.category == game.category:
+                questions_left.append(q.id)
+        questions_left = random.sample(questions_left, len(questions_left))
+    print(questions_left)
 
     # select the random question for the first question
     str_id = questions_left[0]

@@ -14,12 +14,19 @@ def getSingleQuestion():
 
     # get random question from ID's remaining
     questions_left = game.questions_left.split(',')
+
+    #sets weather heavy-filter needs to be used or not
+    heavy_filter = True
     
-    # the first question has a [ at the beginning which needs to be removed
-    str_id = int(''.join(filter(str.isdigit, questions_left[0])))
+    # the first question has a [ at the beginning which needs to be removed, only when the list wasn't just re-initialized.
+    if heavy_filter == True:
+        str_id = int(''.join(filter(str.isdigit, questions_left[0])))
+    else:
+        str_id = questions_left[0]
     questions_left.remove(questions_left[0])
     print(str_id)
     q = Question.query.get(str_id)
+    print(q.question)
 
     # Shuffle the 4 potential answers
     answer_location = 0
@@ -42,8 +49,16 @@ def getSingleQuestion():
 
     #This will also have to reinitialize just the questions related to the category so the same logic utilized in game.py will need to be used here
     #if the questions_left array is empty, reinitialize it with all of the questions.
-    if len(questions_left) == 0:
-        questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
+    if len(questions_left) == 0: 
+        heavy_filter = False
+        if game.category == '':
+            questions_left = random.sample(list(range(1, game.max_questions + 1)), game.max_questions)
+        else:
+            for k in range(game.max_questions):  
+                j = Question.query.get(k+1)
+                if j.category == game.category:
+                    questions_left.append(j.id)
+            questions_left = random.sample(questions_left, len(questions_left))
 
     # Update all of these parameters in the game object, including the game time
     #TODO I need to remove the question details from the game object and just store the question primary key
