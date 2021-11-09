@@ -18,42 +18,48 @@
 		<!-- <hr> -->
 		<div class="container" id="categorybox">
 			<div class="container">
-				<!-- <form method="POST"> -->
-					<button class="text-center" type="submit" name="searchbox" id="categories_geo">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Geography">
 						<img src="{{ url_for('static', filename='/image/geo.jfif') }}" width="180" height="100">
 						<div>GEOGRAPHY</div>
-					</button>
-				<!-- </form> -->
-					<button class="text-center" type="submit" name="art" id="categories_art">
+					</div>
+
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Art">
 						<img src="{{ url_for('static', filename='/image/art.jfif') }}" width="180" height="100">
 						<div>ART</div>
-					</button>
+					</div>
 				
-					<button class="text-center" type="submit" name="computer-science" id="categories_cs">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Computer Science">
 						<img src="{{ url_for('static', filename='/image/CS.png') }}" width="180" height="100">
 						<div>COMPUTER SCIENCE</div>
-					</button>
+					</div>
 				
-					<button class="text-center" type="submit" name="science" id="categories_s">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Science">
 						<img src="{{ url_for('static', filename='/image/science.jfif') }}" width="180" height="100">
 						<div>SCIENCE</div>
-					</button>
+					</div>
 				
-					<button class="text-center" type="submit" name="mythology" id="categories_m">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Mythology">
 						<img src="{{ url_for('static', filename='/image/mythology.jpg') }}" width="180" height="100">
 						<div>MYTHOLOGY</div>
-					</button>
+					</div>
 				
-					<button class="text-center" type="submit" name="TV-shows" id="categories_tv-s">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="TV shows">
 						<img src="{{ url_for('static', filename='/image/tv_shows.jfif') }}" width="180" height="100">
 						<div>TV SHOWS</div>
-					</button>
+					</div>
 				
-					<button class="text-center" type="submit" name="movie" id="categories_movie">
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Movie">
 						<img src="{{ url_for('static', filename='/image/Movie.jpg') }}" width="180" height="100">
 						<div>MOVIE</div>
-					</button>
+					</div>
+					<div class='col-md-5 text-center option btn btn-outline-secondary' id="">
+						<img width="180" height="100">
+						<div>ALL</div>
+					</div>
 				
 			</div>
+			</div>
+			<div class='col-md-5 text-center option btn btn-outline-secondary' id="category"></div>
+			<div class="text-center"><a href='/game' class="btn btn-primary btn-lg" id="startgame">START</a></div>
 		</div>
 {% endblock %}

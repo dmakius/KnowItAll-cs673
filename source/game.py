@@ -2,6 +2,8 @@ from flask import Flask, Blueprint, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import random, math
+
+from sqlalchemy.sql.expression import null
 from . import db
 from .models import Game, Question
 # from .category import mycategory
@@ -41,13 +43,15 @@ def gameSettings():
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
     #Set up the conditional logic for the initialization of the questions_left array to only populate with valued from the category.
 
-    # initialize the remaining questions array 
+    # initialize the remaining questions array based on the game's category
+    print(game.category)
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
+
     
-    # for k in questions_left:  
-    #     q = Question.query.get(k)
-    #     if q.category != mycategory:
-    #         questions_left.remove(k)
+    for k in questions_left:  
+            q = Question.query.get(k)
+            if q.category != game.category:
+                questions_left.remove(k)
             
 
     # select the random question for the first question

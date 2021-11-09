@@ -6,9 +6,12 @@ $(document).ready(function () {
     var answer_location;
     //read and keep user selection
     var user_selection = [];
-    
+
+    // for 50/50 function
+    var fifty_fifty_left = fifty_fifty_chances;
+
     // for skip question function
-    var skipleft = MaxSkip
+    var skipleft = MaxSkip;
     
     // for timer function and score function
     var timerpower = true; //determines whether timer is active or not
@@ -68,9 +71,10 @@ $(document).ready(function () {
         });  
     }
 
+    // fifty fifty lifeline function
     $('#FiftyFifty').click(function(){
         ajaxFiftyFifty();
-        $('#FiftyFifty').text("50/50 (" + fifty_fifty_attempt +")");
+        $('#FiftyFifty').text("50 / 50 (" + fifty_fifty_left +")");
         if (removeable_option1 == 1){
             $('#option_1').hide()
         } else if (removeable_option1 == 2){
@@ -89,9 +93,7 @@ $(document).ready(function () {
         } else if (removeable_option2 == 4){
             $('#option_4').hide()
         }
-        if (fifty_fifty_attempt <= 0){
-           document.getElementById('FiftyFifty').disabled = true;
-        }
+        document.getElementById('FiftyFifty').disabled = true;
     });
 
     function ajaxFiftyFifty(){
@@ -108,7 +110,7 @@ $(document).ready(function () {
             //initialize the variables from the ajax data
             removeable_option1 = data[0]['first_option'];
             removeable_option2 = data[1]['second_option'];
-            fifty_fifty_attempt = data[2]['attempt'];
+            fifty_fifty_left = data[2]['attempt'];
             }
         });
     }
@@ -146,11 +148,12 @@ $(document).ready(function () {
                 console.log(data);
                 
             //initialize the variables from the ajax data
-            attempt_counter = data[0]['Lives']
-            MaxSkip = data[3]['Number Question Skips']
-            timer = data[1]['Question Time']
-            player_score = data[2]['Score']
+            attempt_counter = data[0]['Lives'];
+            MaxSkip = data[3]['Number Question Skips'];
+            timer = data[1]['Question Time'];
+            player_score = data[2]['Score'];
             timeleft = timer;
+            fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
     
             //replace front end ui with NEW data from server
             $('#question').text(data[4]['Question']);
@@ -186,6 +189,7 @@ $(document).ready(function () {
 
 
         } else {
+
             // all the function turn on or off are in the SettingForSubmit
             SettingForSubmitButton();
 
@@ -271,6 +275,7 @@ $(document).ready(function () {
 
     // All of the functionality attached to the player clicking the 'Next Question' button
     function DisplayNewQuestion() {
+
         // Set all button back to default setting
         SettingForDisplayNewQuestion();
 
@@ -341,10 +346,10 @@ $(document).ready(function () {
                 document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
             };
 
-            //turn off the fifty fifty button after question submission
-            if (fifty_fifty_attempt > 0){
+            //turn off the 50/50 button after question submission
+            if (fifty_fifty_left > 0){
                 document.getElementById('FiftyFifty').disabled = true;
-                $('#FiftyFifty').text("50/50 (" + fifty_fifty_attempt +")");
+                document.querySelector('#FiftyFifty').textContent = '50 / 50 (' + fifty_fifty_left + ')';
             };
 
             // hide Submit button, user already submitted once
@@ -359,6 +364,7 @@ $(document).ready(function () {
         //reset the answer location variable to 0, it will be set to the correct location upon clicking submit
         answer_location = 0
 
+        //turn on all options
         $('#option_1').show();
         $('#option_2').show();
         $('#option_3').show();
@@ -367,11 +373,12 @@ $(document).ready(function () {
         // turn on the color change function for selected option
         opt.on('click', ChangeSelectedOptionColor);
 
+        // show submit button, new question, user can do submit
+        sub.show();
+
         // turn off and hide next button, user cannot go next before submit
         next.hide();
 
-        // show submit button, new question, user can do submit
-        sub.show();
         // turn on and reset the timer
         timerpower = true;
         timeleft = timer;
@@ -379,12 +386,12 @@ $(document).ready(function () {
         // enable the skip question button if skips remain
         if (skipleft > 0){
             document.getElementById('SkipQuestion').disabled = false;
-        }
+        };
 
-        // enable the fifty fifty button if skips remain
-        if (fifty_fifty_attempt > 0){
+        // enable the 50/50 button if 50/50 chances remain
+        if (fifty_fifty_left > 0){
             document.getElementById('FiftyFifty').disabled = false;
-        }
+        };
 
         // set all option colors back to default
         opt.css('color', 'black');

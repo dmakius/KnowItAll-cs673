@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import random
 import json
 from . import db
-from .models import Question, LeaderboardScore, Player
+from .models import Question, LeaderboardScore, Player, Game
 from flask_login import login_required, current_user
 
 

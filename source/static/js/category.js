@@ -1,21 +1,35 @@
-// $(document).ready(function () {
-//     var selected = [];
-//     var select = $('.categories');
-//     select.on('click', Select);
-//     function Select() {
-//         selected = $(this);
-//         console.log("selected");
-//     }
+$(document).ready(function () {
+    //read and keep user selection
+     var user_selection = [];
 
-//     $.ajax({
-//         dataType: 'json',
-//         // type: 'GET',
-//         type: 'POST',
-//         url: '/category/select',
-//         data: {
-//             "select_category": selected
-//         }
-//     });
+     var opt = $('.option');
+     // clicking on any of the options will return value to user_selection
+     opt.on('click', Selection);
 
-// });
+    //get user selection when player click the option
+    function Selection() {
+        user_selection = $(this);
+        console.log(user_selection[0].id + ' clicked!');
+        $('#category').text(user_selection[0].id);
+        
+        console.log($('#category').text())
+        category = $('#category').text()
+
+        data= { 
+                'category' : category,
+              }
+
+        $.ajax({
+            type : "POST",
+            url : "/category/select",
+            data: JSON.stringify(data, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            success: function(result) {
+                console.log(result);
+            }
+        });
+    }
+
+   }
+ );
 

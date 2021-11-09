@@ -1,34 +1,25 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 
 from . import db
+from .models import Game, Question
 
 category = Blueprint("category", __name__)
 
-@category.route('/category/select', methods=['GET', 'POST'])
+@category.route('/category/select', methods=['POST'])
 def mycategory():
-    print(request.method)
-    if request.method == 'POST':
-        # return redirect(url_for("view.game"))
-        if request.form['geography'] == 'geography':
-            redirect(url_for("view.game"))
-            # select_category = "geography"
-            # return select_category, redirect(url_for("view.game"))
-        # elif request.form.get('art'):
-        #     select_category = "art"
-        #     return select_category
-        # elif request.form.get('computer-science'):
-        #     select_category = "computer-science"
-        #     return select_category
-        # elif request.form.get('science'):
-        #     select_category = "science"
-        #     return select_category
-        # elif request.form.get('mythology'):
-        #     select_category = "mythology"
-        #     return select_category
-        # elif request.form.get('TV-shows'):
-        #     select_category = "TV-shows"
-        #     return select_category
-        # elif request.form.get('movie'):
-        #     select_category = "movie"
-        #     return select_category
-    return render_template("category.html")
+    #TODO We need to dynamically get the game associated with the user/game instance and initiate that here.
+    #TODO Right now the game table will be empty since you go to categories before the first game, so we're also initializing that first game instance here
+    if Game.query.count() < 1:
+        total_num_questions = Question.query.count()
+        game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
+                    num_skip_question = 3, questions_left = str(0),
+                    answer_location =  0, max_questions = total_num_questions,
+                    num_fifty_fifty = 3, fifty_fifty_option = str(0))
+        db.session.add(game)
+        db.session.commit()
+
+    game = Game.query.get(1)
+    game.category = request.json['category']
+    db.session.commit()
+    print(game.category)
+    return "1"
