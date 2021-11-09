@@ -32,7 +32,7 @@ def gameSettings():
         game.lives = 3
         game.question_time = 30
         game.score = 0
-        game.num_skip_question = 210
+        game.num_skip_question = 3
         game.questions_left = str(0)
         game.answer_location = answer_location
         game.max_questions =  total_num_questions
