@@ -137,4 +137,4 @@ App/.idea/
 # testdatabase
 test.db
 
-sources/.idea/
+*/.idea/
