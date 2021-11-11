@@ -69,7 +69,7 @@ def sign_up():
             flash('password don\'t match', category='error')
         else:
             # add user to the test database
-            new_player = Player(email=email, player_name = player_name, password=generate_password_hash(password1, method='sha256'))
+            new_player = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_player)
             db.session.commit()
 
@@ -83,3 +83,4 @@ def sign_up():
             # TODO: after we sign up, where should we direct to?
 
     return render_template('sign_up.html', user=current_user)
+

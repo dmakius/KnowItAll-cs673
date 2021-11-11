@@ -24,6 +24,7 @@ def create_app():
     from .game import game
     from .auth import auth
     from .category import category
+    from .player_profile import player_profile
 
 
     app.register_blueprint(views, url_prefix='/')
@@ -32,6 +33,7 @@ def create_app():
     app.register_blueprint(game, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(category, url_prefix='/')
+    app.register_blueprint(player_profile, url_prefix='/')
 
     from .models import Player
 

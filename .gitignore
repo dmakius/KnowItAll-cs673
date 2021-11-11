@@ -133,6 +133,9 @@ dmypy.json
 
 # PyCharm project files
 App/.idea/
+.idea/
+source/.idea
 
 # testdatabase
 test.db
+.idea/BUMETCS673A1F21P1.iml
