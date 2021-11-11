@@ -24,6 +24,9 @@ $(document).ready(function () {
     $('#submitScore').hide()
 
     var opt = $('.option');
+    // Set up the initial option color
+    opt.css('color', 'black');
+    opt.css('background-color', 'white').css('color', 'black');
     // clicking on any of the options will return value to user_selection
     opt.on('click', Selection);
     // click option will change the option background color
