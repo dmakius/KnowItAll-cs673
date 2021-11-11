@@ -18,6 +18,7 @@
 		<!-- <hr> -->
 		<div class="container" id="categorybox">
 			<div class="container">
+					
 					<div class='col-md-5 text-center option btn btn-outline-secondary' id="Geography">
 						<img src="{{ url_for('static', filename='/image/geo.jfif') }}" width="180" height="100">
 						<div>GEOGRAPHY</div>
@@ -52,14 +53,15 @@
 						<img src="{{ url_for('static', filename='/image/Movie.jpg') }}" width="180" height="100">
 						<div>MOVIE</div>
 					</div>
+					
 					<div class='col-md-5 text-center option btn btn-outline-secondary' id="">
-						<img width="180" height="100">
+						<img src="{{ url_for('static', filename='/image/all.jpg') }}" width="180" height="100">
 						<div>ALL</div>
 					</div>
 				
 			</div>
 			</div>
-			<div class='col-md-5 text-center option btn btn-outline-secondary' id="category"></div>
 			<div class="text-center"><a href='/game' class="btn btn-primary btn-lg" id="startgame">START</a></div>
+			<div class='col-md-5 text-center option' style="visibility: hidden; display:inline;" id="category"></div>
 		</div>
 {% endblock %}
