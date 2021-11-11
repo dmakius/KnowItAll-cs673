@@ -1,25 +1,99 @@
-from source.models import Player
-from source import db
-from werkzeug.security import generate_password_hash
-import pytest
+import os
+from source import create_app
 
-def test_create_users_w_duplicate_emails(self):
-    Player.query.delete()
-    player1 = Player(email='password@gmail.com', player_name='password', password=generate_password_hash('password', method='sha256'))
-    player2 = Player(email='password@gmail.com', player_name='password2', password=generate_password_hash('password2', method='sha256'))
-    with pytest.raises(Exception) as e_info:
-        db.session.add(player1)
-        db.session.add(player2)
+os.chdir('..')
 
-def test_change_to_duplicate_email(self):
-    Player.query.delete()
-    player1 = Player(email='password1@gmail.com', player_name='password', password=generate_password_hash('password', method='sha256'))
-    player2 = Player(email='password2@gmail.com', player_name='password2', password=generate_password_hash('password2', method='sha256'))
-    db.session.add(player1)
-    db.session.add(player2)
 
-    with pytest.raises(Exception) as e_info:
-        player2 = Player.query.filter_by(email='password2@gmail.com').first()
-        player2.email = 'password1@gmail.com'
-        db.session.commit()
+def test_change_to_duplicate_email():
+    flask_app = create_app()
 
+    with flask_app.test_client() as client:
+        email1 = 'email1@mail.com'
+        email2 = 'email2@mail.com'
+        password1 = 'password1'
+        password2 = 'password2'
+        username1 = 'user1'
+        username2 = 'user2'
+
+        # First sign-up two users
+        signup(client, email1, username1, password1)
+        logout(client)
+        signup(client, email2, username2, password2)
+        logout(client)
+
+        login(client, email2, password2)
+
+        rv = edit_email(client, email1)
+        assert b'Email already exists.' in rv.data
+
+
+def test_change_email():
+    flask_app = create_app()
+
+    with flask_app.test_client() as client:
+        email = 'email@mail.com'
+        password = 'password'
+        username = 'user'
+        new_email = 'newemail@mail.com'
+
+        # First sign-up two users
+        signup(client, email, username, password)
+        logout(client)
+
+        login(client, email, password)
+
+        rv = edit_email(client, new_email)
+        assert new_email.encode('utf_8') in rv.data
+        rv = edit_email(client, email)
+        assert email.encode('utf_8') in rv.data
+
+
+def test_change_username():
+    flask_app = create_app()
+
+    with flask_app.test_client() as client:
+        email = 'email@mail.com'
+        password = 'password'
+        username = 'user'
+        new_username = 'newuser'
+
+        # First sign-up two users
+        signup(client, email, username, password)
+        logout(client)
+
+        login(client, email, password)
+
+        rv = edit_username(client, new_username)
+        assert new_username.encode('utf_8') in rv.data
+
+
+def login(client, email, password):
+    return client.post('/login', data=dict(
+        email=email,
+        password=password
+    ), follow_redirects=True)
+
+
+def logout(client):
+    return client.get('/logout', follow_redirects=True)
+
+
+def signup(client, email, name, password):
+    return client.post('/sign-up', data=dict(
+        email=email,
+        playerName=name,
+        password1=password,
+        password2=password
+    ), follow_redirects=True)
+
+
+def edit_email(client, email):
+    return client.post('/player_profile/edit_email', data=dict(
+        email=email
+    ), follow_redirects=True)
+
+
+def edit_username(client, username):
+    return client.post('/player_profile/edit_username', data=dict(
+        username=username
+    ), follow_redirects=True)
