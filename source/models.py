@@ -19,9 +19,10 @@ class LeaderboardScore(db.Model):
     __tablename__ = "LeaderboardScore"
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(129), unique=False, nullable=False)
+    userid = db.Column(db.Integer, unique=False, nullable=False)
     username = db.Column(db.String(129), unique=False, nullable=False)
     score = db.Column(db.Integer)
-    
+
 # Define user table Schema
 class Player(db.Model, UserMixin):
     __tablename__ = "player"
@@ -30,7 +31,7 @@ class Player(db.Model, UserMixin):
     password = db.Column(db.String(150))
     player_name = db.Column(db.String(150))
     # TODO: add a relationship with the leaderboardScore using the foreign key.
-    # TODO: need to add and change some vairable.
+    # TODO: need to add and change some variable.
 
 
 # Define Game table Schema

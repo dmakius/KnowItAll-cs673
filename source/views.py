@@ -13,18 +13,18 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def main():
     print(current_user)
-    return render_template('main.html' ,user =current_user)
+    return render_template('main.html', user=current_user)
 
 
 @views.route('/game')
 def game():
     print(current_user)
-    return render_template('game.html', user = current_user)
+    return render_template('game.html', user=current_user)
 
 @views.route('/category')
 def category():
     print(current_user)
-    return render_template('category.html', user = current_user)
+    return render_template('category.html', user=current_user)
 
 @views.route('/leaderboard')
 def leaderBoard():
@@ -33,7 +33,8 @@ def leaderBoard():
 
 @views.route('/playerProfile')
 def userProfile():
-    return "<P>This is the user Profile Page, implement later</p>"
+    scores = LeaderboardScore.query.filter_by(userid=current_user.id)
+    return render_template('player_profile.html', user=current_user, scores=scores)
 
 # route to the test-feature page
 @views.route('/test-feature', methods=['GET', 'POST'])
