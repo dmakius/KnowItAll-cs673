@@ -133,8 +133,8 @@ dmypy.json
 
 # PyCharm project files
 App/.idea/
+.idea/
+source/.idea
 
 # testdatabase
 test.db
-
-*/.idea/
