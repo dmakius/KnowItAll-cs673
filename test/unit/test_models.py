@@ -1,4 +1,4 @@
-from source.models import Game, Question, Player
+from source.models import Game, Question, Player, LeaderboardScore
 
 #Test for the game session object
 def test_game_model():
@@ -15,7 +15,37 @@ def test_game_model():
     assert game.questions_left == '0'
 
     #Test for the player object
-    
-    #Test for the question object
+def test_Player_Model():
+    player = Player(email = "test@gmail.com", password = "1234567", player_name = "TestPlayer")
+    assert player.email == "test@gmail.com"
+    assert player.password == "1234567"
+    assert player.player_name == "TestPlayer"
 
-    #Test for the ledaerboard object
+    #Test for the question object
+def test_Question_model():
+    questions = Question(
+        category = 'test_category',
+        question = 'test_question',
+        answer = 'test_answer',
+        option_1 = 'test_option_1',
+        option_2 = 'test_option_2',
+        option_3 = 'test_option_3'
+    )
+    assert questions.category == 'test_category'
+    assert questions.question == 'test_question'
+    assert questions.answer == 'test_answer'
+    assert questions.option_1 =='test_option_1'
+    assert questions.option_2 == 'test_option_2'
+    assert questions.option_3 == 'test_option_3'
+
+#Test for the ledaerboard object
+def test_LeaderboardScore_model():
+    leaderboard = LeaderboardScore(
+        category = 'categoryTest',
+        username = 'userNameTest',
+        score = 1000
+        )
+
+    assert leaderboard.score == 1000
+    assert leaderboard.category == 'categoryTest'
+    assert leaderboard.username == 'userNameTest'
