@@ -19,7 +19,6 @@ def test_home_page(test_client):
     assert b"KNOWITALL" in response.data
     assert b"START" in response.data
     assert b"LeaderBoard" in response.data
-    assert b"Player Profile" in response.data
     assert b"About" in response.data
 
 def test_category_page(test_client):
