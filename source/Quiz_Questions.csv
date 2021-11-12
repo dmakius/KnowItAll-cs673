@@ -1,0 +1,71 @@
+ID,Category,Question,Answer,Option_1,Option_2,Option_3
+1,Geography,What is the largest State in the United States?,Alaska,Texas,Califonia,Washington
+2,Geography,What is the smallest country in the world?,Vatican City,Belgium,The Netherlands,Andorra
+3,Geography,What African country has Portuguese as its official language?,Mozambique,Kenya,Senegal,Ghana
+4,Geography,How many timezones does Russia have?,11,8,4,16
+5,Geography,Which of the following is NOT a capital city?,Sydney,Washington DC,Santiago,Wellington
+6,Geography,Which of these island countries is located in the Caribbean?,Barbados,Java,Tahiti,Bermuda
+7,Geography,"What is the capital of the State of Washington, United States?",Olympia,Washington DC,Eugene,Seattle
+8,Geography,"Which country has the abbreviation ""CH""?",Switzerland,China,Chile,Chad
+9,Geography,"In what city would you find the ""Spanish Steps""?",Rome,Barcelona,Madrid,Mexico City
+10,Geography,Which country was NOT part of the Soviet Union?,Romania,Russia,Khazakstan,Estonia
+11,Science,What is the most abundant element in the universe?,Hydrogen,Oxygen,Sodium,Carbon
+12,Science,Which Planet is furthest from the Sun,Neptune,Jupiter,Satern,Mercury
+13,Science,Water Boils at what temperature? (Fahrenheit),212,100,32,273
+14,Science,Which of the following is NOT a phase of matter,Jello,Plasma,Solid,Liquid
+15,Science,"A ""Geigar Counter"" measures which phenomena?",Radiation,Acceleration,Pressure,Mass
+16,Science,Table Salt is more formally known as which of the following,NaCl,H2O,Snow White,CH4
+17,Science,The element Au is better known by which name?,Gold,Xenon,Arsenic,Argon
+18,Science,Which Fundamental Force holds nucleons together?,Strong,Gravity,Weak,Electromagnetic
+19,Science,Which Fundamental Force is responsible for the decay of atoms?,Weak,Gravity,Electromagnetic,Strong
+20,Science,Which scientist established the 3 laws of motion?,Newton,Einstein,Maxwell,Faraday
+21,Art,How many keys does a piano have?,88,87,86,89
+22,Art,Which of the following character is written by Tolstoy?,Anna Karenina,Julien Sorel,Madame Bovary,Rodion Romanovich Raskolnikov
+23,Art,What's Chopin 's nationality?,Polish,German,French,Dutch
+24,Art,Which of the following is not an idea of Confucius?,"""You are not me, so how can you know I don't know what fish enjoy.""","""How about 'reciprocity'! Never impose on others what you would not choose for yourself.""","""What you do not wish for yourself, do not do to others.""","""When I walk along with two others, they may serve me as my teachers. I will select their good qualities and follow them, their bad qualities and avoid them."""
+25,Art,Which of th following is not a characteristic/feature of Yayoi Kusama's art?,Hydrangea macrophylla,Mirror,Pumpkin,Polka Dot
+26,Art,Which of the following artwork is not exhibited in Musée du Louvre?,Hoa Hakananai'a,La Liberté guidant le peuple,Mona Lisa,Winged Victory of Samothrace
+27,Art,Which of the following ballet is not composed by Pyotr Ilyich Tchaikovsky?,The Queen of Spades,The Nutcracker,The Sleeping Beauty,Swan Lake
+28,Art,"Same as Johann Sebastian Bach, who is also a musician in the Baroque period?",Georg Friederich Händel,Ludwig van Beethoven,Franz Liszt,Franz Schubert
+29,Art,Pablo Picasso once said: Art is a lie that makes us realize the truth. Which of the following is not one of his artistic characteristics?,Romanticism,Cubism,Post-impressionism,Surrealism
+30,Art,Which of the following is not a major figure in the film art movement La Nouvelle Vague?,Robert Bresson,Éric Rohmer,François Roland Truffaut,Jean-Luc Godard
+31,TV shows,What is the name of Phoebe’s twin sister in Friends?,Ursula,Patricia,Jonna,Zoey
+32,TV shows,What do Monica and Chandler name their twins in Friends?,Jack and Erica,John and Isabella,Jill and Patrick,Phil and Lucy
+33,TV shows,Which of the following characters is not highborn in Game of Thrones?,Gendry,Arya,Maester Aemon,Renly
+34,TV shows,Who killed Stannis Baratheon at Winterfell?,Brienne,Arya,Sandor Clegane,Robert Baratheon
+35,TV shows,Dreadfort is the stronghold of which noble house in Westros?,Boltons,Florent,Karstarks,Greyjoys
+36,TV shows,How old is Prince Joffrey when he is coronated in the TV show?,16 years,11 years,15 years,21 years
+37,TV shows,"What is the name of the board game that Mike, Dustin, Lucas, and Will love to play in Stranger Things?",Dungeons and Dragons,Skribble,Dragon's Lair,Snakes and Ladders
+38,TV shows,How much currency does the gang print at the Royal Mint in Money Heist?,985 million euros,158 million euros,1 billion euros,658 million euros
+39,TV shows,How many heists had Berlin pulled off before the event of “Money Heist” ?,27,11,5,21
+40,TV shows,What street do Sherlock Holmes and Watson live on?,Baker Street,Regency Street,High Street,Park Street
+41,Mythology,What is the name of the home of the Greek Gods?,Olympus,Takamagahara,Sukhavati,Midgard
+42,Mythology,Which warrior’s weakness was their heel?,Achilles,Jason,Menelaus,Aeneas
+43,Mythology,Who was the messenger of the gods?,Hermes,Orpheus,Hestia,Athena
+44,Mythology,What’s the name of the paradise warriors go to after death in norse mythology?,Valhalla,Devaloka,Yomi,Heaven
+45,Mythology,Thor was the son of which God?,Odin,Zeus,Loki,Kratos
+46,Mythology,Romulus and Remus were raised by what animal?,Wolf,Tiger,Lion,Jaguar
+47,Mythology,The Roman God of War inspired the name of which planet?,Mars,Mercury,Jupiter,Uranus
+48,Mythology,What was the name of the Egyptian God of the Sun?,Ra,La,Ka,Fa
+49,Mythology,"Anubis, the God of Death, had the head of a_____",Jackal,Dhole,Coyote,Husky
+50,Mythology,"Set throws Osiris into which river, after tricking him into a coffin?",Nile,Amazon,Yangtze,Charles
+51,Computer Science,A personal computer stores documents or other data temporarily on ___?,RAM,ROM,FLASH drive,Processor
+52,Computer Science,"If you restart your computer by selecting the restart button, it is known as ___?",A & D,Soft boot,Cold boot,Warm boot
+53,Computer Science,1 Megabyte (MB) = __?,"1,024 kb","1,000 kb","1,200 kb","1,275 kb"
+54,Computer Science,Which computer program converts assembly language to machine language?,Assembler,Interpreter,Compiler,Comparator
+55,Computer Science,A computer use which type of number system to calculate and to store data?,Binary,Decimal,Octal,Hexadecimal
+56,Computer Science,One Terabyte (1TB) is equal to,1024 GB,1028 GB,1912 GB,1000 GB
+57,Computer Science,The basic uits of a excel spreedsheet where we enter data is called ___?,Cell,Tab,Box,None of the above
+58,Computer Science,"What does the letter ""S"" stand for in the Web terminology ""HTTPS""?",Secure,Safe,Short,Shorter
+59,Computer Science,Which one IP address cannot be assign to a computer system in a network?,127.0.0.1,192.168.1.1,192.1.1.27,None of the above
+60,Computer Science,USB Hard disk is a ___ type of storage device.,Secondary,Primary,Teriary,Auxillary
+61,Movie,"Where were ""The Lord of the Rings"" movies filmed?",New Zealand,Ireland,Iceland,Australia
+62,Movie,"Which is not the name of a child selected to tour the Wonka factory in ""Willy Wonka and the Chocolate Factory""?",Billy Warp,Veruca Salt,Mike Teavee,Charlie Bucket
+63,Movie,"Who did the cat in ""The Godfather"" belong to?",No one—the cat was a stray.,Francis Ford Coppola,Diane Keaton,Al Pachino
+64,Movie,What is the name of the fictional land where Frozen takes place?,Arendelle,Naples,Florin,Grimm
+65,Movie,"What item is in every ""Fight Club"" scene?",A Starbucks cup,A Coca-Cola can,A Dunkin’ donut,A Pepsi bottle
+66,Movie,Which actor hasn’t played the Joker?,Sean Penn,Jack Nicholson,Jared Leto,Mark Hamil
+67,Movie,Which two movies started from the same script?,E.T. and Poltergeist,Star Wars and Close Encounters of the Third Kind,The Goonies and Indiana Jones,Jurassic Park and The Land Before Time
+68,Movie,What was the first movie in the Marvel Cinematic Universe?,Iron Man,The Incredible Hulk,Spider-Man,Captain America
+69,Movie,For which of these movies did Leonardo DiCaprio win an Oscar for Best Actor?,The Revenant,Blood Diamond,The Last King of Scotland,Titanic
+70,Movie,What type of animal appears in the opening credits of movies produced by MGM studios?,Lion,Giraffe,Rooster,Duck

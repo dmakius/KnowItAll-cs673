@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} LeaderBoard {% endblock %}
+
+{% block content %}
+
+<h1 class='text-center'>Top Scores</h1>
+<table class='table'>
+	<tr>
+		<th>Username</th>
+		<th>Score</th>
+	</tr>
+	<tbody class='table-striped'>
+		{% for s in scores %}
+		<tr>
+			<td>{{ s.username }}</td>
+			<td>{{ s.score }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<a href = '/game' class = 'btn btn-primary'> Game Page</a>  <a href = '/' class = 'btn btn-primary'> Main Page</a>
+
+{% endblock %}
