@@ -25,11 +25,12 @@ class LeaderboardScore(db.Model):
 
 # Define user table Schema
 class Player(db.Model, UserMixin):
-    __tablename__ = "player"
+    __tablename__ = "Player"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     player_name = db.Column(db.String(150))
+    game_id = db.Column(db.Integer, db.ForeignKey('Game.id'))
     # TODO: add a relationship with the leaderboardScore using the foreign key.
     # TODO: need to add and change some variable.
 
@@ -44,10 +45,11 @@ class Game(db.Model):
     score = db.Column(db.Integer, unique=False, nullable = False)
     question_time = db.Column(db.Integer, unique=False, nullable = False)
     num_skip_question = db.Column(db.Integer, unique=False, nullable = False)
-    questions_left = db.Column(db.String(300), unique=True, nullable=False) #if we have significantly more questions this needs to be longer
+    questions_left = db.Column(db.String(300), unique=False, nullable=False) #if we have significantly more questions this needs to be longer
     max_questions = db.Column(db.Integer, unique=False, nullable = False)
     question_id = db.Column(db.Integer, unique=False, nullable = True)
     answer_location = db.Column(db.Integer, unique=False, nullable = False)
     cr_time = db.Column(DateTime(timezone=True), server_default=func.now())
     num_fifty_fifty = db.Column(db.Integer, unique=False, nullable = False)
     fifty_fifty_option = db.Column(db.String(100), unique=False, nullable = False)
+    player_id = db.relationship("Player", backref="Player", uselist=False)

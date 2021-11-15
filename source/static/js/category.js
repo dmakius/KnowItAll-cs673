@@ -13,19 +13,8 @@ $(document).ready(function () {
             'category' : category,
     }
 
-    $.ajax({
-        type : "POST",
-        url : "/category/select",
-        data: JSON.stringify(data, null, '\t'),
-        contentType: 'application/json;charset=UTF-8',
-        success: function(result) {
-            console.log(result);
-        }
-    });
-
-    var opt = $('.option');
      // clicking on any of the options will return value to user_selection
-    opt.on('click', Selection);
+     $('.option').on('click', Selection);
      // clicking on any of the options will return value to user_selection
     function Selection() {
             user_selection = $(this);
@@ -39,16 +28,27 @@ $(document).ready(function () {
                     'category' : category,
                 }
 
-            $.ajax({
-                type : "POST",
-                url : "/category/select",
-                data: JSON.stringify(data, null, '\t'),
-                contentType: 'application/json;charset=UTF-8',
-                success: function(result) {
-                    console.log(result);
-                }
-            });
+         
     } 
+
+    $('#startgame').on('click', submit);
+
+    function submit(){
+        $.ajax({
+            type : "POST",
+            url : "/category/select",
+            data: JSON.stringify(data, null, '\t'),
+            contentType: 'application/json;charset=UTF-8',
+            success: function(result) {
+                console.log(result);
+                //store results in browsers local storage
+                localStorage.setItem("gameID", JSON.stringify(result[0]['gameID']));
+                
+                //reiderect to the game page
+                window.location.href = '/game';
+            }
+        });
+    }
 
 });
 

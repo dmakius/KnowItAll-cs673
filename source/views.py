@@ -12,18 +12,15 @@ views = Blueprint('views', __name__)
 # ROUTES
 @views.route('/')
 def main():
-    print(current_user)
     return render_template('main.html', user=current_user)
 
 
 @views.route('/game')
 def game():
-    print(current_user)
     return render_template('game.html', user=current_user)
 
 @views.route('/category')
 def category():
-    print(current_user)
     return render_template('category.html', user=current_user)
 
 @views.route('/leaderboard')

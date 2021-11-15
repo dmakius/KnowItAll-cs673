@@ -1,16 +1,26 @@
 from flask import Flask, Blueprint, render_template, request, redirect, jsonify, url_for, request
+from flask_login import login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 import random
 from datetime import datetime
 from . import db
-from .models import Question, Game
+from .models import Question, Game, Player
 
 question = Blueprint('question', __name__)
 
 @question.route('/question/')
 def getSingleQuestion():
     #TODO We need to dynamically get the game associated with the user/game instance
-    game = Game.query.get(1)
+    incomming_values = request.args.to_dict(flat=False)
+    game_id = incomming_values.get('GameID')[0]
+    
+    if (current_user.is_authenticated):
+        print("Using game for a logged in user")
+        p = Player.query.get(current_user.id)
+        game = Game.query.get(p.game_id)
+    else:
+        print("Using game for a random")
+        game = Game.query.get(game_id)
 
     # get random question from ID's remaining
     questions_left = game.questions_left.split(',')

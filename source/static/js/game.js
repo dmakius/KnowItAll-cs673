@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    initGameVariables()
+    initGameVariables();
 
     //read and keep answer location
     var answer_location;
@@ -64,6 +64,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/skip_question',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
                 console.log(typeof data);
@@ -104,6 +105,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/fifty_fifty',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data){
                 // Log data on front end
@@ -144,26 +146,27 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/settings',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
                 // Log data on front end
                 console.log(typeof data);
                 console.log(data);
                 
-            //initialize the variables from the ajax data
-            attempt_counter = data[0]['Lives'];
-            MaxSkip = data[3]['Number Question Skips'];
-            timer = data[1]['Question Time'];
-            player_score = data[2]['Score'];
-            timeleft = timer;
-            fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
-    
-            //replace front end ui with NEW data from server
-            $('#question').text(data[4]['Question']);
-            option1 = $('#option_1').text("A: " + data[5]['Option_1']);
-            option2 = $('#option_2').text("B: " + data[6]['Option_2']);
-            option3 = $('#option_3').text("C: " + data[7]['Option_3']);
-            option4 = $('#option_4').text("D: " + data[8]['Option_4']);
+                //initialize the variables from the ajax data
+                attempt_counter = data[0]['Lives'];
+                MaxSkip = data[3]['Number Question Skips'];
+                timer = data[1]['Question Time'];
+                player_score = data[2]['Score'];
+                timeleft = timer;
+                fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
+        
+                //replace front end ui with NEW data from server
+                $('#question').text(data[4]['Question']);
+                option1 = $('#option_1').text("A: " + data[5]['Option_1']);
+                option2 = $('#option_2').text("B: " + data[6]['Option_2']);
+                option3 = $('#option_3').text("C: " + data[7]['Option_3']);
+                option4 = $('#option_4').text("D: " + data[8]['Option_4']);
             }
         });
     }
@@ -230,6 +233,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/answer',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
                 // Log data on front end
@@ -247,6 +251,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/update_score',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
                 // Log data on front end
@@ -264,6 +269,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/game/removelife',
+            data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
                 // Log data on front end
@@ -288,6 +294,7 @@ $(document).ready(function () {
             dataType: 'json',
             type: 'GET',
             url: '/question/',
+            data: {"GameID": localStorage.getItem("gameID")},
             success: function (data) {
                 // Log data on front end
                 console.log(typeof data);
