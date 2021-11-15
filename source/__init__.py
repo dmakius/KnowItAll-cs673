@@ -4,7 +4,7 @@ from os import path
 import os
 from flask_login import LoginManager
 
-from .import_questions import populate_db
+from helper_functions.import_questions import populate_db
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
