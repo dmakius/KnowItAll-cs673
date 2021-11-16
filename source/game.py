@@ -14,27 +14,19 @@ game = Blueprint('game', __name__)
 
 @game.route('/game/settings', methods=['GET', 'POST'])
 def gameSettings():
-    # Set the game variables
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
+    #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
     total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+   
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
     #Set up the conditional logic for the initialization of the questions_left array to only populate with valued from the category.
 
     #get all QuestionIDs and randomize them
     print(list(range(1, total_num_questions + 1)))
-    print("Random list of questions")
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
-    print(game)
-    print(game.category)
+   
+   #filter out questions that are not in the game's category
     if game.category != null:
         questions_left = []
         for k in range(total_num_questions):  
@@ -42,13 +34,12 @@ def gameSettings():
             if q.category == game.category:
                 questions_left.append(q.id)
         questions_left = random.sample(questions_left, len(questions_left))
-    print(questions_left)
 
     #select the random question for the first question
     str_id = questions_left[0]
     q = Question.query.get(str_id)
 
-    # # Shuffle the 4 potential answers
+    #Shuffle the 4 potential answers
     input = [q.answer, q.option_1, q.option_2, q.option_3]
     answers = random.sample(input, len(input))
 
@@ -71,23 +62,17 @@ def gameSettings():
     return_data = [{"Lives" : game.lives}, {"Question Time" : game.question_time}, {"Score" : game.score}, {"Number Question Skips" : game.num_skip_question},
                    {"Question": q.question}, {"Option_1": answers[0]}, {"Option_2": answers[1]}, {"Option_3": answers[2]}, {"Option_4": answers[3]}, {"Fifth Fifty Attempt": game.num_fifty_fifty},
                    {"game_id": game.id}]
+    
+    #data to be returned to user
     print(return_data)
     return jsonify(return_data)
 
 # Return the answer to the current question
 @game.route('/game/answer')
 def gameAnswer():
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
-    total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+    #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
     
     return_data = [{"Answer_Location" : game.answer_location}]
     return(jsonify(return_data))
@@ -95,17 +80,9 @@ def gameAnswer():
 # Modify the game's lives
 @game.route('/game/removelife')
 def removeLife():
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
-    total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+    #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
         
     game.lives = game.lives - 1
     db.session.commit()
@@ -115,18 +92,9 @@ def removeLife():
 #Modify the game's remaining question skips
 @game.route('/game/skip_question')
 def skipQuestion():
-    #TODO We need to dynamically get the game associated with the user/game instance
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
-    total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+    #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
     game.num_skip_question = game.num_skip_question - 1
     db.session.commit()
 
@@ -136,17 +104,9 @@ def skipQuestion():
 #Modify the game's remaining 50/50, and get the options that can be removed
 @game.route('game/fifty_fifty')
 def fiftyFifty():
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
-    total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+     #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
     option = []
     game.num_fifty_fifty = game.num_fifty_fifty-1
     attempt = str(game.num_fifty_fifty)
@@ -162,21 +122,13 @@ def fiftyFifty():
     return (jsonify(return_data))
 
 
+
 #Update Score and reset question Time
 @game.route('/game/update_score')
 def updateScore():
-    #TODO We need to dynamically get the game associated with the user/game instance
-    incomming_values = request.args.to_dict(flat=False)
-    game_id = incomming_values.get('GameID')[0]
-    
-    total_num_questions = Question.query.count()
-    if (current_user.is_authenticated):
-        print("Using game for a logged in user")
-        p = Player.query.get(current_user.id)
-        game = Game.query.get(p.game_id)
-    else:
-        print("Using game for a random")
-        game = Game.query.get(game_id)
+    #get the gameID from the user's browser's local memory
+    gameID = get_gameID()
+    game = get_game(gameID)
 
     #Sent the current time for the next question, and take the difference for the passed time
     previous_time = game.cr_time
@@ -188,3 +140,18 @@ def updateScore():
     db.session.commit()
 
     return(str(game.score))
+
+#help functions
+def get_game(game_id):
+    if (current_user.is_authenticated):
+        print("Using game for a logged in user")
+        p = Player.query.get(current_user.id)
+        game = Game.query.get(p.game_id)
+    else:
+        print("Using game for a random user")
+        game = Game.query.get(game_id)
+    return game
+
+def get_gameID():
+    incomming_values = request.args.to_dict(flat=False)
+    return (incomming_values.get('GameID')[0])

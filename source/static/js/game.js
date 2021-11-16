@@ -149,10 +149,6 @@ $(document).ready(function () {
             data: {"GameID": localStorage.getItem("gameID")},
             async: false,
             success: function (data) {
-                // Log data on front end
-                console.log(typeof data);
-                console.log(data);
-                
                 //initialize the variables from the ajax data
                 attempt_counter = data[0]['Lives'];
                 MaxSkip = data[3]['Number Question Skips'];
