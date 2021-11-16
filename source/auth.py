@@ -68,7 +68,7 @@ def sign_up():
         elif password1 != password2:
             flash('password don\'t match', category='error')
         else:
-            # add user to the test database
+            # create add new user to the test database
             new_player = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_player)
             db.session.commit()

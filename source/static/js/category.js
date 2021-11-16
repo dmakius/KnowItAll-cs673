@@ -34,20 +34,25 @@ $(document).ready(function () {
     $('#startgame').on('click', submit);
 
     function submit(){
-        $.ajax({
-            type : "POST",
-            url : "/category/select",
-            data: JSON.stringify(data, null, '\t'),
-            contentType: 'application/json;charset=UTF-8',
-            success: function(result) {
-                console.log(result);
-                //store results in browsers local storage
-                localStorage.setItem("gameID", JSON.stringify(result[0]['gameID']));
-                
-                //reiderect to the game page
-                window.location.href = '/game';
-            }
-        });
+        //Make sure a category is selected before continuing
+        if(category != ''){
+            $.ajax({
+                type : "POST",
+                url : "/category/select",
+                data: JSON.stringify(data, null, '\t'),
+                contentType: 'application/json;charset=UTF-8',
+                success: function(result) {
+                    console.log(result);
+                    //store results in browsers local storage
+                    localStorage.setItem("gameID", JSON.stringify(result[0]['gameID']));
+                    
+                    //reiderect to the game page
+                    window.location.href = '/game';
+                }
+            });
+        }else{
+            alert("Please Submit a Category!");
+        }
     }
 
 });

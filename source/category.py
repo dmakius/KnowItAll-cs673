@@ -1,16 +1,12 @@
-from flask import Blueprint, render_template, request, jsonify
-from flask_login import login_required, current_user
+from flask import Blueprint, request, jsonify
+from flask_login import current_user
 from . import db
 from .models import Game, Question, Player
 
 category = Blueprint("category", __name__)
 
 @category.route('/category/select', methods=['POST'])
-def mycategory():
-    #TODO We need to dynamically get the game associated with the user/game instance and initiate that here.
-    #TODO Right now the game table will be empty since you go to categories before the first game, so we're also initializing that first game instance here
-    #create a game for the player
-   
+def mycategory():   
     total_num_questions = Question.query.count()
     if (current_user.is_authenticated):
         #bring up the players game and reinitialize the variables
@@ -40,5 +36,6 @@ def mycategory():
     db.session.commit()
     print(new_game)
     print(new_game.category)
+    #for non logged in users return the gameID to be stored in thier browser's local memory
     return_data = [{"gameID": new_game.id}]
     return jsonify(return_data)
