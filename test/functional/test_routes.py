@@ -1,39 +1,57 @@
 from source import create_app
 from source.models import Game
 from source import db
+import pytest
 
-def test_home_page():
+@pytest.fixture(scope='module')
+def test_client():
     flask_app = create_app()
 
     # Create a test client using the Flask application configured for testing
-    with flask_app.test_client() as test_client:
-        response = test_client.get('/')
-        assert response.status_code == 200
-        assert b"KNOWITALL" in response.data
-        assert b"START" in response.data
-        assert b"LeaderBoard" in response.data
-        assert b"Player Profile" in response.data
-        assert b"About" in response.data
+    with flask_app.test_client() as testing_client:
+        # Establish an application context
+        with flask_app.app_context():
+            yield testing_client  # this is where the testing happens!
 
-#   This test ensures that the 'questions_left' array is initialized correctly, containing every question but the first one.
-def test_questions_left_initialization():
-    flask_app = create_app()
-    with flask_app.test_client() as test_client:
-        response = test_client.get('/')
-        assert response.status_code == 200
-        #TODO We need to dynamically get the game associated with the user/game instance
-        game = Game.query.get(1)
-        game.category = '' #this line isn't properly setting the category so the test only works when no category is active
-        db.session.commit
-        response = test_client.get('/game')
-        assert response.status_code == 200
-        questions_left = game.questions_left.split(',')
-        questions_left[0] = int(''.join(filter(str.isdigit, questions_left[0])))
-        #this line only works is the category is properly empty
-        assert len(questions_left) == game.max_questions - 1
-        for i in range(len(questions_left)):
-            assert game.question_id != questions_left[i]
+def test_home_page(test_client):
+    response = test_client.get('/')
+    assert response.status_code == 200
+    assert b"KNOWITALL" in response.data
+    assert b"START" in response.data
+    assert b"LeaderBoard" in response.data
+    assert b"About" in response.data
 
-
+def test_category_page(test_client):
+    response = test_client.get('/category')
+    assert response.status_code == 200
+    assert b"START" in response.data
+    assert b"GEOGRAPHY" in response.data
+    assert b"ART" in response.data
+    assert b"COMPUTER SCIENCE" in response.data
+    assert b"SCIENCE" in response.data
+    assert b"MYTHOLOGY" in response.data
+    assert b"TV SHOWS" in response.data
+    assert b"MOVIE" in response.data
+    assert b"ALL" in response.data
         
+def test_game_page(test_client):
+    response = test_client.get('/game')
+    assert response.status_code == 200
+    assert b"LIVES" in response.data
+    assert b"SCORE" in response.data
+    assert b"TIME" in response.data
+    assert b"Lifelines" in response.data
+    assert b"Next Question" in response.data
+    assert b"Submit" in response.data
+    assert b"QUIT GAME" in response.data
+    assert b"Skip Question" in response.data
+    assert b"50/50" in response.data
         
+def test_leaderboard_page(test_client):
+    response = test_client.get('/leaderboard')
+    assert response.status_code == 200
+    assert b"Top Scores" in response.data
+    assert b"Username" in response.data
+    assert b"Score" in response.data
+    assert b"Game Page" in response.data
+    assert b"Main Page" in response.data

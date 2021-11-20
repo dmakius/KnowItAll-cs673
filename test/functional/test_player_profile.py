@@ -1,7 +1,4 @@
-import os
 from source import create_app
-
-os.chdir('..')
 
 
 def test_change_to_duplicate_email():

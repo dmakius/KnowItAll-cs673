@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-
+            {% if user.is_authenticated %}
             <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:25px;'>
                 <div class="row text-white">
                     <div class="mx-auto text-center  p-4">
@@ -103,19 +103,37 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only">username:</label>
-                                    <input name='username' type="text" class="form-control" placeholder="Username" required>
+                                    <input name='username' type="text" class="form-control" placeholder="Username" value = {{user.player_name}} required readonly> 
                                 </div>
                                 <br>
-                                <button type="submit" class="btn btn-primary btn-lg">POST!</button>
-                                <br>
+                                <button type="submit" class="btn btn-primary btn-lg">POST!</button>  
+                                <br><br>
                                 <div class='container'>
-                                    ​<a href='/'>QUIT GAME</a>
+                                    ​<a href='/' class="btn btn-secondary btn-lg">QUIT GAME</a>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:25px;'>
+                <div class="row text-white">
+                    <div class="mx-auto text-center  p-4">
+                        <h1 class="display-4 py-2 text-truncate">Game Over!</h1>
+                        <div class="px-2">
+                            <h3><b>SCORE:</b><span id ="Score_No_Login"></span></h3>
+                        </div>
+                        <div class='container'>
+                            ​<a href='/' class="btn btn-secondary btn-lg">MAIN PAGE</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+
         </div>
 
     </div>

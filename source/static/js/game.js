@@ -408,6 +408,7 @@ $(document).ready(function () {
     function gameOver(){
         alert("Game over!");
         $('#Score').val(player_score);
+        $('#Score_No_Login').html(player_score);
         $('#next').detach();
         $('#submit').detach();
         $('input[name="score"]').val(player_score);
