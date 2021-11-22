@@ -23,12 +23,18 @@ def game():
 def category():
     return render_template('category.html', user=current_user)
 
+
+
 @views.route('/leaderboard')
+@login_required
 def leaderBoard():
     scores = LeaderboardScore.query.order_by(LeaderboardScore.score.desc()).all()
     return render_template('leaderboard.html', user=current_user, scores=scores)
 
+
+
 @views.route('/playerProfile')
+@login_required
 def userProfile():
     scores = LeaderboardScore.query.filter_by(userid=current_user.id)
     return render_template('player_profile.html', user=current_user, scores=scores)
