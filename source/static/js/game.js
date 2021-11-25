@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     // for skip question function
     var skipleft = MaxSkip;
-    
+
     // for timer function and score function
     var timerpower = true; //determines whether timer is active or not
 
@@ -39,7 +39,7 @@ $(document).ready(function () {
     //Next button, for new question
     var next = $('#next');
     next.on('click', DisplayNewQuestion);
-    next.hide();    
+    next.hide();
 
     // Skip question function
     $('#SkipQuestion').click(function(){
@@ -47,7 +47,7 @@ $(document).ready(function () {
             console.log('No more skips!');
             return false;
         }
-        
+
         //Get skip question data from backend
         ajaxSkipQuestion()
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
                 skipleft = data;
             }
-        });  
+        });
     }
 
     // fifty fifty lifeline function
@@ -149,7 +149,7 @@ $(document).ready(function () {
                 // Log data on front end
                 console.log(typeof data);
                 console.log(data);
-                
+
             //initialize the variables from the ajax data
             attempt_counter = data[0]['Lives'];
             MaxSkip = data[3]['Number Question Skips'];
@@ -157,7 +157,7 @@ $(document).ready(function () {
             player_score = data[2]['Score'];
             timeleft = timer;
             fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
-    
+
             //replace front end ui with NEW data from server
             $('#question').text(data[4]['Question']);
             option1 = $('#option_1').text("A: " + data[5]['Option_1']);
@@ -202,7 +202,7 @@ $(document).ready(function () {
 
                 // change answer color to green
                 $(CheckAnswer()).css('background-color', 'green').css('color', 'white');
-                
+
                 //update the score
                 ajaxUpdateScore()
                 $('#Counter').html(player_score);
@@ -239,7 +239,7 @@ $(document).ready(function () {
                 //update the answer location
                 answer_location = data[0]['Answer_Location'];
             }
-        });  
+        });
     }
 
     function ajaxUpdateScore(){
@@ -256,7 +256,7 @@ $(document).ready(function () {
                 //update the answer location
                 player_score = data;
             }
-        });  
+        });
     }
 
     function ajaxRemoveLife(){
@@ -273,7 +273,7 @@ $(document).ready(function () {
                 //update the answer location
                 attempt_counter = data;
             }
-        });  
+        });
     }
 
     // All of the functionality attached to the player clicking the 'Next Question' button
@@ -306,24 +306,10 @@ $(document).ready(function () {
 
     // function for checking which option is the answer
     function CheckAnswer() {
-
         //answer_location is getting from DisplayNewQuestion(), and the value is a int
-        if (answer_location == 1) {
-            //option_1 is getting from DisplayNewQuestion() option_1
-            q_answer = option_1;
 
-        } else if (answer_location == 2) {
-            //option_2 is getting from DisplayNewQuestion() option_2
-            q_answer = option_2;
+        q_answer = window['option_' + answer_location];
 
-        } else if (answer_location == 3) {
-            //option_3 is getting from DisplayNewQuestion() option_3
-            q_answer = option_3;
-
-        } else {
-            //option_4 is getting from DisplayNewQuestion() option_4
-            q_answer = option_4;
-        }
         // the return value is a HTML <div>...</div>,
         // something like: <div class="col-md-5 text-center option btn btn-outline-secondary" id="option_1" style="color: green;">B: Baker Street</div>
         return q_answer;
