@@ -6,12 +6,14 @@
 <h1 class='text-center'>Top Scores</h1>
 <table class='table'>
 	<tr>
+		<th>Category</th>
 		<th>Username</th>
 		<th>Score</th>
 	</tr>
 	<tbody class='table-striped'>
 		{% for s in scores %}
 		<tr>
+			<td>{{ s.category }}</td>
 			<td>{{ s.username }}</td>
 			<td>{{ s.score }}</td>
 		</tr>

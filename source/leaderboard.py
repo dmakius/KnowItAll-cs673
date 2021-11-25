@@ -14,8 +14,11 @@ def leaderBoard_create():
     game = Game.query.get(1)
     username = request.form['username']
     score = game.score
+
+    game_category = game.category;
+
     userid = current_user.id if current_user.is_authenticated else 0
-    new_score = LeaderboardScore(category='TEST', userid=userid, username=username, score=score)
+    new_score = LeaderboardScore(category=game_category, userid=userid, username=username, score=score)
 
     db.session.add(new_score)
     db.session.commit()

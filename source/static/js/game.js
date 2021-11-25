@@ -158,6 +158,9 @@ $(document).ready(function () {
             timeleft = timer;
             fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
 
+            // TODO: pass the value from the
+            game_category = "dwadw";
+
             //replace front end ui with NEW data from server
             $('#question').text(data[4]['Question']);
             option1 = $('#option_1').text("A: " + data[5]['Option_1']);
@@ -393,6 +396,10 @@ $(document).ready(function () {
 
     function gameOver(){
         alert("Game over!");
+
+        $('#category').val(game_category);
+        $('input[name="category"]').val(game_category);
+
         $('#Score').val(player_score);
         $('#Score_No_Login').html(player_score);
         $('#next').detach();

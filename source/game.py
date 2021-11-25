@@ -7,6 +7,7 @@ from sqlalchemy.sql.expression import null
 from . import db
 from .models import Game, Question
 # from .category import mycategory
+from .leaderboard import leaderboard
 
 game = Blueprint('game', __name__)
 
@@ -21,7 +22,7 @@ def gameSettings():
 
     #TODO We need to dynamically get the game associated with the user/game instance and initiate that here.
     if Game.query.count() < 1:
-        game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
+        game = Game(type = 'Test', lives = 3, score = 0, question_time = 30,
                     num_skip_question = 3, questions_left = str(0),
                     answer_location =  0, max_questions = total_num_questions,
                     num_fifty_fifty = 3, fifty_fifty_option = str(0))
@@ -29,6 +30,7 @@ def gameSettings():
         db.session.commit()
     else:
         game = Game.query.get(1)
+
         game.lives = 3
         game.question_time = 30
         game.score = 0
@@ -38,6 +40,8 @@ def gameSettings():
         game.max_questions =  total_num_questions
         game.num_fifty_fifty = 3
         game.fifty_fifty_option = str(0)
+
+
         db.session.commit()
 
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
@@ -50,7 +54,7 @@ def gameSettings():
     print(questions_left)
     if game.category != '':
         questions_left = []
-        for k in range(total_num_questions):  
+        for k in range(total_num_questions):
             q = Question.query.get(k+1)
             if q.category == game.category:
                 questions_left.append(q.id)
@@ -104,7 +108,7 @@ def removeLife():
     db.session.commit()
     return(str(game.lives))
 
-        
+
 #Modify the game's remaining question skips
 @game.route('/game/skip_question')
 def skipQuestion():
