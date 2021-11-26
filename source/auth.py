@@ -93,6 +93,7 @@ def send_mail(user):
 
     {url_for('auth.reset_token', token=token, _external=True)}
 
+    This link is only valid for 5 minutes.
     If you didn't send a password reset request. Please ignore this message.
     
     
