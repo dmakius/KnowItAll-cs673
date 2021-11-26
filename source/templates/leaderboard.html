@@ -3,7 +3,23 @@
 
 {% block content %}
 
+
 <h1 class='text-center'>Top Scores</h1>
+
+<!-- Testing Select category -->
+<form action="{{url_for('views.leaderBoardchooseCategory')}}" method="POST">
+	<label for="category">Choose a category</label>
+	<select id="category" name="category">
+		<option value="All" name="All"> -- </option>
+		<option value="Geography" name="Geography">Geography</option>
+		<option value="Art" name="Art">Art</option>
+		<option value="ComputerScience" name="Computer Science">Computer Science</option>
+
+	</select>
+	<input type="submit" value="Submit">
+</form>
+
+
 <table class='table'>
 	<tr>
 		<th>Category</th>
@@ -20,6 +36,8 @@
 		{% endfor %}
 	</tbody>
 </table>
-<a href = '/game' class = 'btn btn-primary'> Game Page</a>  <a href = '/' class = 'btn btn-primary'> Main Page</a>
+
+<!-- two buttons -->
+<a href='/game' class='btn btn-primary'> Game Page</a> <a href='/' class='btn btn-primary'> Main Page</a>
 
 {% endblock %}
