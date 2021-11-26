@@ -41,7 +41,6 @@ def gameSettings():
         game.num_fifty_fifty = 3
         game.fifty_fifty_option = str(0)
 
-
         db.session.commit()
 
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category

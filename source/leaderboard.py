@@ -13,9 +13,10 @@ def leaderBoard_create():
     #TODO We need to dynamically get the game associated with the user/game instance
     game = Game.query.get(1)
     username = request.form['username']
+    category = game.category
     score = game.score
     userid = current_user.id if current_user.is_authenticated else 0
-    new_score = LeaderboardScore(category='TEST', userid=userid, username=username, score=score)
+    new_score = LeaderboardScore(category=category, userid=userid, username=username, score=score)
 
     db.session.add(new_score)
     db.session.commit()
