@@ -14,10 +14,22 @@
 		<tr>
 			<td>{{ s.username }}</td>
 			<td>{{ s.score }}</td>
+            {% if user.admin == 1 %}
+                <td>
+                    <form method="POST" action="{{url_for('admin.delete_score')}}">
+                        <input id="score_id" name="score_id" value="{{ s.id }}" style="visibility: hidden;">
+                        <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                    </form>
+                </td>
+            {% endif %}
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
-<a href = '/' class = 'btn btn-primary'> Main Page</a>
+    {% if user.admin == 1 %}
+        <a href = '/admin' class = 'btn btn-primary'> Back</a>
+        {% else %}
+        <a href = '/' class = 'btn btn-primary'> Main Page</a>
+    {% endif %}
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, jsonify, request, url_for, redirect
+from flask import Flask, Blueprint, render_template, jsonify, request, url_for, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 import random
 import json
@@ -52,3 +52,14 @@ def delete_player():
         db.session.commit()
 
     return jsonify({})
+
+
+@views.route('/admin', methods=['GET','POST'])
+@login_required
+def display_admin():
+    user = Player.query.filter_by(id=current_user.id).first()
+    if user.admin == 1:
+        return render_template('admin.html', user=current_user)
+    else:
+        flash('You are not allow to go to admin page.', category='error')
+    return render_template('main.html', user=current_user)

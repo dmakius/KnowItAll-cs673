@@ -1,7 +1,7 @@
 import csv, sqlite3
 def populate_db():
     try:
-        # connec to DB
+        # connect to DB
         con = sqlite3.connect("test.db")  # change to 'sqlite:///your_filename.db'
         cur = con.cursor()
 
@@ -17,7 +17,8 @@ def populate_db():
                     dr]
 
         cur.executemany(
-            "INSERT INTO question (ID,Category,Question,Answer,Option_1,Option_2,Option_3) VALUES (?, ?, ?, ?, ?, ?,?);", to_db)
+            "INSERT INTO question (ID,Category,Question,Answer,Option_1,Option_2,Option_3) VALUES (?, ?, ?, ?, ?, ?,?);"
+            ,to_db)
         con.commit()
 
         print("Data base has sucesfully been populated")

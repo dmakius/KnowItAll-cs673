@@ -25,8 +25,12 @@ def login():
                 # User login and remember the user
                 login_user(user, remember=True)
 
-                # TODO: need to redirect to the home page
-                return redirect(url_for('views.main', user=current_user))
+                if user.admin == 1:
+                    return redirect(url_for('views.display_admin', user=current_user))
+                else:
+                    # TODO: need to redirect to the home page
+                    return redirect(url_for('views.main', user=current_user))
+
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -69,7 +73,7 @@ def sign_up():
             flash('password don\'t match', category='error')
         else:
             # create add new user to the test database
-            new_player = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'))
+            new_player = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'), admin=False)
             db.session.add(new_player)
             db.session.commit()
             

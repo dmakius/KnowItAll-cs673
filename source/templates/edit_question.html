@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %} Edit Question {% endblock %}
+{% block content %}
+    <h1 class='text-center'>Edit Question</h1>
+    <a href='/admin/question' class='btn btn-primary'> Back </a>
+    <br>
+    <br>
+    <!-- Category -->
+    <div>
+        <h5>Category: {{ question.category }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="category">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+    <br>
+
+    <!-- Question -->
+    <div>
+        <h5>Question: {{ question.question }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="question">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+    <br>
+
+    <!-- Answer -->
+    <div>
+        <h5>Answer: {{ question.answer }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="answer">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+    <br>
+
+    <!-- Option1 -->
+    <div>
+        <h5>Option1: {{ question.option_1 }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="option1">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+    <br>
+
+    <!-- Option2 -->
+    <div>
+        <h5>Option2: {{ question.option_2 }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="option2">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+    <br>
+
+    <!-- Option3 -->
+    <div>
+        <h5>Option3: {{ question.option_3 }}</h5>
+        <form method="POST" action="{{ url_for('admin.edit_question') }}">
+            <a>Edit here:</a><input type="text" name="option3">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            <input id="question_id" name="question_id" value="{{ question.id }}" style="visibility: hidden;">
+        </form>
+    </div>
+
+{% endblock %}

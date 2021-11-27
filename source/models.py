@@ -31,6 +31,7 @@ class Player(db.Model, UserMixin):
     password = db.Column(db.String(150))
     player_name = db.Column(db.String(150))
     game_id = db.Column(db.Integer, db.ForeignKey('Game.id'))
+    admin = db.Column(db.Boolean)
     # TODO: add a relationship with the leaderboardScore using the foreign key.
     # TODO: need to add and change some variable.
 

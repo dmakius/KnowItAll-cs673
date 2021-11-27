@@ -5,6 +5,7 @@ import os
 from flask_login import LoginManager
 
 from .helper_functions.import_questions import populate_db
+from .helper_functions.import_admin_account import populate_admin_to_db
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
@@ -25,6 +26,7 @@ def create_app():
     from .auth import auth
     from .category import category
     from .player_profile import player_profile
+    from .admin import admin
 
 
     app.register_blueprint(views, url_prefix='/')
@@ -34,6 +36,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(category, url_prefix='/')
     app.register_blueprint(player_profile, url_prefix='/')
+    app.register_blueprint(admin, url_prefix='/')
 
     from .models import Player
 
@@ -59,6 +62,9 @@ def create_database(app):
         print('Created Database!')
         os.chdir("source")
         populate_db()
+
+        # create super user account
+        populate_admin_to_db(1, 'admin@test.com', '12345678', 'Admin', 1, True)
         # it will cause issues if does to change the working directory back
         os.chdir("../")
     else:
