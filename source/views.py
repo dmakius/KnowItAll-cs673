@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, jsonify, request, url_for, 
 from flask_sqlalchemy import SQLAlchemy
 import random
 import json
+
 from . import db
 from .models import Question, LeaderboardScore, Player, Game
 from flask_login import login_required, current_user
@@ -36,7 +37,12 @@ def leaderBoard():
 @views.route('/playerProfile')
 @login_required
 def userProfile():
-    scores = LeaderboardScore.query.filter_by(userid=current_user.id)
+    from sqlalchemy import desc, func
+    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
+        filter_by(userid=current_user.id). \
+        group_by(LeaderboardScore.category). \
+        order_by(func.max(LeaderboardScore.score).desc())
+
     return render_template('player_profile.html', user=current_user, scores=scores)
 
 # route to the test-feature page
