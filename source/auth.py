@@ -25,6 +25,7 @@ def login():
                 # User login and remember the user
                 login_user(user, remember=True)
 
+                # check if super user
                 if user.admin == 1:
                     return redirect(url_for('views.display_admin', user=current_user))
                 else:

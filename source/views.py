@@ -54,6 +54,7 @@ def delete_player():
     return jsonify({})
 
 
+# route admin page
 @views.route('/admin', methods=['GET','POST'])
 @login_required
 def display_admin():

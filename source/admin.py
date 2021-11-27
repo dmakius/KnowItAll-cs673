@@ -6,21 +6,26 @@ from .models import Player, LeaderboardScore, Question
 admin = Blueprint('admin', __name__)
 
 
+# route the admin question page
 @admin.route('/admin/question')
 def questions():
     user = Player.query.filter_by(id=current_user.id).first()
+
+    # checking if it is superuser
     if user.admin == 1:
         question = Question.query.order_by(Question.category.desc()).all()
-        print(Question.category)
         return render_template('questions.html', user=current_user, question=question)
     else:
         flash('You are not allow to go to admin page.', category='error')
     return render_template('main.html', user=current_user)
 
 
+# route add new question
 @admin.route('admin/question/new')
 def new():
     user = Player.query.filter_by(id=current_user.id).first()
+
+    # superuser checking
     if user.admin == 1:
         return render_template('new_question.html', user=current_user)
     else:
@@ -28,13 +33,15 @@ def new():
     return render_template('main.html', user=current_user)
 
 
+# route edit question
 @admin.route('admin/question/edit', methods=['GET', 'POST'])
 def edit():
     user = Player.query.filter_by(id=current_user.id).first()
+
+    # checking superuser
     if user.admin == 1:
         if request.method == 'POST':
             id = request.form.get('question_id')
-            print(id)
             question = Question.query.filter_by(id=id).first()
             return render_template('edit_question.html', user=current_user, question=question)
     else:
@@ -42,6 +49,7 @@ def edit():
     return render_template('main.html', user=current_user)
 
 
+# add new question to db
 @admin.route('admin/question/add_question', methods=['POST'])
 def add_question():
     if request.method == 'POST':
@@ -56,6 +64,8 @@ def add_question():
         q = Question.query.filter_by(question=question).first()
         if q:
             flash('Question already exists.', category='error')
+
+            # add new question to db
         else:
             new_question = Question(category=category, question=question,
                                     answer=answer, option_1=option1,
@@ -67,11 +77,14 @@ def add_question():
     return render_template("new_question.html")
 
 
+# edit selected question
 @admin.route('admin/question/edit_question', methods=['GET', 'POST'])
 def edit_question():
     if request.method == 'POST':
         q_id = request.form.get('question_id')
         q = Question.query.filter_by(id=q_id).first()
+
+        # checking which part of the question is editing
         if request.form.get('category'):
             new_category = request.form.get('category')
             q.category = new_category
@@ -95,10 +108,10 @@ def edit_question():
         return render_template("edit_question.html", question=q, user=current_user)
 
 
+# delete selected question
 @admin.route('admin/delete_question', methods=['POST'])
 def delete_question():
     id = request.form.get('question_id')
-    print(id)
     question = Question.query.filter_by(id=id).first()
     db.session.delete(question)
     db.session.commit()
@@ -106,10 +119,10 @@ def delete_question():
     return redirect(url_for('admin.questions'))
 
 
+# delete selected score
 @admin.route('admin/delete_score', methods=['POST'])
 def delete_score():
     id = request.form.get('score_id')
-    print(id)
     score = LeaderboardScore.query.filter_by(id=id).first()
     db.session.delete(score)
     db.session.commit()
