@@ -1,21 +1,23 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, url_for, request
+from flask import Flask, Blueprint, request, redirect, url_for, request
+from flask_login.utils import login_required
 from flask_sqlalchemy import SQLAlchemy
 
 from . import db
-from .models import LeaderboardScore, Game
+from .models import LeaderboardScore, Game, Player
 from flask_login import current_user
 
 
 leaderboard = Blueprint('leaderboard', __name__)
 
 @leaderboard.route('/leaderboard/create', methods=['POST'])
+@login_required
 def leaderBoard_create():
-    #TODO We need to dynamically get the game associated with the user/game instance
-    game = Game.query.get(1)
-    username = request.form['username']
+    p = Player.query.get(current_user.id)
+    game = Game.query.get(p.game_id)
+    username = current_user.player_name
     score = game.score
     userid = current_user.id if current_user.is_authenticated else 0
-    new_score = LeaderboardScore(category='TEST', userid=userid, username=username, score=score)
+    new_score = LeaderboardScore(category= game.category, userid=userid, username=username, score=score)
 
     db.session.add(new_score)
     db.session.commit()

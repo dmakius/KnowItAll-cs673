@@ -7,12 +7,14 @@
 <table class='table'>
 	<tr>
 		<th>Username</th>
+		<th>Category</th>
 		<th>Score</th>
 	</tr>
 	<tbody class='table-striped'>
 		{% for s in scores %}
 		<tr>
 			<td>{{ s.username }}</td>
+            <td>{{ s.category }}</td>
 			<td>{{ s.score }}</td>
             {% if user.admin == 1 %}
                 <td>
