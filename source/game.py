@@ -8,6 +8,7 @@ from sqlalchemy.sql.expression import null
 from . import db
 from .models import Game, Question, Player
 # from .category import mycategory
+from .leaderboard import leaderboard
 
 game = Blueprint('game', __name__)
 
@@ -18,7 +19,6 @@ def gameSettings():
     gameID = get_gameID()
     game = get_game(gameID)
     total_num_questions = Question.query.count()
-   
     #Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
     #Set up the conditional logic for the initialization of the questions_left array to only populate with valued from the category.
 
@@ -29,7 +29,7 @@ def gameSettings():
    #filter out questions that are not in the game's category
     if game.category != null:
         questions_left = []
-        for k in range(total_num_questions):  
+        for k in range(total_num_questions):
             q = Question.query.get(k+1)
             if q.category == game.category:
                 questions_left.append(q.id)
@@ -88,7 +88,7 @@ def removeLife():
     db.session.commit()
     return(str(game.lives))
 
-        
+
 #Modify the game's remaining question skips
 @game.route('/game/skip_question')
 def skipQuestion():

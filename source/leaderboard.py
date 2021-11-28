@@ -1,6 +1,5 @@
-from flask import Flask, Blueprint, request, redirect, url_for, request
+from flask import Blueprint, redirect, url_for
 from flask_login.utils import login_required
-from flask_sqlalchemy import SQLAlchemy
 
 from . import db
 from .models import LeaderboardScore, Game, Player
@@ -18,7 +17,6 @@ def leaderBoard_create():
     score = game.score
     userid = current_user.id if current_user.is_authenticated else 0
     new_score = LeaderboardScore(category= game.category, userid=userid, username=username, score=score)
-
     db.session.add(new_score)
     db.session.commit()
     return redirect(url_for('views.leaderBoard'))
