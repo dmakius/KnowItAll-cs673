@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg2, os
 import pandas as pd
 
 db_connection_url = "postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
@@ -14,6 +14,7 @@ def populate_db_prod():
         for table in cursor.fetchall():
             print(table)
         # print (cur.fetchall())
+        os.chdir('../')
         df = pd.read_csv("Quiz_Questions.csv", encoding="ISO-8859-1")
         for index, row in df.iterrows():
             print(index)

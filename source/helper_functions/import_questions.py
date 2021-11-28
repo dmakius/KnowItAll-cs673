@@ -1,4 +1,4 @@
-import csv, sqlite3
+import csv, sqlite3, os
 
 
 def populate_db():
@@ -11,6 +11,7 @@ def populate_db():
         cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
         print(cur.fetchall())
 
+        os.chdir('../')
         with open('Quiz_Questions.csv', encoding='ISO-8859-1') as fin:  # `with` statement available in 2.5+
             # csv.DictReader uses first line in file for column headings by default
             print("CSV File OPENED")
