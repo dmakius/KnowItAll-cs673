@@ -1,7 +1,7 @@
 import psycopg2
 import pandas as pd
 
-db_connection_url = "postgres://qoigszfjzslytb:ed69522773e0bc17f93775cae0c84ed20ad3a255905cde3902feb9536e166c33@ec2-52-203-27-62.compute-1.amazonaws.com:5432/depmssv4b61llt"
+db_connection_url = "postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
 
 def populate_db_prod():
     try:
