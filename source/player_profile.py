@@ -1,11 +1,11 @@
-from flask import Flask, Blueprint, render_template, request, redirect, jsonify, url_for, request, flash
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, redirect, url_for, request, flash
 
 from . import db
-from .models import LeaderboardScore, Player
+from .models import Player
 from flask_login import current_user
 
 player_profile = Blueprint('player_profile', __name__)
+
 
 @player_profile.route('/player_profile/edit_username', methods=['GET', 'POST'])
 def edit_username():
@@ -27,6 +27,7 @@ def edit_username():
         db.session.commit()
 
         return redirect(url_for('views.userProfile'))
+
 
 @player_profile.route('/player_profile/edit_email', methods=['GET', 'POST'])
 def edit_email():
@@ -78,4 +79,3 @@ def edit_password():
         db.session.commit()
 
         return redirect(url_for('views.userProfile'))
-

@@ -128,4 +128,3 @@ def delete_score():
     db.session.commit()
     flash('Delete success!', category='success')
     return redirect(url_for('views.leaderBoard'))
-

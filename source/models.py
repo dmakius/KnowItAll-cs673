@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from sqlalchemy import DateTime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
+
 # Define question table Schema
 class Question(db.Model):
     __tablename__ = "Question"
@@ -15,6 +16,7 @@ class Question(db.Model):
     option_2 = db.Column(db.String(129), unique=False, nullable=False)
     option_3 = db.Column(db.String(129), unique=False, nullable=False)
 
+
 # Define LeaderboardScore table Schema
 class LeaderboardScore(db.Model):
     __tablename__ = "LeaderboardScore"
@@ -23,6 +25,7 @@ class LeaderboardScore(db.Model):
     userid = db.Column(db.Integer, unique=False, nullable=False)
     username = db.Column(db.String(129), unique=False, nullable=False)
     score = db.Column(db.Integer)
+
 
 # Define user table Schema
 class Player(db.Model, UserMixin):
@@ -33,12 +36,13 @@ class Player(db.Model, UserMixin):
     player_name = db.Column(db.String(150))
     game_id = db.Column(db.Integer, db.ForeignKey('Game.id'))
     admin = db.Column(db.Boolean)
+
     # TODO: add a relationship with the leaderboardScore using the foreign key.
     # TODO: need to add and change some variable.
     def get_token(self, expires_sec=300):
         serial = Serializer(app.config['SECRET_KEY'], expires_in=expires_sec)
         return serial.dumps({'user_id': self.id}).decode('utf-8')
-    
+
     @staticmethod
     def verify_token(token):
         serial = Serializer(app.config['SECRET_KEY'])
@@ -49,23 +53,22 @@ class Player(db.Model, UserMixin):
         return Player.query.get(user_id)
 
 
-
-
 # Define Game table Schema
 class Game(db.Model):
     __tablename__ = "Game"
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(129), unique=False, nullable=False)
     category = db.Column(db.String(129), unique=False, nullable=True)
-    lives = db.Column(db.Integer, unique=False, nullable = False)
-    score = db.Column(db.Integer, unique=False, nullable = False)
-    question_time = db.Column(db.Integer, unique=False, nullable = False)
-    num_skip_question = db.Column(db.Integer, unique=False, nullable = False)
-    questions_left = db.Column(db.String(300), unique=False, nullable=False) #if we have significantly more questions this needs to be longer
-    max_questions = db.Column(db.Integer, unique=False, nullable = False)
-    question_id = db.Column(db.Integer, unique=False, nullable = True)
-    answer_location = db.Column(db.Integer, unique=False, nullable = False)
+    lives = db.Column(db.Integer, unique=False, nullable=False)
+    score = db.Column(db.Integer, unique=False, nullable=False)
+    question_time = db.Column(db.Integer, unique=False, nullable=False)
+    num_skip_question = db.Column(db.Integer, unique=False, nullable=False)
+    questions_left = db.Column(db.String(300), unique=False,
+                               nullable=False)  # if we have significantly more questions this needs to be longer
+    max_questions = db.Column(db.Integer, unique=False, nullable=False)
+    question_id = db.Column(db.Integer, unique=False, nullable=True)
+    answer_location = db.Column(db.Integer, unique=False, nullable=False)
     cr_time = db.Column(DateTime(timezone=True), server_default=func.now())
-    num_fifty_fifty = db.Column(db.Integer, unique=False, nullable = False)
-    fifty_fifty_option = db.Column(db.String(100), unique=False, nullable = False)
+    num_fifty_fifty = db.Column(db.Integer, unique=False, nullable=False)
+    fifty_fifty_option = db.Column(db.String(100), unique=False, nullable=False)
     player_id = db.relationship("Player", backref="Player", uselist=False)

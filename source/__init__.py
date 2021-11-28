@@ -9,7 +9,7 @@ from .helper_functions.import_questions import populate_db
 from .helper_functions.import_admin_account import populate_admin_to_db
 
 db = SQLAlchemy()
-DB_NAME = "test.db" 
+DB_NAME = "test.db"
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hjshjhdjahkjshkjdhjs'
 
@@ -22,12 +22,12 @@ app.config['MAIL_PASSWORD'] = 'CS673team1'
 # app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
 mail = Mail(app)
 
+
 def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
-
 
     from .views import views
     from .question import question
@@ -37,7 +37,6 @@ def create_app():
     from .category import category
     from .player_profile import player_profile
     from .admin import admin
-
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(question, url_prefix='/')
@@ -57,8 +56,7 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-
-        # define a function for loading the player
+    # define a function for loading the player
     @login_manager.user_loader
     def load_user(id):
         print("GETTING USER")
@@ -66,8 +64,8 @@ def create_app():
 
     return app
 
-def create_database(app):
 
+def create_database(app):
     if not path.exists("source/" + DB_NAME):
         db.create_all(app=app)
         print('Created Database!')

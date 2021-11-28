@@ -1,13 +1,13 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from flask_mail import Message, Mail
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
-from . import db, app, mail
+from . import db, mail
 from .models import Player, Game, Question
 
-
 auth = Blueprint("auth", __name__)
+
 
 # Login route
 @auth.route('/login', methods=['GET', 'POST'])
@@ -40,6 +40,7 @@ def login():
             flash('email does not exist.', category='error')
     return render_template("login.html", user=current_user)
 
+
 # Logout route
 @auth.route('/logout')
 @login_required
@@ -47,6 +48,7 @@ def logout():
     logout_user()
     flash('Logout successful', category='success')
     return redirect(url_for('views.main'))
+
 
 # Sign up route
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -76,18 +78,19 @@ def sign_up():
             flash('password don\'t match', category='error')
         else:
             # create add new user to the test database
-            new_player = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'), admin=False)
+            new_player = Player(email=email, player_name=player_name,
+                                password=generate_password_hash(password1, method='sha256'), admin=False)
             db.session.add(new_player)
             db.session.commit()
-            
-            #create a game for the player
+
+            # create a game for the player
             total_num_questions = Question.query.count()
-            game = Game(type = 'TEST', lives = 3, score = 0, question_time = 30, 
-                num_skip_question = 3, questions_left = str(0),
-                answer_location =  0, max_questions = total_num_questions,
-                num_fifty_fifty = 3, fifty_fifty_option = str(0),
-                player_id= new_player)
-            
+            game = Game(type='TEST', lives=3, score=0, question_time=30,
+                        num_skip_question=3, questions_left=str(0),
+                        answer_location=0, max_questions=total_num_questions,
+                        num_fifty_fifty=3, fifty_fifty_option=str(0),
+                        player_id=new_player)
+
             db.session.add(game)
             db.session.commit()
 
@@ -102,11 +105,12 @@ def sign_up():
 
     return render_template('sign_up.html', user=current_user)
 
+
 # sending email that includes the link of resetting password
 def send_mail(user):
-    token=user.get_token()
-    msg=Message('Password Reset Request', recipients=[user.email], sender='noreply@source.com')
-    msg.body=f''' To reset your password. Please follow the link below:
+    token = user.get_token()
+    msg = Message('Password Reset Request', recipients=[user.email], sender='noreply@source.com')
+    msg.body = f''' To reset your password. Please follow the link below:
 
     {url_for('auth.reset_token', token=token, _external=True)}
 
@@ -116,6 +120,7 @@ def send_mail(user):
     
     '''
     mail.send(msg)
+
 
 # route for entering email to get the link of resetting password
 @auth.route('/reset_request', methods=['GET', 'POST'])
@@ -135,7 +140,7 @@ def reset_request():
 # route for resetting password
 @auth.route('/reset_request/<token>', methods=['GET', 'POST'])
 def reset_token(token):
-    user=Player.verify_token(token)
+    user = Player.verify_token(token)
     if user is None:
         flash('That is invalid token or expired. Please try again.', 'warning')
         return redirect(url_for('auth.reset_request', user=current_user))

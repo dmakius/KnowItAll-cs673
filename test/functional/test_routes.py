@@ -3,6 +3,7 @@ from source.models import Game
 from source import db
 import pytest
 
+
 @pytest.fixture(scope='module')
 def test_client():
     flask_app = create_app()
@@ -13,6 +14,7 @@ def test_client():
         with flask_app.app_context():
             yield testing_client  # this is where the testing happens!
 
+
 def test_home_page(test_client):
     response = test_client.get('/')
     assert response.status_code == 200
@@ -20,6 +22,7 @@ def test_home_page(test_client):
     assert b"START" in response.data
     assert b"LeaderBoard" in response.data
     assert b"About" in response.data
+
 
 def test_category_page(test_client):
     response = test_client.get('/category')
@@ -33,7 +36,8 @@ def test_category_page(test_client):
     assert b"TV SHOWS" in response.data
     assert b"MOVIE" in response.data
     assert b"ALL" in response.data
-        
+
+
 def test_game_page(test_client):
     response = test_client.get('/game')
     assert response.status_code == 200
@@ -46,7 +50,8 @@ def test_game_page(test_client):
     assert b"QUIT GAME" in response.data
     assert b"Skip Question" in response.data
     assert b"50/50" in response.data
-        
+
+
 def test_leaderboard_page(test_client):
     response = test_client.get('/leaderboard')
     assert response.status_code == 200

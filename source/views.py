@@ -1,14 +1,12 @@
-from flask import Flask, Blueprint, render_template, jsonify, request, url_for, redirect, flash
-from flask_sqlalchemy import SQLAlchemy
-import random
+from flask import Blueprint, render_template, jsonify, request, flash
 import json
 
 from . import db
-from .models import Question, LeaderboardScore, Player, Game
+from .models import LeaderboardScore, Player
 from flask_login import login_required, current_user
 
-
 views = Blueprint('views', __name__)
+
 
 # ROUTES
 @views.route('/')
@@ -19,6 +17,7 @@ def main():
 @views.route('/game')
 def game():
     return render_template('game.html', user=current_user)
+
 
 @views.route('/category')
 def category():
@@ -35,6 +34,7 @@ def userProfile():
         order_by(func.max(LeaderboardScore.score).desc())
 
     return render_template('player_profile.html', user=current_user, scores=scores)
+
 
 # route to the test-feature page
 @views.route('/test-feature', methods=['GET', 'POST'])
@@ -57,7 +57,7 @@ def leaderBoardchooseCategory():
     if select == 'All':
         scores = LeaderboardScore.query.order_by(LeaderboardScore.score.desc()).all()
     else:
-        scores = LeaderboardScore.query.filter(LeaderboardScore.category==select).all()
+        scores = LeaderboardScore.query.filter(LeaderboardScore.category == select).all()
     print(select)
 
     return render_template('leaderboard.html', user=current_user, scores=scores)
@@ -77,7 +77,7 @@ def delete_player():
 
 
 # route admin page
-@views.route('/admin', methods=['GET','POST'])
+@views.route('/admin', methods=['GET', 'POST'])
 @login_required
 def display_admin():
     user = Player.query.filter_by(id=current_user.id).first()

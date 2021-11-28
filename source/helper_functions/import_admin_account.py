@@ -1,6 +1,7 @@
 import sqlite3
 from werkzeug.security import generate_password_hash
 
+
 def populate_admin_to_db(id: int, email: str, password: str, user_name: str, game_id: int, admin: bool):
     try:
         connect = sqlite3.connect("test.db")
@@ -20,5 +21,3 @@ def populate_admin_to_db(id: int, email: str, password: str, user_name: str, gam
     except Exception as e:
         print(e)
         print("An Error has occurd during generate admin account!")
-
-

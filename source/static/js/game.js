@@ -42,8 +42,8 @@ $(document).ready(function () {
     next.hide();
 
     // Skip question function
-    $('#SkipQuestion').click(function(){
-        if (skipleft <= 0){
+    $('#SkipQuestion').click(function () {
+        if (skipleft <= 0) {
             console.log('No more skips!');
             return false;
         }
@@ -54,12 +54,13 @@ $(document).ready(function () {
         document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
         console.log('Skipped!');
         DisplayNewQuestion();
-        if (skipleft <= 0){
-           document.getElementById('SkipQuestion').disabled = true;
-        };
+        if (skipleft <= 0) {
+            document.getElementById('SkipQuestion').disabled = true;
+        }
+        ;
     });
 
-    function ajaxSkipQuestion(){
+    function ajaxSkipQuestion() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -76,46 +77,46 @@ $(document).ready(function () {
     }
 
     // fifty fifty lifeline function
-    $('#FiftyFifty').click(function(){
+    $('#FiftyFifty').click(function () {
         ajaxFiftyFifty();
-        $('#FiftyFifty').text("50 / 50 (" + fifty_fifty_left +")");
-        if (removeable_option1 == 1){
+        $('#FiftyFifty').text("50 / 50 (" + fifty_fifty_left + ")");
+        if (removeable_option1 == 1) {
             $('#option_1').hide()
-        } else if (removeable_option1 == 2){
+        } else if (removeable_option1 == 2) {
             $('#option_2').hide()
-        } else if (removeable_option1 == 3){
+        } else if (removeable_option1 == 3) {
             $('#option_3').hide()
-        } else if (removeable_option1 == 4){
+        } else if (removeable_option1 == 4) {
             $('#option_4').hide()
         }
-        if (removeable_option2 == 1){
+        if (removeable_option2 == 1) {
             $('#option_1').hide()
-        } else if (removeable_option2 == 2){
+        } else if (removeable_option2 == 2) {
             $('#option_2').hide()
-        } else if (removeable_option2 == 3){
+        } else if (removeable_option2 == 3) {
             $('#option_3').hide()
-        } else if (removeable_option2 == 4){
+        } else if (removeable_option2 == 4) {
             $('#option_4').hide()
         }
         document.getElementById('FiftyFifty').disabled = true;
     });
 
-    function ajaxFiftyFifty(){
+    function ajaxFiftyFifty() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
             url: '/game/fifty_fifty',
             data: {"GameID": localStorage.getItem("gameID")},
             async: false,
-            success: function (data){
+            success: function (data) {
                 // Log data on front end
                 console.log(typeof data);
                 console.log(data);
 
-            //initialize the variables from the ajax data
-            removeable_option1 = data[0]['first_option'];
-            removeable_option2 = data[1]['second_option'];
-            fifty_fifty_left = data[2]['attempt'];
+                //initialize the variables from the ajax data
+                removeable_option1 = data[0]['first_option'];
+                removeable_option2 = data[1]['second_option'];
+                fifty_fifty_left = data[2]['attempt'];
             }
         });
     }
@@ -141,7 +142,7 @@ $(document).ready(function () {
     }, 1000);
 
     //get initial game data via ajax request similar to get question data - This also resets the game data to the default state
-    function initGameVariables(){
+    function initGameVariables() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -156,7 +157,7 @@ $(document).ready(function () {
                 player_score = data[2]['Score'];
                 timeleft = timer;
                 fifty_fifty_chances = data[9]["Fifth Fifty Attempt"];
-        
+
                 //replace front end ui with NEW data from server
                 $('#question').text(data[4]['Question']);
                 option1 = $('#option_1').text("A: " + data[5]['Option_1']);
@@ -224,7 +225,7 @@ $(document).ready(function () {
         }
     }
 
-    function ajaxAnswerLocation(){
+    function ajaxAnswerLocation() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -242,7 +243,7 @@ $(document).ready(function () {
         });
     }
 
-    function ajaxUpdateScore(){
+    function ajaxUpdateScore() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -260,7 +261,7 @@ $(document).ready(function () {
         });
     }
 
-    function ajaxRemoveLife(){
+    function ajaxRemoveLife() {
         $.ajax({
             dataType: 'json',
             type: 'GET',
@@ -324,35 +325,37 @@ $(document).ready(function () {
     }
 
     // Here to change the button and related function activate or deactivate for Submit() function
-    function SettingForSubmitButton(){
-            // turn off the selected option color change function,
-            // when user submit their answer, selected option no longer available to change color
-            opt.off('click', ChangeSelectedOptionColor);
+    function SettingForSubmitButton() {
+        // turn off the selected option color change function,
+        // when user submit their answer, selected option no longer available to change color
+        opt.off('click', ChangeSelectedOptionColor);
 
-            //pause the timer
-            timerpower = false;
+        //pause the timer
+        timerpower = false;
 
-            //turn off the skip question button after question submission
-            if (skipleft > 0){
-                document.getElementById('SkipQuestion').disabled = true;
-                document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
-            };
+        //turn off the skip question button after question submission
+        if (skipleft > 0) {
+            document.getElementById('SkipQuestion').disabled = true;
+            document.querySelector('#SkipQuestion').textContent = 'Skip Question (' + skipleft + ')';
+        }
+        ;
 
-            //turn off the 50/50 button after question submission
-            if (fifty_fifty_left > 0){
-                document.getElementById('FiftyFifty').disabled = true;
-                document.querySelector('#FiftyFifty').textContent = '50 / 50 (' + fifty_fifty_left + ')';
-            };
+        //turn off the 50/50 button after question submission
+        if (fifty_fifty_left > 0) {
+            document.getElementById('FiftyFifty').disabled = true;
+            document.querySelector('#FiftyFifty').textContent = '50 / 50 (' + fifty_fifty_left + ')';
+        }
+        ;
 
-            // hide Submit button, user already submitted once
-            sub.hide();
+        // hide Submit button, user already submitted once
+        sub.hide();
 
-            // show next button
-            next.show();
+        // show next button
+        next.show();
     }
 
     // Here to change the button and related function activate or deactivate for DisplayNewQuestion() function
-    function SettingForDisplayNewQuestion(){
+    function SettingForDisplayNewQuestion() {
         //reset the answer location variable to 0, it will be set to the correct location upon clicking submit
         answer_location = 0
 
@@ -376,14 +379,16 @@ $(document).ready(function () {
         timeleft = timer;
 
         // enable the skip question button if skips remain
-        if (skipleft > 0){
+        if (skipleft > 0) {
             document.getElementById('SkipQuestion').disabled = false;
-        };
+        }
+        ;
 
         // enable the 50/50 button if 50/50 chances remain
-        if (fifty_fifty_left > 0){
+        if (fifty_fifty_left > 0) {
             document.getElementById('FiftyFifty').disabled = false;
-        };
+        }
+        ;
 
         // set all option colors back to default
         opt.css('color', 'black');
@@ -394,7 +399,7 @@ $(document).ready(function () {
     }
 
 
-    function gameOver(){
+    function gameOver() {
         alert("Game over!");
         $('#Score').val(player_score);
         $('#Score_No_Login').html(player_score);

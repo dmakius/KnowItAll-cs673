@@ -3,38 +3,38 @@
 
 {% block content %}
 
-<form method="post">
-    <h3 align="center">Login</h3>
+    <form method="post">
+        <h3 align="center">Login</h3>
 
-    <!-- Login User Email Address -->
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input
-            type="email"
-            class="form-control"
-            id="email"
-            name="email"
-            placeholder="Enter your email address"
-        />
-    </div>
+        <!-- Login User Email Address -->
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+            />
+        </div>
 
-    <!-- Login User password -->
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input
-            type="password"
-            class="form-control"
-            id="password"
-            name="password"
-            placeholder="Enter password"
-        />
-    </div>
+        <!-- Login User password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+            />
+        </div>
 
-    <br>
+        <br>
 
-    <!-- Login Button -->
-    <button type="submit" class="btn btn-primary">Login</button>
-    <a href="/reset_request">Forgot password?</a>
+        <!-- Login Button -->
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a href="/reset_request">Forgot password?</a>
 
-</form>
+    </form>
 {% endblock %}

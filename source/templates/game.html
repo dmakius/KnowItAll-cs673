@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block head %}
-<!-- game.js file -->
-<script type="text/javascript" src="{{ url_for('static', filename='/js/game.js') }}"></script>
+    <!-- game.js file -->
+    <script type="text/javascript" src="{{ url_for('static', filename='/js/game.js') }}"></script>
 {% endblock %}
 
 {% block title %} Game {% endblock %}
@@ -10,7 +10,7 @@
 {% block content %}
     <div class='container' stlye="z-index:0;">
         <div class='container'>
-            <div id = 'main-container'  class='container'>
+            <div id='main-container' class='container'>
                 <!-- title -->
                 <div class="row text-center">
                     <div class="row text-center">
@@ -19,7 +19,7 @@
                 </div>
                 <hr>
                 <div class="container">
-                    <div class = "row">
+                    <div class="row">
                         <div class='col-md-2'>
                             <h3>STATS</h3>
                             <div id="div1" class="stats">
@@ -49,61 +49,68 @@
                             <br>
                             <br>
                             <!-- DISPLAY OPTIONS -->
-                            <div class = 'container' id="optionboard">
+                            <div class='container' id="optionboard">
                                 <div class="row answers">
-                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_1"></div>
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary'
+                                         id="option_1"></div>
                                     <div class="col-md-2"></div>
-                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_2"></div>
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary'
+                                         id="option_2"></div>
                                 </div>
                                 <br>
                                 <div class="row answers">
-                                    <div class='col-md-5 text-center option btn btn-outline-secondary' id="option_3"></div>
+                                    <div class='col-md-5 text-center option btn btn-outline-secondary'
+                                         id="option_3"></div>
                                     <div class="col-md-2"></div>
-                                    <div class='col-md-5 text-center option  btn btn-outline-secondary' id="option_4"></div>
+                                    <div class='col-md-5 text-center option  btn btn-outline-secondary'
+                                         id="option_4"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                        <br>
-                        <hr>
-                        <div class="text-center">
-                            <script type="text/javascript">
-                                var clicks = 0;
+                    <br>
+                    <hr>
+                    <div class="text-center">
+                        <script type="text/javascript">
+                            var clicks = 0;
 
-                                function onClick() {
-                                    clicks += 1;
-                                    document.getElementById("clicks").innerHTML = clicks;
-                                };</script>
-                            <button id="submit" class="btn btn-outline-primary">Submit</button>
-                            <button id="next" onClick="onClick()" class="btn btn-outline-primary">Next Question</button>
-                            <button id='submitScore' class="btn btn-outline-primary">Submit Score</button>
+                            function onClick() {
+                                clicks += 1;
+                                document.getElementById("clicks").innerHTML = clicks;
+                            };</script>
+                        <button id="submit" class="btn btn-outline-primary">Submit</button>
+                        <button id="next" onClick="onClick()" class="btn btn-outline-primary">Next Question</button>
+                        <button id='submitScore' class="btn btn-outline-primary">Submit Score</button>
 
 
-                        </div>
-                        <div class='container' id="quit">
-                            ​<a href='/'>QUIT GAME</a>
-                        </div>
-                        <br>
                     </div>
+                    <div class='container' id="quit">
+                        ​<a href='/'>QUIT GAME</a>
+                    </div>
+                    <br>
                 </div>
             </div>
+        </div>
 
-            {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
             <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:25px;'>
                 <div class="row text-white">
                     <div class="mx-auto text-center  p-4">
                         <h1 class="display-4 py-2 text-truncate">POST SCORE!</h1>
                         <div class="px-2">
-                            <form id='leaderboardForm' method="POST" action="{{url_for('leaderboard.leaderBoard_create')}}"
-                                class="justify-content-center">
+                            <form id='leaderboardForm' method="POST"
+                                  action="{{ url_for('leaderboard.leaderBoard_create') }}"
+                                  class="justify-content-center">
                                 <div class="form-group">
                                     <label class="sr-only">Score:</label>
-                                    <input name='score' type="text" class="form-control" placeholder="Score" value='2000'
-                                        readonly>
+                                    <input name='score' type="text" class="form-control" placeholder="Score"
+                                           value='2000'
+                                           readonly>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only">username:</label>
-                                    <input name='username' type="text" class="form-control" placeholder="Username" value = {{user.player_name}} required readonly>
+                                    <input name='username' type="text" class="form-control" placeholder="Username"
+                                           value={{ user.player_name }} required readonly>
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-primary btn-lg">POST!</button>
@@ -116,13 +123,13 @@
                     </div>
                 </div>
             </div>
-            {% else %}
+        {% else %}
             <div id="cover-caption" class="container" style='display: none;background-color: black;margin-top:25px;'>
                 <div class="row text-white">
                     <div class="mx-auto text-center  p-4">
                         <h1 class="display-4 py-2 text-truncate">Game Over!</h1>
                         <div class="px-2">
-                            <h3><b>SCORE:</b><span id ="Score_No_Login"></span></h3>
+                            <h3><b>SCORE:</b><span id="Score_No_Login"></span></h3>
                         </div>
                         <div class='container'>
                             ​<a href='/' class="btn btn-secondary btn-lg">MAIN PAGE</a>
@@ -130,11 +137,10 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
+        {% endif %}
 
 
-
-        </div>
+    </div>
 
     </div>
 {% endblock %}
