@@ -1,6 +1,11 @@
 from source import create_app
 
-app = create_app()
+ENV = 'PROD'
+
+app = create_app(ENV)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    if ENV == "PROD":
+        app.run(debug=True)
+    else:
+        app.run(debug=False)

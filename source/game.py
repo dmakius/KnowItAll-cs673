@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user
 from datetime import datetime
 import random, math
+from main import ENV
 
 from sqlalchemy.sql.expression import null
 from . import db
@@ -24,13 +25,18 @@ def gameSettings():
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
 
     # filter out questions that are not in the game's category
-    if game.category != null:
+    if game.category != "ALL":
         questions_left = []
         for k in range(total_num_questions):
-            q = Question.query.get(k + 1)
+            
+            if ENV == "DEV":
+                q = Question.query.get(k + 1)
+            else:
+                q = Question.query.get(k)
+                
             if q.category == game.category:
                 questions_left.append(q.id)
-        questions_left = random.sample(questions_left, len(questions_left))
+    questions_left = random.sample(questions_left, len(questions_left))
 
     # select the random question for the first question
     str_id = questions_left[0]
@@ -133,7 +139,7 @@ def updateScore():
     # Sent the current time for the next question, and take the difference for the passed time
     previous_time = game.cr_time
     game.cr_time = datetime.now()
-    passed_time = (game.cr_time - previous_time)
+    passed_time = (game.cr_time.replace(tzinfo=None) - previous_time.replace(tzinfo=None))
 
     # Update the score based on how much time has passed.
     game.score = game.score + math.floor(float(100) * float(max(31 - passed_time.seconds, 0)) / 30)

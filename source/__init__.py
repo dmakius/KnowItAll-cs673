@@ -6,7 +6,9 @@ from flask_login import LoginManager
 from flask_mail import Mail
 
 from .helper_functions.import_questions import populate_db
+from .helper_functions.import_questions_prod import populate_db_prod
 from .helper_functions.import_admin_account import populate_admin_to_db
+from .helper_functions.test_db_prod import db_exists
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
@@ -23,7 +25,7 @@ app.config['MAIL_PASSWORD'] = 'CS673team1'
 mail = Mail(app)
 
 
-def create_app():
+def create_app(ENV):
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -37,7 +39,8 @@ def create_app():
     from .category import category
     from .player_profile import player_profile
     from .admin import admin
-
+    from .models import Player
+    
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(question, url_prefix='/')
     app.register_blueprint(leaderboard, url_prefix='/')
@@ -47,10 +50,11 @@ def create_app():
     app.register_blueprint(player_profile, url_prefix='/')
     app.register_blueprint(admin, url_prefix='/')
 
-    from .models import Player
-
-    create_database(app)
-
+    if ENV == 'DEV':
+        create_database(app)
+    else:
+        create_database_prod(app)
+        
     # login Manager
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -78,3 +82,13 @@ def create_database(app):
         os.chdir("../")
     else:
         print("Database found")
+
+def create_database_prod(app):
+    if db_exists() == False:
+        print("No Tables in DB")
+        print("Creating Tables")
+        db.create_all(app=app)
+        print("Populating Questions")
+        populate_db_prod()
+    else:
+        print("tables exist")
