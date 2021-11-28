@@ -3,16 +3,26 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 import os
 from flask_login import LoginManager
+from flask_mail import Mail
 
 from .helper_functions.import_questions import populate_db
 from .helper_functions.import_admin_account import populate_admin_to_db
 
 db = SQLAlchemy()
-DB_NAME = "test.db"
+DB_NAME = "test.db" 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'hjshjhdjahkjshkjdhjs'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'knowitall.game@gmail.com'
+app.config['MAIL_PASSWORD'] = 'CS673team1'
+# app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
+# app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+mail = Mail(app)
 
 def create_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'hjshjhdjahkjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -46,6 +56,7 @@ def create_app():
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+
 
         # define a function for loading the player
     @login_manager.user_loader

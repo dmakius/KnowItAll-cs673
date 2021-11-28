@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from flask_mail import Message, Mail
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 
-from . import db
+from . import db, app, mail
 from .models import Player, Game, Question
+
 
 auth = Blueprint("auth", __name__)
 
@@ -100,3 +102,60 @@ def sign_up():
 
     return render_template('sign_up.html', user=current_user)
 
+# sending email that includes the link of resetting password
+def send_mail(user):
+    token=user.get_token()
+    msg=Message('Password Reset Request', recipients=[user.email], sender='noreply@source.com')
+    msg.body=f''' To reset your password. Please follow the link below:
+
+    {url_for('auth.reset_token', token=token, _external=True)}
+
+    This link is only valid for 5 minutes.
+    If you didn't send a password reset request. Please ignore this message.
+    
+    
+    '''
+    mail.send(msg)
+
+# route for entering email to get the link of resetting password
+@auth.route('/reset_request', methods=['GET', 'POST'])
+def reset_request():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = Player.query.filter_by(email=email).first()
+        if user:
+            send_mail(user)
+            flash('Reset Request sent. Check your email.', 'success')
+            return redirect(url_for('auth.login', user=current_user))
+        elif user is None:
+            flash('Please Enter a email')
+    return render_template('reset_request.html', user=current_user)
+
+
+# route for resetting password
+@auth.route('/reset_request/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    user=Player.verify_token(token)
+    if user is None:
+        flash('That is invalid token or expired. Please try again.', 'warning')
+        return redirect(url_for('auth.reset_request', user=current_user))
+
+    if request.method == 'POST':
+        new_password_1 = request.form['password']
+        new_password_2 = request.form['confirm_password']
+
+        # Check the length of password
+        if len(new_password_1) < 7:
+            flash('password must be at least 7 characters.', category='error')
+            return redirect(url_for('auth.reset_token', token=token, user=current_user))
+        # Check the password and comfirmed password
+        elif new_password_1 != new_password_2:
+            flash('password don\'t match', category='error')
+            return redirect(url_for('auth.reset_token', token=token, user=current_user))
+
+        user.password = generate_password_hash(new_password_1, method='sha256')
+        db.session.commit()
+        flash('Password changed! Please login!', 'success')
+        return redirect(url_for('auth.login'))
+
+    return render_template('change_password.html', user=current_user)

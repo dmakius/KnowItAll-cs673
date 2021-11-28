@@ -1,7 +1,8 @@
-from . import db
+from . import db, app
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 from sqlalchemy import DateTime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # Define question table Schema
 class Question(db.Model):
@@ -34,6 +35,20 @@ class Player(db.Model, UserMixin):
     admin = db.Column(db.Boolean)
     # TODO: add a relationship with the leaderboardScore using the foreign key.
     # TODO: need to add and change some variable.
+    def get_token(self, expires_sec=300):
+        serial = Serializer(app.config['SECRET_KEY'], expires_in=expires_sec)
+        return serial.dumps({'user_id': self.id}).decode('utf-8')
+    
+    @staticmethod
+    def verify_token(token):
+        serial = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = serial.loads(token)['user_id']
+        except:
+            return None
+        return Player.query.get(user_id)
+
+
 
 
 # Define Game table Schema
