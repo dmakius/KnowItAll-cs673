@@ -36,8 +36,10 @@ def gameSettings():
                 
             if q.category == game.category:
                 questions_left.append(q.id)
-    questions_left = random.sample(questions_left, len(questions_left))
+            questions_left = random.sample(questions_left, len(questions_left))
 
+    print("QUESTION IDs:")
+    print(questions_left)
     # select the random question for the first question
     str_id = questions_left[0]
     q = Question.query.get(str_id)
