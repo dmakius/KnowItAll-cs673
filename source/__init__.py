@@ -13,7 +13,7 @@ from .helper_functions.test_db_prod import db_exists
 db = SQLAlchemy()
 DB_NAME = "test.db"
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hjshjhdjahkjshkjdhjs'
+app.config['SECRET_KEY'] = 'fdgsar3wdgrgdsfsdg90kl4512km12asdhtw'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
