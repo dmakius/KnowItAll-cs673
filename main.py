@@ -5,5 +5,7 @@ ENV = 'PROD'
 app = create_app(ENV)
 
 if __name__ == '__main__':
-    app.run(debug=True)
-   
+    if ENV == "PROD":
+        app.run(debug=False)
+    else:
+        app.run(debug=True)
