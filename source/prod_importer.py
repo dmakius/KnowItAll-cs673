@@ -1,9 +1,10 @@
 import psycopg2
 import pandas as pd
 
-db_connection_url = "postgres://wnwyemwseiinvp:41da118b3b56e4b4d58f6dd502e7cb9da6dd557c3b65f8450de9b378d749eb23@ec2-3-219-103-45.compute-1.amazonaws.com:5432/d13qt3p08qavg5"
 
 try:
+    db_connection_url = "postgres://wnwyemwseiinvp:41da118b3b56e4b4d58f6dd502e7cb9da6dd557c3b65f8450de9b378d749eb23@ec2-3-219-103-45.compute-1.amazonaws.com:5432/d13qt3p08qavg5"
+    
     # connect to the PostgreSQL server
     print('Connecting to the PostgreSQL database...')
     conn = psycopg2.connect(db_connection_url)
