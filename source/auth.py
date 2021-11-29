@@ -17,6 +17,9 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        #make the email in lower case
+        email = email.lower()
+        
         # Check the email exist in the database
         user = Player.query.filter_by(email=email).first()
 
@@ -59,7 +62,10 @@ def sign_up():
         player_name = request.form.get('playerName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-
+        
+        #make the email in lower case
+        email = email.lower()
+        
         user = Player.query.filter_by(email=email).first()
         # Check the email already exists or not
         if user:
@@ -128,6 +134,10 @@ def send_mail(user):
 def reset_request():
     if request.method == 'POST':
         email = request.form.get('email')
+        
+        #make the email in lower case
+        email = email.lower()
+        
         user = Player.query.filter_by(email=email).first()
         if user:
             send_mail(user)
