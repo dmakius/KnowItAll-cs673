@@ -25,7 +25,7 @@ def gameSettings():
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
 
     # filter out questions that are not in the game's category
-    if game.category != "ALL":
+    if game.category != "All":
         questions_left = []
         for k in range(total_num_questions):
             
