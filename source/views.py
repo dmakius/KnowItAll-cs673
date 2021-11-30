@@ -42,7 +42,9 @@ def userProfile():
         conn = psycopg2.connect(db_connection_url)
         print("Connection successful")
         cursor = conn.cursor()
-        scores = cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', current_user.id )
+        userID =  current_user.id
+        print("Looking for top scores for user:" + str(userID))
+        scores = cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
         conn.close()
     print(scores)
     return render_template('player_profile.html', user=current_user, scores=scores)
