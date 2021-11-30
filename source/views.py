@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, jsonify, request, flash
 import json
-
+import psycopg2
 from . import db
+from main import ENV
+from helper_functions.import_questions_prod import db_connection_url
 from .models import LeaderboardScore, Player
 from flask_login import login_required, current_user
 
@@ -27,27 +29,20 @@ def category():
 @views.route('/playerProfile')
 @login_required
 def userProfile():
-    from sqlalchemy import desc, func
-    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)). \
+    from sqlalchemy import desc, func        
+    if ENV == "DEV":
+        scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)). \
         filter_by(userid=current_user.id). \
-        group_by(LeaderboardScore.category, LeaderboardScore.score). \
+        group_by(LeaderboardScore.category).\
         order_by(func.max(LeaderboardScore.score).desc())
-        
-        # if ENV == "DEV":
-        #     scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)). \
-        # filter_by(userid=current_user.id). \
-        # group_by(LeaderboardScore.category).\
-        # order_by(func.max(LeaderboardScore.score).desc())
-        #  else:
-        
-        # db_connection_url="postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
-        # print('Connecting to the PostgreSQL database...')
-        # conn = psycopg2.connect(db_connection_url)
-        # cursor = conn.cursor()
-        # userID =  current_user.id
-        # cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
-        # scores = cursor.fetchall()
-        # conn.close()
+    else:
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(db_connection_url)
+        cursor = conn.cursor()
+        userID =  current_user.id
+        cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
+        scores = cursor.fetchall()
+        conn.close()
 
     return render_template('player_profile.html', user=current_user, scores=scores)
 
