@@ -44,7 +44,9 @@ def userProfile():
         cursor = conn.cursor()
         userID =  current_user.id
         print("Looking for top scores for user:" + str(userID))
-        scores = cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
+        cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
+        scores = cursor.fetchall()
+        print(scores)
         conn.close()
     print(scores)
     return render_template('player_profile.html', user=current_user, scores=scores)

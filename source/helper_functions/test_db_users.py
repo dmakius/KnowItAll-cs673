@@ -13,7 +13,7 @@ x = cursor.fetchall()
 for y in x:
     print(y)
 
-user_id=5
+user_id=7
 cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [user_id] )
 z = cursor.fetchall()
 for y in z:
