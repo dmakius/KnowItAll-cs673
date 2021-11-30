@@ -3,7 +3,7 @@ import json
 import psycopg2
 from . import db
 from main import ENV
-from helper_functions.import_questions_prod import db_connection_url
+from .helper_functions.import_questions_prod import db_connection_url
 from .models import LeaderboardScore, Player
 from flask_login import login_required, current_user
 
