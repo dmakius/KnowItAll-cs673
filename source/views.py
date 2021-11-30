@@ -29,7 +29,8 @@ def category():
 @views.route('/playerProfile')
 @login_required
 def userProfile():
-    from sqlalchemy import desc, func        
+    from sqlalchemy import desc, func  
+    scores = []     
     if ENV == "DEV":
         scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)). \
         filter_by(userid=current_user.id). \
@@ -41,9 +42,12 @@ def userProfile():
         cursor = conn.cursor()
         userID =  current_user.id
         cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [userID] )
-        scores = cursor.fetchall()
+        values = cursor.fetchall()
+        for v in values: 
+           score = {"category": v[0],"score": v[1]}
+           scores.append(score)
         conn.close()
-
+        print(scores)
     return render_template('player_profile.html', user=current_user, scores=scores)
 
 
