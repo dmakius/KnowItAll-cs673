@@ -6,12 +6,14 @@ def populate_db():
         # connect to DB
         con = sqlite3.connect("test.db")  # change to 'sqlite:///your_filename.db'
         cur = con.cursor()
-
+        print("SUCCESSFULLY CONNECTED TO TEST DB")
         # get the database tables
         cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
         print(cur.fetchall())
 
-        os.chdir('../')
+
+        print(os.listdir())
+        print("Looking for CSV file")
         with open('Quiz_Questions.csv', encoding='ISO-8859-1') as fin:  # `with` statement available in 2.5+
             # csv.DictReader uses first line in file for column headings by default
             print("CSV File OPENED")

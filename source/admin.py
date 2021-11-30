@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
-from flask_login import current_user
+from flask_login import current_user, login_required
 from . import db
 from .models import Player, LeaderboardScore, Question
 
@@ -8,6 +8,7 @@ admin = Blueprint('admin', __name__)
 
 # route the admin question page
 @admin.route('/admin/question')
+@login_required
 def questions():
     user = Player.query.filter_by(id=current_user.id).first()
 
@@ -22,6 +23,7 @@ def questions():
 
 # route add new question
 @admin.route('admin/question/new')
+@login_required
 def new():
     user = Player.query.filter_by(id=current_user.id).first()
 
@@ -35,6 +37,7 @@ def new():
 
 # route edit question
 @admin.route('admin/question/edit', methods=['GET', 'POST'])
+@login_required
 def edit():
     user = Player.query.filter_by(id=current_user.id).first()
 
@@ -51,6 +54,7 @@ def edit():
 
 # add new question to db
 @admin.route('admin/question/add_question', methods=['POST'])
+@login_required
 def add_question():
     if request.method == 'POST':
         category = request.form.get('category')
@@ -79,6 +83,7 @@ def add_question():
 
 # edit selected question
 @admin.route('admin/question/edit_question', methods=['GET', 'POST'])
+@login_required
 def edit_question():
     if request.method == 'POST':
         q_id = request.form.get('question_id')
@@ -110,6 +115,7 @@ def edit_question():
 
 # delete selected question
 @admin.route('admin/delete_question', methods=['POST'])
+@login_required
 def delete_question():
     id = request.form.get('question_id')
     question = Question.query.filter_by(id=id).first()
@@ -121,6 +127,7 @@ def delete_question():
 
 # delete selected score
 @admin.route('admin/delete_score', methods=['POST'])
+@login_required
 def delete_score():
     id = request.form.get('score_id')
     score = LeaderboardScore.query.filter_by(id=id).first()

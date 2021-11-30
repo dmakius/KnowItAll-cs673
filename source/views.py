@@ -4,6 +4,7 @@ import json
 from . import db
 from .models import LeaderboardScore, Player
 from flask_login import login_required, current_user
+from sqlalchemy import desc, func
 
 views = Blueprint('views', __name__)
 
@@ -27,12 +28,14 @@ def category():
 @views.route('/playerProfile')
 @login_required
 def userProfile():
-    from sqlalchemy import desc, func
-    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
-        filter_by(userid=current_user.id). \
-        group_by(LeaderboardScore.category). \
-        order_by(func.max(LeaderboardScore.score).desc())
-
+    print('GETTING PLAYERS SCORES')
+    #scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
+   #     filter_by(userid=current_user.id). \
+    #    group_by(LeaderboardScore.category). \
+    #    order_by(func.max(LeaderboardScore.score).desc())
+    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)).filter_by(userid=current_user.id).group_by(LeaderboardScore.category).all()
+    #scores = LeaderboardScore.query().filter_by(userid=current_user.id).group_by(LeaderboardScore.category).order_by(func.max(LeaderboardScore.score).desc())
+    print(scores)
     return render_template('player_profile.html', user=current_user, scores=scores)
 
 
