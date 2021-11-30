@@ -1,6 +1,6 @@
 from source import create_app
 
-ENV = 'PROD'
+ENV = 'Prod'
 
 app = create_app(ENV)
 

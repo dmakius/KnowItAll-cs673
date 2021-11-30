@@ -30,7 +30,7 @@ def userProfile():
     from sqlalchemy import desc, func
     scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)). \
         filter_by(userid=current_user.id). \
-        group_by(LeaderboardScore.category). \
+        group_by(LeaderboardScore.category, LeaderboardScore.score). \
         order_by(func.max(LeaderboardScore.score).desc())
         
         # if ENV == "DEV":
