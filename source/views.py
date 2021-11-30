@@ -28,7 +28,7 @@ def category():
 @login_required
 def userProfile():
     from sqlalchemy import desc, func
-    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
+    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score). \
         filter_by(userid=current_user.id). \
         group_by(LeaderboardScore.category). \
         order_by(func.max(LeaderboardScore.score).desc())
