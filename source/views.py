@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, jsonify, request, flash
 import json
-
+from main import ENV
 from . import db
 from .models import LeaderboardScore, Player
 from flask_login import login_required, current_user
 from sqlalchemy import desc, func
+import psycopg2
 
 views = Blueprint('views', __name__)
 
@@ -29,12 +30,20 @@ def category():
 @login_required
 def userProfile():
     print('GETTING PLAYERS SCORES')
-    #scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
-   #     filter_by(userid=current_user.id). \
-    #    group_by(LeaderboardScore.category). \
-    #    order_by(func.max(LeaderboardScore.score).desc())
-    scores = db.session.query(LeaderboardScore.category, LeaderboardScore.score, func.max(LeaderboardScore.score)).filter_by(userid=current_user.id).group_by(LeaderboardScore.category).all()
-    #scores = LeaderboardScore.query().filter_by(userid=current_user.id).group_by(LeaderboardScore.category).order_by(func.max(LeaderboardScore.score).desc())
+    if ENV == "DEV":
+        scores = db.session.query(LeaderboardScore.category, LeaderboardScore.username, LeaderboardScore.score). \
+        filter_by(userid=current_user.id). \
+        group_by(LeaderboardScore.category). \
+        order_by(func.max(LeaderboardScore.score).desc())
+    else:
+        
+        db_connection_url="postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(db_connection_url)
+        print("Connection successful")
+        cursor = conn.cursor()
+        scores = cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', current_user.id )
+        conn.close()
     print(scores)
     return render_template('player_profile.html', user=current_user, scores=scores)
 
