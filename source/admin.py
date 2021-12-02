@@ -25,10 +25,7 @@ def show_players():
 @admin.route('/admin/question')
 @login_required
 def questions():
-    user = Player.query.filter_by(id=current_user.id).first()
-
-    # checking if it is superuser
-    if user.admin == 1:
+    if is_super_user(current_user):
         question = Question.query.order_by(Question.category.desc()).all()
         return render_template('admin/questions.html', user=current_user, question=question)
     else:
@@ -40,10 +37,7 @@ def questions():
 @admin.route('admin/question/new')
 @login_required
 def new():
-    user = Player.query.filter_by(id=current_user.id).first()
-
-    # superuser checking
-    if user.admin == 1:
+    if is_super_user(current_user):
         return render_template('admin/new_question.html', user=current_user)
     else:
         flash('You are not allow to go to admin page.', category='error')
@@ -54,10 +48,7 @@ def new():
 @admin.route('admin/question/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
-    user = Player.query.filter_by(id=current_user.id).first()
-
-    # checking superuser
-    if user.admin == 1:
+    if is_super_user(current_user):
         if request.method == 'POST':
             id = request.form.get('question_id')
             question = Question.query.filter_by(id=id).first()

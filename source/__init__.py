@@ -81,7 +81,7 @@ def create_database(app):
         populate_db()
 
         # create super user account
-        populate_admin_to_db(1, 'admin@test.com', '12345678', 'Admin', 1, True)
+        populate_admin_to_db("DEV", 1, 'admin@test.com', '12345678', 'Admin', 1, True)
         # it will cause issues if does to change the working directory back
         os.chdir("../")
     else:
@@ -94,5 +94,7 @@ def create_database_prod(app):
         db.create_all(app=app)
         print("Populating Questions")
         populate_db_prod()
+        # create super user account
+        populate_admin_to_db("PROD", 1, 'admin@test.com', '12345678', 'Admin', 1, True)
     else:
         print("tables exist")

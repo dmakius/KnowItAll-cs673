@@ -1,11 +1,15 @@
-import sqlite3
+import sqlite3, psycopg2
 from werkzeug.security import generate_password_hash
 
 
-def populate_admin_to_db(id: int, email: str, password: str, user_name: str, game_id: int, admin: bool):
+def populate_admin_to_db(ENV, id: int, email: str, password: str, user_name: str, game_id: int, admin: bool):
     try:
         print("--adding a super user--")
-        connect = sqlite3.connect("test.db")
+        if ENV == "DEV":
+            connect = sqlite3.connect("test.db")
+        else:
+            db_connection_url = "postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
+            connect = psycopg2.connect(db_connection_url)
         cur = connect.cursor()
         print("--Connected to Database Succesfully--")
         cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
