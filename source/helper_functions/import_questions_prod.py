@@ -11,12 +11,10 @@ def populate_db_prod():
         conn = psycopg2.connect(db_connection_url)
         print("Connection successful")
         cursor = conn.cursor()
-        cursor.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'""")
-        for table in cursor.fetchall():
-            print(table)
-        # print (cur.fetchall())
+       
         os.chdir('../')
         df = pd.read_csv("Quiz_Questions.csv", encoding="ISO-8859-1")
+        print("SUCESSFULLY OPENED CSV FILE!")
         for index, row in df.iterrows():
             print(index)
             query = 'INSERT INTO "Question" (id, category, question, answer, option_1, option_2, option_3) VALUES (%s,%s, %s, %s, %s, %s, %s);'
