@@ -94,12 +94,14 @@ def create_database_prod(app):
         print("Creating Tables")
         db.create_all(app=app)
         print("Populating Questions")
-        populate_db_prod()
+        # populate_db_prod()
         # create super user account
         from .models import Player
         email = 'admin@test.com'
         player_name='admin'
         password1= "admin1234"
         new_admin = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'), admin=True)
+        db.session.add(new_admin)
+        db.session.commit()
     else:
         print("tables exist")
