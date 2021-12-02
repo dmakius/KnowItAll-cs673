@@ -4,13 +4,12 @@ from os import path
 import os
 from flask_login import LoginManager
 from flask_mail import Mail
+from werkzeug.security import generate_password_hash
 
 from .helper_functions.import_questions import populate_db
 from .helper_functions.import_questions_prod import populate_db_prod
 from .helper_functions.import_admin_account import populate_admin_to_db
 from .helper_functions.test_db_prod import db_exists
-
-from .create_admin import create_admin_prod
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
@@ -97,6 +96,10 @@ def create_database_prod(app):
         print("Populating Questions")
         populate_db_prod()
         # create super user account
-        create_admin_prod()
+        from .models import Player
+        email = 'admin@test.com'
+        player_name='admin'
+        password1= "admin1234"
+        new_admin = Player(email=email, player_name=player_name, password=generate_password_hash(password1, method='sha256'), admin=True)
     else:
         print("tables exist")
