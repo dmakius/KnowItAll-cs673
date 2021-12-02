@@ -1,8 +1,10 @@
 import psycopg2, os
 def db_exists():
     try:
-        db_connection_url="postgres://isjsgcztftfslw:74317591be27ee99df92e8860a110f5cf7f6ed0d26719378815c8e554bf3a521@ec2-23-23-219-25.compute-1.amazonaws.com:5432/dfrqcekr8skvl"
+        db_connection_url = os.environ['DATABASE_URL'].replace("://", "ql://", 1)
+        # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(db_connection_url)
         conn = psycopg2.connect(db_connection_url)
         print("Connection successful")
         cursor = conn.cursor()
