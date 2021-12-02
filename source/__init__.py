@@ -68,7 +68,6 @@ def create_app(ENV):
     # define a function for loading the player
     @login_manager.user_loader
     def load_user(id):
-        print("GETTING USER")
         return Player.query.get(int(id))
 
     return app

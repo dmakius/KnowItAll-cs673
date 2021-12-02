@@ -6,6 +6,21 @@ from .models import Player, LeaderboardScore, Question
 admin = Blueprint('admin', __name__)
 
 
+# route to the test-feature page
+@admin.route('/admin/players', methods=['GET', 'POST'])
+@login_required
+def show_players():
+    #user = Player.query.filter_by(id=current_user.id).first()
+
+    # checking if it is superuser
+    #if user.admin == 1:
+    if is_super_user(current_user):
+        players = Player.query.all()
+        return render_template('admin/delete_player.html', user=current_user, players=players)
+    else:
+        flash('You are not allow to go to admin page.', category='error')
+    return render_template('main.html', user=current_user)
+
 # route the admin question page
 @admin.route('/admin/question')
 @login_required
@@ -15,7 +30,7 @@ def questions():
     # checking if it is superuser
     if user.admin == 1:
         question = Question.query.order_by(Question.category.desc()).all()
-        return render_template('questions.html', user=current_user, question=question)
+        return render_template('admin/questions.html', user=current_user, question=question)
     else:
         flash('You are not allow to go to admin page.', category='error')
     return render_template('main.html', user=current_user)
@@ -29,7 +44,7 @@ def new():
 
     # superuser checking
     if user.admin == 1:
-        return render_template('new_question.html', user=current_user)
+        return render_template('admin/new_question.html', user=current_user)
     else:
         flash('You are not allow to go to admin page.', category='error')
     return render_template('main.html', user=current_user)
@@ -46,7 +61,7 @@ def edit():
         if request.method == 'POST':
             id = request.form.get('question_id')
             question = Question.query.filter_by(id=id).first()
-            return render_template('edit_question.html', user=current_user, question=question)
+            return render_template('admin/edit_question.html', user=current_user, question=question)
     else:
         flash('You are not allow to go to admin page.', category='error')
     return render_template('main.html', user=current_user)
@@ -110,7 +125,7 @@ def edit_question():
             q.option_3 = new_option3
         db.session.commit()
         flash('Edit success!', category='success')
-        return render_template("edit_question.html", question=q, user=current_user)
+        return render_template("admin/edit_question.html", question=q, user=current_user)
 
 
 # delete selected question
@@ -135,3 +150,11 @@ def delete_score():
     db.session.commit()
     flash('Delete success!', category='success')
     return redirect(url_for('views.leaderBoard'))
+
+#---------HELP FUNCTIONS---------------------
+def is_super_user(current_user):
+    user = Player.query.filter_by(id=current_user.id).first()
+    if user.admin == 1:
+        return True
+    else:
+        return False

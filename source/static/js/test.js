@@ -5,6 +5,6 @@ function deletePlayer(playerId) {
             playerId: playerId
         }),
     }).then((_res) => {
-        window.location.href = "/test-feature";
+        window.location.href = "admin/test-feature";
     })
 }
