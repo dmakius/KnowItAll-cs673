@@ -17,7 +17,7 @@ def populate_db_prod():
         print("SUCESSFULLY OPENED CSV FILE!")
         for index, row in df.iterrows():
             print(index)
-            query = 'INSERT INTO "Question" (id, category, question, answer, option_1, option_2, option_3) VALUES (%s,%s, %s, %s, %s, %s, %s);'
+            query = 'INSERT INTO "Question" (id, category, question, answer, option_1, option_2, option_3) VALUES (?, ?, ?, ?, ?, ?, ?);'
             data = (
             index, row['Category'], row['Question'], row['Answer'], row['Option_1'], row['Option_2'], row['Option_3'])
             cursor.execute(query, data)

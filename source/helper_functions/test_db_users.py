@@ -5,9 +5,9 @@ conn = psycopg2.connect(db_connection_url)
 print("Connection successful")
 cursor = conn.cursor()
 
-cursor.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'""")
-x = cursor.fetchall()
-print(x)
+# cursor.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'""")
+# x = cursor.fetchall()
+# print(x)
 cursor.execute('SELECT * FROM "Player"')
 x = cursor.fetchall()
 for y in x:

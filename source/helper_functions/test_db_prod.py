@@ -5,7 +5,6 @@ def db_exists():
         # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
         conn = psycopg2.connect(db_connection_url)
-        conn = psycopg2.connect(db_connection_url)
         print("Connection successful")
         cursor = conn.cursor()
 

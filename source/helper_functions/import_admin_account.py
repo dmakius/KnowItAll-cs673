@@ -1,4 +1,5 @@
 import sqlite3, psycopg2
+from sqlalchemy.sql.expression import null
 from werkzeug.security import generate_password_hash
 
 
@@ -12,9 +13,9 @@ def populate_admin_to_db(id: int, email: str, password: str, user_name: str, gam
         print(cur.fetchall())
                 
         password_hash = generate_password_hash(password, method='sha256')
-        admin_info = [id, email, password_hash, user_name, game_id, admin]
+        admin_info = [id, email, password_hash, user_name, game_id, admin, null, True]
         
-        print("Adding a Super User!")
+        print("Adding a Super User!") 
         
         cur.execute('INSERT INTO "Player" (id, email, password, player_name, game_id, admin) VALUES (?, ?, ?, ?, ?, ?);', admin_info)
         connect.commit()
