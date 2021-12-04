@@ -8,7 +8,7 @@ cursor = conn.cursor()
 # cursor.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'""")
 # x = cursor.fetchall()
 # print(x)
-cursor.execute('SELECT * FROM "Player"')
+cursor.execute('SELECT * FROM "Question"')
 x = cursor.fetchall()
 for y in x:
     print(y)

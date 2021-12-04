@@ -19,4 +19,4 @@ try:
     conn.close()
 
 except (Exception, psycopg2.DatabaseError) as error:
-    print(error)
+    print(error) 

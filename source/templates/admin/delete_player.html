@@ -9,12 +9,17 @@
     <ul class="list-group list-group-flush" id="players">
 
         {% for player in players %}
+
+        <!-- User cant delete themselves -->
+        {% if player.id != current_user.id %} 
             <li class="list-group-item">
                 {{ player.email }}
                 <button type="button" class="close" onClick="deletePlayer({{ player.id }})">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </li>
+        {% endif %}
+        
         {% endfor %}
     </ul>
 
