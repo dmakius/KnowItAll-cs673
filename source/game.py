@@ -22,7 +22,12 @@ def gameSettings():
 
     # get all QuestionIDs and randomize them
     print(list(range(1, total_num_questions + 1)))
-    total_num_questions = Question.query.with_entities(Question.id).all()
+    total_question_tuples = Question.query.with_entities(Question.id).all()
+    
+    total_num_questions = []
+    for question in total_question_tuples:
+        total_num_questions.append(question[0])
+        
     questions_left = random.sample(total_num_questions, len(total_num_questions))
     print("ALL IDS: " + str(questions_left))
     
