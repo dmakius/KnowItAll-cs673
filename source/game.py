@@ -26,7 +26,7 @@ def gameSettings():
     
     total_num_questions = []
     for question in total_question_tuples:
-        total_num_questions.append(question[0])
+        total_num_questions.append(int(question[0]))
         
     questions_left = random.sample(total_num_questions, len(total_num_questions))
     print("ALL IDS: " + str(questions_left))
