@@ -33,17 +33,17 @@ def gameSettings():
     
     # filter out questions that are not in the game's category
     if game.category != "All":
-        questions_left = []
+        fitered_questions_left = []
         print("CATEGORY:" + str(game.category))
         for k in questions_left:
                   
-            q = Question.query.get(k + 1)
+            q = Question.query.get(k)
         
             if q.category == game.category:
-                questions_left.append(q.id)
-        questions_left = random.sample(questions_left, len(questions_left))
+                fitered_questions_left.append(q.id)
+        questions_left = random.sample(fitered_questions_left, len(fitered_questions_left))
 
-    print("QUESTION IDs:")
+    print("FILTRED QUESTION IDs:")
     print(questions_left)
     # select the random question for the first question
     str_id = questions_left[0]
