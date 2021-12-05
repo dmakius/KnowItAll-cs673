@@ -33,8 +33,11 @@ def gameSettings():
                 q = Question.query.get(k + 1)
             else:
                 q = Question.query.get(k)
-            
-           
+        
+            print("------------------------")
+            print(q.id)
+            print(q.question)
+            print(q.category)
             #dont use 'DELETED' questions
             if q.category != "null":
                 #make sure to ONLY use questions in given category
@@ -48,7 +51,10 @@ def gameSettings():
                 q = Question.query.get(k + 1)
             else:
                 q = Question.query.get(k)
-            
+            print("------------------------")
+            print(q.id)
+            print(q.question)
+            print(q.category)
             if q.category != "null":
                 questions_left.append(q.id)
         questions_left = random.sample(questions_left, len(questions_left))
