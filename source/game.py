@@ -35,7 +35,7 @@ def gameSettings():
     if game.category != "All":
         questions_left = []
         print("CATEGORY:" + str(game.category))
-        for k in range(total_num_questions):
+        for k in range(len(questions_left)):
             print("getting questions")
            
             q = Question.query.get(k + 1)
