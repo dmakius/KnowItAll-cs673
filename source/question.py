@@ -17,6 +17,10 @@ def getSingleQuestion():
     # get random question from ID's remaining
     questions_left = game.questions_left.split(',')
 
+    print("QUESTIONS LEFT:" + str(questions_left))
+    if len(questions_left)== 1:
+       questions_left = reset_questions(game)
+       questions_left = questions_left.split(',')
     # sets weather heavy-filter needs to be used or not
     heavy_filter = True
 
@@ -78,3 +82,29 @@ def getSingleQuestion():
     print(return_data)
     # return data as json
     return jsonify(return_data)
+
+def reset_questions(game):
+        total_question_tuples = Question.query.with_entities(Question.id).all()
+    
+        total_questions = []
+        for question in total_question_tuples:
+            total_questions.append(int(question[0]))
+           
+        questions_left = random.sample(total_questions, len(total_questions))
+        print("ALL IDS: " + str(questions_left))
+    
+            # filter out questions that are not in the game's category
+        if game.category != "All":
+            fitered_questions_left = []
+            print("CATEGORY:" + str(game.category))
+            for k in questions_left:
+                  
+                q = Question.query.get(k)
+        
+                if q.category == game.category:
+                    fitered_questions_left.append(q.id)
+            questions_left = random.sample(fitered_questions_left, len(fitered_questions_left))
+
+        ("FILTRED QUESTION IDs:")
+        print(questions_left)
+        return(str(questions_left))
