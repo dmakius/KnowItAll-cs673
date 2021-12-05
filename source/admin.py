@@ -125,8 +125,13 @@ def edit_question():
 @login_required
 def delete_question():
     id = request.form.get('question_id')
-    question = Question.query.filter_by(id=id).first()
-    db.session.delete(question)
+    q = Question.query.filter_by(id=id).first()
+    q.category  = "null"
+    q.question  = "null"
+    q.answer    = "null"
+    q.option_1  = "null"
+    q.option_2  = "null"
+    q.option_3  = "null"
     db.session.commit()
     flash('Delete success!', category='success')
     return redirect(url_for('admin.questions'))

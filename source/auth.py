@@ -97,7 +97,6 @@ def sign_up():
                         answer_location=0, max_questions=total_num_questions,
                         num_fifty_fifty=3, fifty_fifty_option=str(0),
                         player_id=new_player)
-
             db.session.add(game)
             db.session.commit()
 

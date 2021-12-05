@@ -17,6 +17,7 @@
         </tr>
         <tbody class='table-striped'>
         {% for i in question %}
+        {% if i.category != "null" %}
             <tr>
                 <td>{{ i.category }}</td>
                 <td>{{ i.question }}</td>
@@ -37,6 +38,7 @@
                     </form>
                 </td>
             </tr>
+        {% endif %}
         {% endfor %}
         </tbody>
     </table>

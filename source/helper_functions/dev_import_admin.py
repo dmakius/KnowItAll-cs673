@@ -10,8 +10,6 @@ def populate_admin_to_db(id: int, email: str, password: str, user_name: str, gam
         cur = connect.cursor()
         print("Adding a Super User!") 
         print("--Connected to Database Succesfully--")
-        cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        print(cur.fetchall())
                 
         password_hash = generate_password_hash(password, method='sha256')
         admin_info = [id, email, password_hash, user_name, game_id, admin]

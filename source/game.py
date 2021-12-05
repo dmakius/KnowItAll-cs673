@@ -24,20 +24,35 @@ def gameSettings():
     print(list(range(1, total_num_questions + 1)))
     questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
 
+    questions_left = []
     # filter out questions that are not in the game's category
-    if game.category != "All":
-        questions_left = []
+    if game.category != "All": 
         for k in range(total_num_questions):
-            
+            #how to acess db based on DEV and PROD
             if ENV == "DEV":
                 q = Question.query.get(k + 1)
             else:
                 q = Question.query.get(k)
-                
-            if q.category == game.category:
+            
+           
+            #dont use 'DELETED' questions
+            if q.category != "null":
+                #make sure to ONLY use questions in given category
+                if q.category == game.category:
+                    questions_left.append(q.id)
+        questions_left = random.sample(questions_left, len(questions_left))
+    else:
+        for k in range(total_num_questions):
+             #how to acess db based on DEV and PROD
+            if ENV == "DEV":
+                q = Question.query.get(k + 1)
+            else:
+                q = Question.query.get(k)
+            
+            if q.category != "null":
                 questions_left.append(q.id)
-            questions_left = random.sample(questions_left, len(questions_left))
-
+        questions_left = random.sample(questions_left, len(questions_left))
+        
     print("QUESTION IDs:")
     print(questions_left)
     # select the random question for the first question

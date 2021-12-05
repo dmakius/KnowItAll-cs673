@@ -29,7 +29,6 @@ $(document).ready(function () {
             'category': category,
         }
 
-
     }
 
     $('#startgame').on('click', submit);
