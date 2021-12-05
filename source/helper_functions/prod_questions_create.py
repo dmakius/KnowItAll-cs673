@@ -13,7 +13,7 @@ try:
     for index, row in df.iterrows():
         print(index)
         query = 'INSERT INTO "Question" (category, question, answer, option_1, option_2, option_3) VALUES (%s, %s, %s, %s, %s, %s);'
-        data = (index, row['Category'], row['Question'], row['Answer'], row['Option_1'], row['Option_2'], row['Option_3'])
+        data = (row['Category'], row['Question'], row['Answer'], row['Option_1'], row['Option_2'], row['Option_3'])
         cursor.execute(query, data)
         conn.commit()
     conn.close()
