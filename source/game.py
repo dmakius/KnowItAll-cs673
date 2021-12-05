@@ -22,8 +22,10 @@ def gameSettings():
 
     # get all QuestionIDs and randomize them
     print(list(range(1, total_num_questions + 1)))
-    questions_left = random.sample(list(range(1, total_num_questions + 1)), total_num_questions)
-
+    total_num_questions = Question.query.with_entities(Question.id).all()
+    questions_left = random.sample(total_num_questions, len(total_num_questions))
+    print("ALL IDS: " + str(questions_left))
+    
     # filter out questions that are not in the game's category
     if game.category != "All":
         questions_left = []
