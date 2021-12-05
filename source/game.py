@@ -27,13 +27,19 @@ def gameSettings():
     # filter out questions that are not in the game's category
     if game.category != "All":
         questions_left = []
+        print("CATEGORY:" + str(game.category))
         for k in range(total_num_questions):
             
             if ENV == "DEV":
                 q = Question.query.get(k + 1)
             else:
                 q = Question.query.get(k)
-                
+            
+            print(q)
+            print(q.id)
+            print(q.question)
+            print(q.category)
+            
             if q.category == game.category:
                 questions_left.append(q.id)
         questions_left = random.sample(questions_left, len(questions_left))
