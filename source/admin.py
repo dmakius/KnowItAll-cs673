@@ -72,7 +72,7 @@ def edit():
 
 
 # add new question to db
-@admin.route('admin/question/add_question', methods=['POST'])
+@admin.route('admin/question/add_question', methods=['POST', 'GET'])
 @login_required
 def add_question():
     if request.method == 'POST':
@@ -85,6 +85,7 @@ def add_question():
 
         # compare if the question is already exist.
         q = Question.query.filter_by(question=question).first()
+        
         if q:
             flash('Question already exists.', category='error')
 
@@ -93,11 +94,11 @@ def add_question():
             new_question = Question(category=category, question=question,
                                     answer=answer, option_1=option1,
                                     option_2=option2, option_3=option3)
-            db.session.add(new_question)
+            db.session.add(new_question) 
             db.session.commit()
             flash('Question added!', category='success')
-            return redirect(url_for('admin.questions'))
-    return render_template("new_question.html")
+            return redirect(url_for('admin.questions', user=current_user))
+    return render_template("admin/new_question.html", user=current_user)
 
 
 # edit selected question
