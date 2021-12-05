@@ -68,20 +68,6 @@ def leaderBoardchooseCategory():
 
     return render_template('leaderboard.html', user=current_user, scores=scores)
 
-
-# route for the delete-user function
-@views.route('/delete-player', methods=['POST'])
-def delete_player():
-    player = json.loads(request.data)
-    playerId = player['playerId']
-    player = Player.query.get(playerId)
-    if player:
-        db.session.delete(player)
-        db.session.commit()
-
-    return jsonify({})
-
-
 # route admin page
 @views.route('/admin', methods=['GET', 'POST'])
 @login_required

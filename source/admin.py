@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask import Blueprint, render_template, request, url_for, redirect, flash, jsonify
 from flask_login import current_user, login_required
 from . import db
 from .models import Player, LeaderboardScore, Question
+import json
 
 admin = Blueprint('admin', __name__)
-
 
 # route to the test-feature page
 @admin.route('/admin/players', methods=['GET', 'POST'])
@@ -21,8 +21,21 @@ def show_players():
         flash('You are not allow to go to admin page.', category='error')
     return render_template('main.html', user=current_user)
 
+# route for the delete-user function
+@admin.route('/admin/delete-player', methods=['POST'])
+def delete_player():
+    print("DELETING PLAYER")
+    player = json.loads(request.data)
+    playerId = player['playerId']
+    player = Player.query.get(playerId)
+    if player:
+        db.session.delete(player)
+        db.session.commit()
+
+    return jsonify({})
+
 # route the admin question page
-@admin.route('/admin/question')
+@admin.route('admin/question')
 @login_required
 def questions():
     if is_super_user(current_user):
