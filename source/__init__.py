@@ -4,18 +4,16 @@ from os import path
 import os
 from flask_login import LoginManager
 from flask_mail import Mail
-from werkzeug.security import generate_password_hash
 
-from .helper_functions.import_questions import populate_db
-from .helper_functions.import_questions_prod import populate_db_prod
-from .helper_functions.import_admin_account import populate_admin_to_db
-from .helper_functions.test_db_prod import db_exists
+from .helper_functions.dev_import_questions import populate_db
+from .helper_functions.dev_import_admin import populate_admin_to_db
+from .helper_functions.prod_test_db import db_exists
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'fdgsar3wdgrgdsfsdg90kl4512km12asdhtw'
-
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True

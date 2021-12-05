@@ -52,10 +52,10 @@ def edit():
         if request.method == 'POST':
             id = request.form.get('question_id')
             question = Question.query.filter_by(id=id).first()
-            return render_template('admin/edit_question.html', user=current_user, question=question)
+        return render_template('admin/edit_question.html', user=current_user, question=question)   
     else:
         flash('You are not allow to go to admin page.', category='error')
-    return render_template('main.html', user=current_user)
+        return render_template('main.html', user=current_user)
 
 
 # add new question to db

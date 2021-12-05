@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, jsonify, request, flash
-import json
-import psycopg2
+from flask_login import login_required, current_user
+import json, os, psycopg2
 from . import db
 from main import ENV
-from .helper_functions.import_questions_prod import db_connection_url
 from .models import LeaderboardScore, Player
-from flask_login import login_required, current_user
+
 
 views = Blueprint('views', __name__)
 
@@ -38,6 +37,7 @@ def userProfile():
         order_by(func.max(LeaderboardScore.score).desc())
     else:
         print('Connecting to the PostgreSQL database...')
+        db_connection_url = os.environ['DATABASE_URL'].replace("://", "ql://", 1)
         conn = psycopg2.connect(db_connection_url)
         cursor = conn.cursor()
         userID =  current_user.id
