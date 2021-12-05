@@ -126,12 +126,7 @@ def edit_question():
 def delete_question():
     id = request.form.get('question_id')
     q = Question.query.filter_by(id=id).first()
-    q.category  = "null"
-    q.question  = "null"
-    q.answer    = "null"
-    q.option_1  = "null"
-    q.option_2  = "null"
-    q.option_3  = "null"
+    db.session.delete(q)
     db.session.commit()
     flash('Delete success!', category='success')
     return redirect(url_for('admin.questions'))
