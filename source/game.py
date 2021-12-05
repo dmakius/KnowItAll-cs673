@@ -16,26 +16,26 @@ def gameSettings():
     # get the gameID from the user's browser's local memory
     gameID = get_gameID()
     game = get_game(gameID)
-    total_num_questions = Question.query.count()
+
     # Check if the category is defined, and if so set the game.category data to the category. Parse the questions table to get every id from that category
     # Set up the conditional logic for the initialization of the questions_left array to only populate with valued from the category.
 
     # get all QuestionIDs and randomize them
-    print(list(range(1, total_num_questions + 1)))
+  
     total_question_tuples = Question.query.with_entities(Question.id).all()
     
-    total_num_questions = []
+    total_questions = []
     for question in total_question_tuples:
-        total_num_questions.append(int(question[0]))
-        
-    questions_left = random.sample(total_num_questions, len(total_num_questions))
+        total_questions.append(int(question[0]))
+           
+    questions_left = random.sample(total_questions, len(total_questions))
     print("ALL IDS: " + str(questions_left))
     
     # filter out questions that are not in the game's category
     if game.category != "All":
         questions_left = []
         print("CATEGORY:" + str(game.category))
-        for k in range(len(total_num_questions)):
+        for k in questions_left:
                   
             q = Question.query.get(k + 1)
         
