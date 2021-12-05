@@ -35,17 +35,10 @@ def gameSettings():
     if game.category != "All":
         questions_left = []
         print("CATEGORY:" + str(game.category))
-        for k in range(len(questions_left)):
-            print("getting questions")
-           
+        for k in range(len(total_num_questions)):
+                  
             q = Question.query.get(k + 1)
-    
-            print("Grabbing Question " + str(k+1))
-            print(q)
-            print(q.id)
-            print(q.question)
-            print(q.category)
-            
+        
             if q.category == game.category:
                 questions_left.append(q.id)
         questions_left = random.sample(questions_left, len(questions_left))
