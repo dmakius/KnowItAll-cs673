@@ -1,4 +1,4 @@
-from source import create_app
+from main import create_app
 from source.models import Game
 from source import db
 import pytest
@@ -6,7 +6,7 @@ import pytest
 
 @pytest.fixture(scope='module')
 def test_client():
-    flask_app = create_app()
+    flask_app = create_app("DEV")
 
     # Create a test client using the Flask application configured for testing
     with flask_app.test_client() as testing_client:
@@ -53,10 +53,15 @@ def test_game_page(test_client):
 
 
 def test_leaderboard_page(test_client):
+    login(test_client, 'admin@test.com', '12345678')
     response = test_client.get('/leaderboard')
-    assert response.status_code == 200
-    assert b"Top Scores" in response.data
+    assert response.status_code == 200  
+    assert b"Category" in response.data
     assert b"Username" in response.data
     assert b"Score" in response.data
-    assert b"Game Page" in response.data
-    assert b"Main Page" in response.data
+
+def login(client, email, password):
+    return client.post('/login', data=dict(
+        email=email,
+        password=password
+    ), follow_redirects=True)

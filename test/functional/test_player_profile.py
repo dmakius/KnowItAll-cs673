@@ -1,8 +1,8 @@
-from source import create_app
+from main import create_app
 
 
 def test_change_to_duplicate_email():
-    flask_app = create_app()
+    flask_app = create_app("DEV")
 
     with flask_app.test_client() as client:
         email1 = 'email1@mail.com'
@@ -19,13 +19,14 @@ def test_change_to_duplicate_email():
         logout(client)
 
         login(client, email2, password2)
-
+        
         rv = edit_email(client, email1)
         assert b'Email already exists.' in rv.data
 
 
+
 def test_change_email():
-    flask_app = create_app()
+    flask_app = create_app("DEV")
 
     with flask_app.test_client() as client:
         email = 'email@mail.com'
@@ -33,7 +34,7 @@ def test_change_email():
         username = 'user'
         new_email = 'newemail@mail.com'
 
-        # First sign-up two users
+        # sign up a new user
         signup(client, email, username, password)
         logout(client)
 
@@ -46,7 +47,7 @@ def test_change_email():
 
 
 def test_change_username():
-    flask_app = create_app()
+    flask_app = create_app("DEV")
 
     with flask_app.test_client() as client:
         email = 'email@mail.com'
@@ -54,7 +55,7 @@ def test_change_username():
         username = 'user'
         new_username = 'newuser'
 
-        # First sign-up two users
+        # sign up a new user
         signup(client, email, username, password)
         logout(client)
 
@@ -62,6 +63,29 @@ def test_change_username():
 
         rv = edit_username(client, new_username)
         assert new_username.encode('utf_8') in rv.data
+
+def test_change_password():
+    flask_app = create_app("DEV")
+
+    with flask_app.test_client() as client:
+        email = 'email@mail.com'
+        password = 'password'
+        username = 'user'
+        new_password = 'newuser1'
+
+        # sign up a new user
+        signup(client, email, username, password)
+        logout(client)
+
+        login(client, email, password)
+
+        # change the password and try to log in
+        edit_password(client, new_password)
+        rv = login(client, email, new_password)
+        assert b"Logged in successful" in rv.data
+
+        # change the password back, as other tests use this password
+        edit_password(client, password)
 
 
 def login(client, email, password):
@@ -93,4 +117,10 @@ def edit_email(client, email):
 def edit_username(client, username):
     return client.post('/player_profile/edit_username', data=dict(
         username=username
+    ), follow_redirects=True)
+
+def edit_password(client, password):
+    return client.post('/player_profile/edit_password', data=dict(
+        password1 = password,
+        password2 = password
     ), follow_redirects=True)
