@@ -8,12 +8,12 @@ cursor = conn.cursor()
 # cursor.execute("""SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'""")
 # x = cursor.fetchall()
 # print(x)
-cursor.execute('SELECT id FROM "Question" order by id asc')
+cursor.execute('SELECT * FROM "Question"')
 x = cursor.fetchall()
-questions = []
+
 for y in x:
-   questions.append(y[0])
-print(questions)
+   print(y)
+
 user_id=7
 cursor.execute(''' SELECT category, MAX(score) FROM "LeaderboardScore" where userid = '%s' group by category ''', [user_id] )
 z = cursor.fetchall()

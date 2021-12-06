@@ -25,6 +25,12 @@ $(document).ready(function () {
         console.log($('#category').text())
         category = $('#category').text()
 
+        console.log("LOGGING!");
+        $(".option").css("color", "Black");
+
+        $(this).css("color", "White");
+
+        console.log($(this));
         data = {
             'category': category,
         }
