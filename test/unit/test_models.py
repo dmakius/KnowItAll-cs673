@@ -15,18 +15,16 @@ def test_game_model():
     assert game.answer_location == 0
     assert game.questions_left == '0'
 
-    # Test for the player object
 
 
+# Test for the player object
 def test_Player_Model():
     player = Player(email="test@gmail.com", password="1234567", player_name="TestPlayer")
     assert player.email == "test@gmail.com"
     assert player.password == "1234567"
     assert player.player_name == "TestPlayer"
 
-    # Test for the question object
-
-
+# Test for the question object
 def test_Question_model():
     questions = Question(
         category='test_category',
