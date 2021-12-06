@@ -1,7 +1,7 @@
 from selenium import webdriver
 import time
 
-run_selenium = True
+run_selenium = False
 
 if run_selenium:
     #This test only works on a windows device with the chromedriver.exe in the correct location, while the knowitall application is running in another terminal
