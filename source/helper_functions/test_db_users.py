@@ -1,5 +1,5 @@
 import psycopg2
-db_connection_url="postgres://lanjgohxxeslei:c01c189ac2d6bba85d69ffd51a2e2c1159a3399b73f3750b1771c85bdb892077@ec2-44-193-111-218.compute-1.amazonaws.com:5432/d1rq51phecr4k2"
+db_connection_url=""
 print('Connecting to the PostgreSQL database...')
 conn = psycopg2.connect(db_connection_url)
 print("Connection successful")
