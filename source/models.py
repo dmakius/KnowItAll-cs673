@@ -2,7 +2,9 @@ from . import db, app
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 from sqlalchemy import DateTime
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+
+# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 # Define question table Schema

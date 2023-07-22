@@ -1,11 +1,11 @@
-Flask==2.0.1
+Flask
 Flask-SQLAlchemy==2.5.1
 SQLAlchemy==1.4.25
-Werkzeug==2.0.1
-pandas==1.2.3
-Flask-Login==0.4.1
+Werkzeug
+pandas
+Flask-Login
 pytest-flask
-psycopg2-binary==2.9.1
-Flask-Login==0.4.1
+psycopg2-binary
+Flask-Login
 flask-mail
 gunicorn
