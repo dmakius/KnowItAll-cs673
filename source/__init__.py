@@ -8,6 +8,7 @@ from flask_mail import Mail
 from .helper_functions.dev_import_questions import populate_db
 from .helper_functions.dev_import_admin import populate_admin_to_db
 from .helper_functions.prod_test_db import db_exists
+from .helper_functions.prod_questions_create import populate_db_prod
 
 db = SQLAlchemy()
 DB_NAME = "test.db"
@@ -91,6 +92,10 @@ def create_database_prod(app):
         print("No Tables in DB")
         
         db.create_all(app=app)
+        
         print("Creating Tables")
-    else:
-        print("tables exist")
+
+        populate_db_prod()
+        print("populating db with data")
+    else: 
+        print("tables exist - oy vey")
